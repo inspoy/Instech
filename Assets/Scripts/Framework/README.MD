@@ -8,7 +8,7 @@
 |UI|管理器|待规划|
 |UI|自带控件功能扩展|待规划|
 |UI|更多常用控件|待规划|
-|Productivity|日志增强|待规划|
+|Productivity|日志增强|完成|
 |Productivity|控制台增强|待规划|
 |Productivity|游戏调试图表|待规划|
 |Common|AssetBundle打包和加载管理|待规划|
@@ -22,10 +22,11 @@
 |Data|可序列化的字典|待规划|
 |Util|预定义宏管理|待规划|
 |Util|压缩功能|待规划|
-|Util|实用工具类|待规划|
 |Util|枚举标签|待规划|
 |Util|编译时间显示|待规划|
 |Util|Yield优化|待规划|
+|Util|自动添加文件头注释|完成|
+|Util|实用工具类|待规划|
 
 ## 功能介绍
 

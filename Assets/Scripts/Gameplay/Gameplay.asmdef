@@ -1,0 +1,10 @@
+{
+    "name": "Gameplay",
+    "references": [
+        "Framework"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

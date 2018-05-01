@@ -1,0 +1,12 @@
+{
+    "name": "Framework.Editor",
+    "references": [
+        "Framework"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
