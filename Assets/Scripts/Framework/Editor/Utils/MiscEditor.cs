@@ -27,7 +27,7 @@ namespace Instech.Framework.Editor
             " */\n\n";
 
         /// <summary>
-        ///     当创建资产时由Unity调用
+        /// 当创建资产时由Unity调用
         /// </summary>
         /// <param name="path">文件路径，Assets/开头</param>
         public static void OnWillCreateAsset(string path)
@@ -68,12 +68,12 @@ namespace Instech.Framework.Editor
     }
 
     /// <summary>
-    ///     编辑器扩展杂项
+    /// 编辑器扩展杂项
     /// </summary>
     public static class MiscEditor
     {
         /// <summary>
-        ///     [验证有效性]在控制台输出选定资源的InstanceID
+        /// [验证有效性]在控制台输出选定资源的InstanceID
         /// </summary>
         /// <returns></returns>
         public static bool ShowInstanceIdValidation()
@@ -82,7 +82,7 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
-        ///     在控制台输出选定资源的InstanceID
+        /// 在控制台输出选定资源的InstanceID
         /// </summary>
         public static void ShowInstanceId()
         {
@@ -94,7 +94,7 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
-        ///     功能测试
+        /// 功能测试
         /// </summary>
         public static void FunctionTest()
         {

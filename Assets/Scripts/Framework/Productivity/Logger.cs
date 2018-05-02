@@ -15,7 +15,7 @@ using Object = UnityEngine.Object;
 namespace Instech.Framework
 {
     /// <summary>
-    ///     输出日志等级
+    /// 输出日志等级
     /// </summary>
     public enum LogLevel
     {
@@ -61,12 +61,12 @@ namespace Instech.Framework
     }
 
     /// <summary>
-    ///     封装Unity的Debug.Log方法族，实现灵活配置
+    /// 封装Unity的Debug.Log方法族，实现灵活配置
     /// </summary>
     public static class Logger
     {
         /// <summary>
-        ///     用于日志的回调委托
+        /// 用于日志的回调委托
         /// </summary>
         /// <param name="module">日志所属模块</param>
         /// <param name="content">日志内容</param>
@@ -92,7 +92,7 @@ namespace Instech.Framework
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
         /// <param name="ex">异常信息</param>
-        private static void Log(string module, LogLevel level, string message, Object context, Exception ex=null)
+        private static void Log(string module, LogLevel level, string message, Object context, Exception ex = null)
         {
             if (level > LogLevel)
             {

@@ -11,12 +11,12 @@ using UnityEditor;
 namespace Instech.Framework.Editor
 {
     /// <summary>
-    ///     所有MenuItem的统一入口，避免多处实现
+    /// 所有MenuItem的统一入口，避免多处实现
     /// </summary>
     public static class MenuItems
     {
         /// <summary>
-        ///     [验证有效性]在控制台输出选定资源的InstanceID
+        /// [验证有效性]在控制台输出选定资源的InstanceID
         /// </summary>
         /// <returns></returns>
         [MenuItem("Assets/Instech/查看InstanceId", true)]
@@ -26,7 +26,7 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
-        ///     在控制台输出选定资源的InstanceID
+        /// 在控制台输出选定资源的InstanceID
         /// </summary>
         [MenuItem("Assets/Instech/查看InstanceId")]
         public static void ShowInstanceId()
@@ -35,7 +35,7 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
-        ///     功能测试
+        /// 功能测试
         /// </summary>
         [MenuItem("Instech/功能测试")]
         public static void FunctionTest()
