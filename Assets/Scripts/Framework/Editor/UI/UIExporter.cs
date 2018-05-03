@@ -6,9 +6,12 @@
  * All rights reserved.
  */
 
-/// <summary>
-/// 导出UI的View和Presenter的模板代码
-/// </summary>
-public static class UIExporter
+namespace Instech.Framework
 {
+    /// <summary>
+    /// 导出UI的View和Presenter的模板代码
+    /// </summary>
+    public static class UiExporter
+    {
+    }
 }
