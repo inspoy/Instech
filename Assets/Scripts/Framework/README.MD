@@ -3,14 +3,16 @@
 ## 框架包含功能
 |分类|模块|完成状态|
 |-|-|-|
-|UI|VP框架|开发中|
+|UI|VP框架|完成|
 |UI|导出生成代码|待规划|
 |UI|管理器|待规划|
 |UI|自带控件功能扩展|待规划|
 |UI|更多常用控件|待规划|
 |Productivity|日志增强|完成|
+|Productivity|日志写入文件|待规划|
 |Productivity|控制台增强|待规划|
 |Productivity|游戏调试图表|待规划|
+|Productivity|查找资产所有引用|完成|
 |Common|AssetBundle打包和加载管理|开发中|
 |Common|事件系统|完成|
 |Common|单例模板|完成|

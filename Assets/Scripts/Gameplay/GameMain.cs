@@ -6,18 +6,10 @@
  * All rights reserved.
  */
 
-using System;
+using Instech.Framework;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMain : MonoBehaviour
 {
-    // Use this for initialization
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
 }

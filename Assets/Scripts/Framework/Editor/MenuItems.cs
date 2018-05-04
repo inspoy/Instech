@@ -20,7 +20,7 @@ namespace Instech.Framework.Editor
         /// </summary>
         /// <returns></returns>
         [MenuItem("Assets/Instech/查看InstanceId", true)]
-        public static bool ShowInstanceIdValidation()
+        private static bool ShowInstanceIdValidation()
         {
             return MiscEditor.ShowInstanceIdValidation();
         }
@@ -29,16 +29,44 @@ namespace Instech.Framework.Editor
         /// 在控制台输出选定资源的InstanceID
         /// </summary>
         [MenuItem("Assets/Instech/查看InstanceId")]
-        public static void ShowInstanceId()
+        private static void ShowInstanceId()
         {
             MiscEditor.ShowInstanceId();
+        }
+
+        /// <summary>
+        /// 查找选定资产的所有引用
+        /// </summary>
+        [MenuItem("Assets/Instech/查找资产的所有引用")]
+        public static void FindAllReferences()
+        {
+            FindAllReferencesHelper.FindAllReferences();
+        }
+
+        /// <summary>
+        /// [验证有效性]导出UI代码
+        /// </summary>
+        /// <returns></returns>
+        [MenuItem("Assets/Instech/导出UI", true)]
+        private static bool ExportUiValidation()
+        {
+            return UiExporter.ExportUiValidation();
+        }
+
+        /// <summary>
+        /// 导出UI代码
+        /// </summary>
+        [MenuItem("Assets/Instech/导出UI")]
+        private static void ExportUi()
+        {
+            UiExporter.ExportUi();
         }
 
         /// <summary>
         /// 功能测试
         /// </summary>
         [MenuItem("Instech/功能测试")]
-        public static void FunctionTest()
+        private static void FunctionTest()
         {
             MiscEditor.FunctionTest();
         }

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Instech.Framework
 {
@@ -68,7 +67,7 @@ namespace Instech.Framework
             }
             if (HasEventListener(eventType, sel))
             {
-                Debug.LogWarning($"重复监听！type={eventType}");
+                Logger.LogWarning("Framework", $"重复监听！type={eventType}");
             }
             if (!_dictListeners.ContainsKey(eventType))
             {
@@ -202,8 +201,8 @@ namespace Instech.Framework
                     }
                     catch (Exception exc)
                     {
-                        Debug.LogError("派发事件时出错");
-                        Debug.LogException(exc);
+                        Logger.LogError("Framework", "派发事件时出错");
+                        Logger.LogException("Framework", exc);
                     }
                     count += 1;
                 }

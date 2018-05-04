@@ -6,6 +6,8 @@
  * All rights reserved.
  */
 
+using UnityEditor;
+
 namespace Instech.Framework
 {
     /// <summary>
@@ -13,5 +15,17 @@ namespace Instech.Framework
     /// </summary>
     public static class UiExporter
     {
+        internal static void ExportUi()
+        {
+            var prefab = Selection.activeGameObject;
+            var viewName = prefab.name.Substring(2);
+
+        }
+
+        internal static bool ExportUiValidation()
+        {
+            var prefab = Selection.activeGameObject;
+            return prefab != null && prefab.name.StartsWith("vw");
+        }
     }
 }

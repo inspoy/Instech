@@ -32,7 +32,10 @@ namespace Instech.Framework
 
     public class UiEventListener : EventTrigger
     {
-        public EventDispatcher Dispatcher;
+        /// <summary>
+        /// 事件派发器
+        /// </summary>
+        [HideInInspector] public EventDispatcher Dispatcher;
 
         public override void OnPointerClick(PointerEventData eventData)
         {
@@ -88,19 +91,16 @@ namespace Instech.Framework
             Dispatcher?.DispatchEvent(EventEnum.UiBeginDrag);
         }
 
-        // during dragging
         public override void OnDrag(PointerEventData eventData)
         {
             Dispatcher?.DispatchEvent(EventEnum.UiDrag);
         }
 
-        // end dragging
         public override void OnEndDrag(PointerEventData eventData)
         {
             Dispatcher?.DispatchEvent(EventEnum.UiEndDrag);
         }
-
-
+        
         private void Start()
         {
             // 处理特殊事件，EventTrigger不提供的事件

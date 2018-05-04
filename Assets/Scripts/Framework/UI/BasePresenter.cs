@@ -16,6 +16,7 @@ namespace Instech.Framework
         /// <summary>
         /// 初始化UI
         /// 一般在这里创建和初始化所需对象
+        /// 包括UI监听
         /// </summary>
         /// <param name="view"></param>
         void InitWithView(BaseView view);
@@ -28,7 +29,7 @@ namespace Instech.Framework
         void OnViewShow();
 
         /// <summary>
-        /// 当UI隐藏时（暂不关闭）
+        /// 当UI隐藏时（暂不关闭，即将移除时也会调用）
         /// 一般在这里清理数据
         /// </summary>
         void OnViewHide();

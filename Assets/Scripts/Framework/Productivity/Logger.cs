@@ -85,65 +85,6 @@ namespace Instech.Framework
         public static event LogCallback OnLog;
 
         /// <summary>
-        /// 输出日志
-        /// </summary>
-        /// <param name="module">日志所属模块</param>
-        /// <param name="level">日志等级</param>
-        /// <param name="message">日志信息</param>
-        /// <param name="context">上下文信息</param>
-        /// <param name="ex">异常信息</param>
-        private static void Log(string module, LogLevel level, string message, Object context, Exception ex = null)
-        {
-            if (level > LogLevel)
-            {
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(module))
-            {
-                module = "Default";
-            }
-            var stackTrace = new StackTrace(true);
-            if (level == LogLevel.Exception && ex != null)
-            {
-                var exMessage = new StringBuilder();
-                exMessage.Append("[!]异常信息: ");
-                exMessage.Append(ex.Message);
-                exMessage.Append('\n');
-                exMessage.Append("[!]异常类型: ");
-                exMessage.Append(ex.GetType());
-                exMessage.Append('\n');
-                exMessage.Append("[!]调用栈:\n ");
-                exMessage.Append(ex.StackTrace);
-                exMessage.Append("\n=============");
-                OnLog?.Invoke(module, exMessage.ToString(), LogLevel.Exception, stackTrace);
-                Debug.LogException(ex, context);
-                return;
-            }
-            OnLog?.Invoke(module, message, level, stackTrace);
-            switch (level)
-            {
-                case LogLevel.Assert:
-                    Debug.LogAssertion(message, context);
-                    break;
-                case LogLevel.Exception:
-                case LogLevel.Error:
-                    Debug.LogError(message, context);
-                    break;
-                case LogLevel.Warning:
-                    Debug.LogWarning(message, context);
-                    break;
-                case LogLevel.Info:
-                case LogLevel.Debug:
-                    Debug.Log(message, context);
-                    break;
-            }
-        }
-
-        /// <summary>
         /// 输出调试信息
         /// </summary>
         /// <param name="module">日志所属模块</param>
@@ -215,6 +156,67 @@ namespace Instech.Framework
             {
                 Log(module, LogLevel.Assert, message, context);
             }
+        }
+
+        /// <summary>
+        /// 输出日志
+        /// </summary>
+        /// <param name="module">日志所属模块</param>
+        /// <param name="level">日志等级</param>
+        /// <param name="message">日志信息</param>
+        /// <param name="context">上下文信息</param>
+        /// <param name="ex">异常信息</param>
+        private static void Log(string module, LogLevel level, string message, Object context, Exception ex = null)
+        {
+            if (level > LogLevel)
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(module))
+            {
+                module = "Default";
+            }
+            var stackTrace = new StackTrace(true);
+            if (level == LogLevel.Exception && ex != null)
+            {
+                var exMessage = new StringBuilder();
+                exMessage.Append("[!]异常信息: ");
+                exMessage.Append(ex.Message);
+                exMessage.Append('\n');
+                exMessage.Append("[!]异常类型: ");
+                exMessage.Append(ex.GetType());
+                exMessage.Append('\n');
+                exMessage.Append("[!]调用栈:\n ");
+                exMessage.Append(ex.StackTrace);
+                exMessage.Append("\n=============");
+                OnLog?.Invoke(module, exMessage.ToString(), LogLevel.Exception, stackTrace);
+                Debug.LogException(ex, context);
+                return;
+            }
+            OnLog?.Invoke(module, message, level, stackTrace);
+#if UNITY_EDITOR
+            switch (level)
+            {
+                case LogLevel.Assert:
+                    Debug.LogAssertion(message, context);
+                    break;
+                case LogLevel.Exception:
+                case LogLevel.Error:
+                    Debug.LogError(message, context);
+                    break;
+                case LogLevel.Warning:
+                    Debug.LogWarning(message, context);
+                    break;
+                case LogLevel.Info:
+                case LogLevel.Debug:
+                    Debug.Log(message, context);
+                    break;
+            }
+#endif
         }
     }
 }
