@@ -16,6 +16,8 @@ namespace Instech.Framework.Editor
     /// </summary>
     public class PrefWindow : EditorWindow
     {
+        public const string UiPath = "Instech_EditorPrefs_UiExportPath";
+
         private string _uiExportPath;
 
         [MenuItem("Instech/Preferences")]
@@ -23,7 +25,7 @@ namespace Instech.Framework.Editor
         {
             var window = GetWindow<PrefWindow>("偏好设置");
             window.Show();
-            window._uiExportPath = EditorPrefs.GetString("Instech_EditorPrefs_UiExportPath", "");
+            window._uiExportPath = EditorPrefs.GetString(UiPath, "");
         }
 
         private void OnGUI()
@@ -37,7 +39,7 @@ namespace Instech.Framework.Editor
 
         private void OnSaveClicked()
         {
-            EditorPrefs.SetString("Instech_EditorPrefs_UiExportPath", _uiExportPath);
+            EditorPrefs.SetString(UiPath, _uiExportPath);
             EditorUtility.DisplayDialog("完成", "保存完成了！", "OK");
         }
     }

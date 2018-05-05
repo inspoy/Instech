@@ -1,8 +1,8 @@
-﻿/**
+/**
  * == Instech ==
  * Assembly: Gameplay
  * FileName: TestPresenter.cs
- * Created on 2018/05/04 by inspoy
+ * Created on 2018/05/05 by inspoy
  * All rights reserved.
  */
 
@@ -19,10 +19,10 @@ namespace Game
         public void InitWithView(BaseView view)
         {
             _view = view as TestView;
-            if (_view == null)
-            {
-                throw new Exception("Init Ui View Failed: " + view);
-            }
+        if (_view == null)
+        {
+            throw new Exception("Init Ui View Failed: " + view);
+        }
 
             _view.AddEventListener(_view.BtnGo, EventEnum.UiPointerClick, OnGoClicked);
 
@@ -58,9 +58,7 @@ namespace Game
 
         private void OnGoClicked(Event e)
         {
-            Logger.LogInfo(null, "btnGo clicked");
-            _view.TxtInfo.text = $"CurTime: {DateTime.Now.ToLongTimeString()}";
-            _view.LayOver.SetActive(!_view.LayOver.activeSelf);
+            throw new NotImplementedException();
         }
     }
 }

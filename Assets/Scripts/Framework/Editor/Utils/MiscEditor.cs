@@ -67,7 +67,7 @@ namespace Instech.Framework.Editor
             {
                 fullText += original;
             }
-            File.WriteAllText(path, fullText, new UTF8Encoding(true));
+            File.WriteAllText(path, fullText, new UTF8Encoding(false));
         }
     }
 

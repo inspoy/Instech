@@ -199,21 +199,26 @@ namespace Instech.Framework
             }
             OnLog?.Invoke(module, message, level, stackTrace);
 #if UNITY_EDITOR
+            var msg = new StringBuilder(module.Length + message.Length + 2);
+            msg.Append('[');
+            msg.Append(module);
+            msg.Append(']');
+            msg.Append(message);
             switch (level)
             {
                 case LogLevel.Assert:
-                    Debug.LogAssertion(message, context);
+                    Debug.LogAssertion(msg.ToString(), context);
                     break;
                 case LogLevel.Exception:
                 case LogLevel.Error:
-                    Debug.LogError(message, context);
+                    Debug.LogError(msg.ToString(), context);
                     break;
                 case LogLevel.Warning:
-                    Debug.LogWarning(message, context);
+                    Debug.LogWarning(msg.ToString(), context);
                     break;
                 case LogLevel.Info:
                 case LogLevel.Debug:
-                    Debug.Log(message, context);
+                    Debug.Log(msg.ToString(), context);
                     break;
             }
 #endif

@@ -1,11 +1,3 @@
-﻿/**
- * == Instech ==
- * Assembly: Gameplay
- * FileName: TestView.cs
- * Created on 2018/05/04 by inspoy
- * All rights reserved.
- */
-
 using System;
 using Instech.Framework;
 using UnityEngine;
