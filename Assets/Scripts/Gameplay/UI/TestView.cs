@@ -12,19 +12,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using Logger = Instech.Framework.Logger;
 
-namespace Instech.Game
+namespace Game
 {
     public class TestView : BaseView
     {
         /// <summary>
         /// [Text] Info
         /// </summary>
-        public Text LblInfo { get; private set; }
+        public Text TxtInfo;
 
         /// <summary>
         /// [Button] Go
         /// </summary>
-        public Button BtnGo { get; private set; }
+        public Button BtnGo;
+
+        /// <summary>
+        /// [GameObject] Over
+        /// </summary>
+        public GameObject LayOver;
 
         /// <summary>
         /// 获取对应的Presenter
@@ -33,7 +38,6 @@ namespace Instech.Game
         public TestPresenter GetPresenter()
         {
             return Presenter as TestPresenter;
-            ;
         }
 
         protected override void Awake()
@@ -42,25 +46,23 @@ namespace Instech.Game
             var time1 = DateTime.Now;
 #endif
 
-            var lblInfoTrans = transform.Find("lblInfo");
-            if (lblInfoTrans != null)
+            if (TxtInfo == null)
             {
-                LblInfo = lblInfoTrans.GetComponent<Text>();
-            }
-            if (LblInfo == null)
-            {
-                Logger.LogWarning("UI","找不到控件: lblInfo");
+                Logger.LogError("UI", "找不到控件txtInfo");
             }
 
-            var btnGoTrans = transform.Find("btnGo");
-            if (btnGoTrans != null)
-            {
-                BtnGo = btnGoTrans.GetComponent<Button>();
-            }
             if (BtnGo == null)
             {
-                Logger.LogWarning("UI","找不到控件: btnGo");
+                Logger.LogError("UI", "找不到控件btnGo");
             }
+
+            if (LayOver == null)
+            {
+                Logger.LogError("UI", "找不到控件layOver");
+            }
+
+            Presenter = new TestPresenter();
+            OnAwakeFinish();
 
 #if UNITY_EDITOR
             var time2 = DateTime.Now;
@@ -69,8 +71,6 @@ namespace Instech.Game
 #else
             Logger.LogInfo("UI", "View Created: vwTest");
 #endif
-            Presenter = new TestPresenter();
-            OnAwakeFinish();
         }
     }
 }

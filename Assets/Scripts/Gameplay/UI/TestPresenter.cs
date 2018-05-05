@@ -8,8 +8,10 @@
 
 using System;
 using Instech.Framework;
+using Event = Instech.Framework.Event;
+using Logger = Instech.Framework.Logger;
 
-namespace Instech.Game
+namespace Game
 {
     public class TestPresenter : IBasePresenter
     {
@@ -59,7 +61,8 @@ namespace Instech.Game
         private void OnGoClicked(Event e)
         {
             Logger.LogInfo(null, "btnGo clicked");
-            _view.LblInfo.text = $"CurTime: {DateTime.Now.ToLongTimeString()}";
+            _view.TxtInfo.text = $"CurTime: {DateTime.Now.ToLongTimeString()}";
+            _view.LayOver.SetActive(!_view.LayOver.activeSelf);
         }
     }
 }
