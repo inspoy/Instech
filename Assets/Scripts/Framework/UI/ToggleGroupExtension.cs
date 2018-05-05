@@ -39,7 +39,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ñ¡ÔñÏî
+        /// è·å–å½“å‰é€‰æ‹©é¡¹
         /// </summary>
         /// <returns></returns>
         public int GetValue()
@@ -57,7 +57,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// ÊÖ¶¯ÉèÖÃµ±Ç°Ñ¡ÔñÏî
+        /// æ‰‹åŠ¨è®¾ç½®å½“å‰é€‰æ‹©é¡¹
         /// </summary>
         /// <param name="val"></param>
         public void SetValue(int val)
@@ -88,7 +88,7 @@ namespace Instech.Framework
                 toggleEx.Awake();
                 if (_dictToggles.ContainsKey(toggleEx.Value))
                 {
-                    Debug.LogWarningFormat("{0}ÓĞÖØ¸´µÄToggle Value:{1}", gameObject.name, toggleEx.Value);
+                    Debug.LogWarningFormat("{0}æœ‰é‡å¤çš„Toggle Value:{1}", gameObject.name, toggleEx.Value);
                     continue;
                 }
                 _dictToggles.Add(toggleEx.Value, toggleEx);

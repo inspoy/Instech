@@ -1,4 +1,4 @@
-﻿/**
+/**
  * == Inspoy Technology ==
  * Assembly: Framework.Editor
  * FileName: MiscEditor.cs
@@ -108,12 +108,15 @@ namespace Instech.Framework.Editor
             {
                 var filePath = allFiles[i];
                 var allText = File.ReadAllText(filePath);
-                File.WriteAllText(filePath, allText, encoding);
+                var bytes = Encoding.Default.GetBytes(allText);
+                bytes = Encoding.Convert(Encoding.Default, encoding, bytes);
+                File.WriteAllText(filePath, encoding.GetString(bytes), encoding);
                 if (EditorUtility.DisplayCancelableProgressBar("处理中", filePath, 1.0f * i / allFiles.Length))
                 {
                     break;
                 }
             }
+            EditorUtility.ClearProgressBar();
         }
 
         /// <summary>

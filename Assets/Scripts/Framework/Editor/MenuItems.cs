@@ -1,4 +1,4 @@
-﻿/**
+/**
  * == Inspoy Technology ==
  * Assembly: Framework.Editor
  * FileName: MenuItems.cs

@@ -14,9 +14,9 @@ namespace Instech.Framework
 
     public static class UiExtension
     {
-        #region À©Õ¹Button
+        #region æ‰©å±•Button
         /// <summary>
-        /// ÉèÖÃButtonÏÂµÄTextµÄÎÄ±¾£¨Èç¹ûÓĞµÄ»°£©
+        /// è®¾ç½®Buttonä¸‹çš„Textçš„æ–‡æœ¬ï¼ˆå¦‚æœæœ‰çš„è¯ï¼‰
         /// </summary>
         /// <param name="btn"></param>
         /// <param name="str"></param>
@@ -26,7 +26,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// »ñÈ¡ButtonÏÂµÄTextÎÄ±¾£¨Ã»ÓĞÔòÎª¿Õ£©
+        /// è·å–Buttonä¸‹çš„Textæ–‡æœ¬ï¼ˆæ²¡æœ‰åˆ™ä¸ºç©ºï¼‰
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
@@ -37,9 +37,9 @@ namespace Instech.Framework
         }
         #endregion
 
-        #region À©Õ¹ToggleGroup
+        #region æ‰©å±•ToggleGroup
         /// <summary>
-        /// ÎªÆäÔö¼ÓÒ»¸ö×´Ì¬±ä»¯µÄ¼àÌı
+        /// ä¸ºå…¶å¢åŠ ä¸€ä¸ªçŠ¶æ€å˜åŒ–çš„ç›‘å¬
         /// </summary>
         /// <param name="group"></param>
         /// <param name="lis"></param>
@@ -53,7 +53,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// ÎªÆäÉ¾³ıÒ»¸ö×´Ì¬±ä»¯µÄ¼àÌı
+        /// ä¸ºå…¶åˆ é™¤ä¸€ä¸ªçŠ¶æ€å˜åŒ–çš„ç›‘å¬
         /// </summary>
         /// <param name="group"></param>
         /// <param name="lis"></param>
@@ -67,7 +67,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// ÊÖ¶¯ÉèÖÃµ±Ç°Ñ¡ÔñÏî
+        /// æ‰‹åŠ¨è®¾ç½®å½“å‰é€‰æ‹©é¡¹
         /// </summary>
         /// <param name="group"></param>
         /// <param name="val"></param>
@@ -81,7 +81,7 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ñ¡ÔñÏî
+        /// è·å–å½“å‰é€‰æ‹©é¡¹
         /// </summary>
         /// <param name="group"></param>
         /// <returns></returns>

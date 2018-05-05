@@ -1,4 +1,4 @@
-﻿/**
+/**
  * == Instech ==
  * Assembly: Gameplay
  * FileName: GameMain.cs

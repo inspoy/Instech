@@ -1,4 +1,4 @@
-﻿/**
+/**
  * == Instech ==
  * Assembly: Gameplay.Editor
  * FileName: Test.cs

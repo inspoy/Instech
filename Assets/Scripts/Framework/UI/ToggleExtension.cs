@@ -14,12 +14,12 @@ namespace Instech.Framework
     public class ToggleExtension : MonoBehaviour
     {
         /// <summary>
-        /// ÓÃÓÚToggleGroupµÄÖµ
+        /// ç”¨äºŽToggleGroupçš„å€¼
         /// </summary>
         public int Value;
 
         /// <summary>
-        /// ¶ÔÓ¦µÄToggle¿Ø¼þ
+        /// å¯¹åº”çš„ToggleæŽ§ä»¶
         /// </summary>
         [HideInInspector]
         public Toggle Toggle;
