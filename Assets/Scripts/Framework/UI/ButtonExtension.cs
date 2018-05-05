@@ -14,7 +14,7 @@ namespace Instech.Framework
     public class ButtonExtension : MonoBehaviour
     {
         /// <summary>
-        /// 按钮子节点中包含的Text组件
+        /// 鎸夐挳瀛愯妭鐐逛腑鍖呭惈鐨凾ext缁勪欢
         /// </summary>
         public Text Text;
 

@@ -108,9 +108,7 @@ namespace Instech.Framework.Editor
             {
                 var filePath = allFiles[i];
                 var allText = File.ReadAllText(filePath);
-                var bytes = Encoding.Default.GetBytes(allText);
-                bytes = Encoding.Convert(Encoding.Default, encoding, bytes);
-                File.WriteAllText(filePath, encoding.GetString(bytes), encoding);
+                File.WriteAllText(filePath, allText, encoding);
                 if (EditorUtility.DisplayCancelableProgressBar("处理中", filePath, 1.0f * i / allFiles.Length))
                 {
                     break;
