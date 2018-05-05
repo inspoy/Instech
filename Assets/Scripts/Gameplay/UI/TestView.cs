@@ -17,14 +17,14 @@ namespace Game
     public class TestView : BaseView
     {
         /// <summary>
-        /// [Text] Info
-        /// </summary>
-        public Text TxtInfo;
-
-        /// <summary>
         /// [Button] Go
         /// </summary>
         public Button BtnGo;
+
+        /// <summary>
+        /// [Text] Info
+        /// </summary>
+        public Text TxtInfo;
 
         /// <summary>
         /// [GameObject] Over
@@ -40,25 +40,28 @@ namespace Game
             return Presenter as TestPresenter;
         }
 
+        /// <summary>
+        /// 初始化View
+        /// </summary>
         protected override void Awake()
         {
 #if UNITY_EDITOR
             var time1 = DateTime.Now;
 #endif
 
-            if (TxtInfo == null)
-            {
-                Logger.LogError("UI", "找不到控件txtInfo");
-            }
-
             if (BtnGo == null)
             {
-                Logger.LogError("UI", "找不到控件btnGo");
+                Logger.LogWarning("UI", "找不到控件: btnGo");
+            }
+
+            if (TxtInfo == null)
+            {
+                Logger.LogWarning("UI", "找不到控件: txtInfo");
             }
 
             if (LayOver == null)
             {
-                Logger.LogError("UI", "找不到控件layOver");
+                Logger.LogWarning("UI", "找不到控件: layOver");
             }
 
             Presenter = new TestPresenter();

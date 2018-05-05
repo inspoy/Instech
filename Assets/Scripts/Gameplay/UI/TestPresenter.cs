@@ -8,8 +8,6 @@
 
 using System;
 using Instech.Framework;
-using Event = Instech.Framework.Event;
-using Logger = Instech.Framework.Logger;
 
 namespace Game
 {
