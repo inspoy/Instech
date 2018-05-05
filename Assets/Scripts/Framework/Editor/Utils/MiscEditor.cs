@@ -98,6 +98,25 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
+        /// 把所有代码的编码修改为UTF-8
+        /// </summary>
+        public static void ConvertToUtf8()
+        {
+            var allFiles = Directory.GetFiles("Assets/Scripts", "*.cs", SearchOption.AllDirectories);
+            var encoding = new UTF8Encoding(false);
+            for (var i=0;i<allFiles.Length;++i)
+            {
+                var filePath = allFiles[i];
+                var allText = File.ReadAllText(filePath);
+                File.WriteAllText(filePath, allText, encoding);
+                if (EditorUtility.DisplayCancelableProgressBar("处理中", filePath, 1.0f * i / allFiles.Length))
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// 功能测试
         /// </summary>
         public static void FunctionTest()

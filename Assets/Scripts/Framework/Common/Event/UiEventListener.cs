@@ -108,8 +108,7 @@ namespace Instech.Framework
             if (toggleGroupCom != null)
             {
                 // 这是个ToggleGroup，单选框组
-                // TODO: 等待ToggleGroup扩展完成
-                // toggleGroupCom.AddValueChangeListener(OnValueChange);
+                toggleGroupCom.AddValueChangeListener(OnToggleValueChange);
             }
 
             var toggleCom = gameObject.GetComponent<Toggle>();
@@ -139,7 +138,7 @@ namespace Instech.Framework
             Dispatcher?.DispatchEvent(EventEnum.UiToggleChange, new SimpleEventData(selected));
         }
 
-        private void OnValueChange(int selectId)
+        private void OnToggleValueChange(int selectId)
         {
             Dispatcher?.DispatchEvent(EventEnum.UiValueChange, new SimpleEventData(selectId));
         }

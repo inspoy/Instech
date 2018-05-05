@@ -63,6 +63,15 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
+        /// 把所有代码的编码修改为UTF-8
+        /// </summary>
+        [MenuItem("Instech/把所有代码的编码修改为UTF-8")]
+        private static void ConvertToUtf8()
+        {
+            MiscEditor.ConvertToUtf8();
+        }
+
+        /// <summary>
         /// 功能测试
         /// </summary>
         [MenuItem("Instech/功能测试")]

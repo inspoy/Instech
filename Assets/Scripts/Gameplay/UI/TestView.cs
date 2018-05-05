@@ -24,6 +24,11 @@ namespace Game
         public GameObject LayOver;
 
         /// <summary>
+        /// [ProgressBar] Bar
+        /// </summary>
+        public ProgressBar ProBar;
+
+        /// <summary>
         /// 获取对应的Presenter
         /// </summary>
         /// <returns></returns>
@@ -54,6 +59,11 @@ namespace Game
             if (LayOver == null)
             {
                 Logger.LogWarning("UI", "找不到控件: layOver");
+            }
+
+            if (ProBar == null)
+            {
+                Logger.LogWarning("UI", "找不到控件: proBar");
             }
 
             Presenter = new TestPresenter();

@@ -8,6 +8,9 @@
 
 using System;
 using Instech.Framework;
+using UnityEngine;
+using Event = Instech.Framework.Event;
+using Logger = Instech.Framework.Logger;
 
 namespace Game
 {
@@ -33,12 +36,14 @@ namespace Game
         public void OnViewShow()
         {
             // Called when view will be shown
+            _view.SetUpdator(OnUpdate);
         }
 
         /// <inheritdoc />
         public void OnViewHide()
         {
             // Called when view will be hidden
+            _view.SetUpdator(null);
         }
 
         /// <inheritdoc />
@@ -58,7 +63,18 @@ namespace Game
 
         private void OnGoClicked(Event e)
         {
-            throw new NotImplementedException();
+            Logger.LogInfo(null, "btnGo clicked");
+            _view.TxtInfo.text = $"CurTime: {DateTime.Now.ToLongTimeString()}";
+            _view.LayOver.SetActive(!_view.LayOver.activeSelf);
+        }
+
+        private void OnUpdate(float dt)
+        {
+            _view.ProBar.Progress += dt;
+            if (_view.ProBar.Progress >= 1)
+            {
+                _view.ProBar.Progress = 0;
+            }
         }
     }
 }

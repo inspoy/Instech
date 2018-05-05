@@ -38,8 +38,6 @@ namespace Instech.Framework.Editor
             }
             var prefab = Selection.activeGameObject;
             var viewName = prefab.name.Substring(2);
-            Logger.LogInfo("Editor", $"Generating code for view: {viewName}");
-
             var viewContentBuilder = new StringBuilder();
             var presenterContentBuilder = new StringBuilder();
             var components = new Dictionary<string, Type>();
@@ -72,12 +70,19 @@ namespace Instech.Framework.Editor
                 if (viewType == null)
                 {
                     EditorUtility.DisplayDialog("快完成了", "第一次导出，需要等待编译后再次执行一次！", "OK");
+                    Logger.LogInfo("Editor", $"Generated code for view: {viewName}");
                     return;
                 }
                 component = prefab.AddComponent(viewType);
             }
-            UpdateComponentReference(component, components);
-            EditorUtility.DisplayDialog("完成", $"导出完成，该View有{components.Count}个控件！", "OK");
+            var needAgain = UpdateComponentReference(component, components);
+            if (needAgain)
+            {EditorUtility.DisplayDialog("快完成了", "有新的控件，需要等待编译后再次执行一次！", "OK");
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("完成", $"导出完成，该View有{components.Count}个控件！", "OK");
+            }
             Logger.LogInfo("Editor", $"Generated code for view: {viewName}");
         }
 
@@ -247,7 +252,17 @@ namespace Instech.Framework.Editor
             else if (prefix.Equals("tgg"))
             {
                 // Toggle Group
-                throw new NotImplementedException();
+                comType = typeof(ToggleGroup);
+                GenerateNormalViewCode(go.name, "ToggleGroup", viewPart1, viewPart2);
+                presenterPart1.Append(
+                    "            " +
+                    $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{go.name.Substring(3)}ToggleValueChange);\n");
+                presenterPart2.Append(
+                    "\n" +
+                    "        private void On{go.name.Substring(3)}ToggleValueChange(Event e)\n" +
+                    "        {\n" +
+                    "            throw new NotImplementedException();\n" +
+                    "        }\n");
             }
             else if (prefix.Equals("tgb"))
             {
@@ -256,7 +271,7 @@ namespace Instech.Framework.Editor
                 GenerateNormalViewCode(go.name, "Button", viewPart1, viewPart2);
                 presenterPart1.Append(
                     "            " +
-                    $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{go.name.Substring(3)}ToggleChange);\n");
+                    $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiToggleChange, On{go.name.Substring(3)}ToggleChange);\n");
                 presenterPart2.Append(
                     "\n" +
                     "        private void On{go.name.Substring(3)}ToggleChange(Event e)\n" +
@@ -306,7 +321,8 @@ namespace Instech.Framework.Editor
             else if (prefix.Equals("pro"))
             {
                 // Progress Bar
-                throw new NotImplementedException();
+                comType = typeof(ProgressBar);
+                GenerateNormalViewCode(go.name, "ProgressBar", viewPart1, viewPart2);
             }
             else if (prefix.Equals("lay"))
             {
@@ -346,8 +362,9 @@ namespace Instech.Framework.Editor
                 "            }\n\n");
         }
 
-        private static void UpdateComponentReference(Component view, Dictionary<string, Type> components)
+        private static bool UpdateComponentReference(Component view, Dictionary<string, Type> components)
         {
+            var needAgain = false;
             foreach (var item in components)
             {
                 var comName = item.Key;
@@ -359,6 +376,11 @@ namespace Instech.Framework.Editor
                     continue;
                 }
                 var field = view.GetType().GetField(comPascalName);
+                if (field == null)
+                {
+                    needAgain = true;
+                    continue;
+                }
                 if (comType == typeof(GameObject))
                 {
                     field.SetValue(view, widgetGo);
@@ -369,6 +391,7 @@ namespace Instech.Framework.Editor
                     field.SetValue(view, component);
                 }
             }
+            return needAgain;
         }
     }
 }
