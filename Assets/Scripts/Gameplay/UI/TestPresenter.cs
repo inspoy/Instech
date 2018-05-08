@@ -33,17 +33,19 @@ namespace Game
         }
 
         /// <inheritdoc />
-        public void OnViewShow()
+        public void OnViewActivate()
         {
-            // Called when view will be shown
+            // Called when view will be activated
             _view.SetUpdator(OnUpdate);
+            Logger.LogInfo(null, "Activated!");
         }
 
         /// <inheritdoc />
-        public void OnViewHide()
+        public void OnViewRecycle()
         {
-            // Called when view will be hidden
+            // Called when view will be recycled
             _view.SetUpdator(null);
+            Logger.LogInfo(null, "Recycled!");
         }
 
         /// <inheritdoc />
@@ -64,8 +66,7 @@ namespace Game
         private void OnGoClicked(Event e)
         {
             Logger.LogInfo(null, "btnGo clicked");
-            _view.TxtInfo.text = $"CurTime: {DateTime.Now.ToLongTimeString()}";
-            _view.LayOver.SetActive(!_view.LayOver.activeSelf);
+            _view.Recycle();
         }
 
         private void OnUpdate(float dt)

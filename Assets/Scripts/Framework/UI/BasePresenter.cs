@@ -22,17 +22,17 @@ namespace Instech.Framework
         void InitWithView(BaseView view);
 
         /// <summary>
-        /// 当UI显示时（第一次也会调用）
+        /// 当UI被激活时（第一次也会调用）
         /// 一般在这里处理数据相关的初始化
         /// 包括事件监听
         /// </summary>
-        void OnViewShow();
+        void OnViewActivate();
 
         /// <summary>
-        /// 当UI隐藏时（暂不关闭，即将移除时也会调用）
+        /// 当UI被回收时（暂不销毁，即将移除时也会调用）
         /// 一般在这里清理数据
         /// </summary>
-        void OnViewHide();
+        void OnViewRecycle();
 
         /// <summary>
         /// 当UI移除

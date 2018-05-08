@@ -188,14 +188,14 @@ namespace Instech.Framework.Editor
                 "            // Called when view is initialized\n" +
                 "        }\n\n" +
                 "        /// <inheritdoc />\n" +
-                "        public void OnViewShow()\n" +
+                "        public void OnViewActivate()\n" +
                 "        {\n" +
-                "            // Called when view will be shown\n" +
+                "            // Called when view will be activated\n" +
                 "        }\n\n" +
                 "        /// <inheritdoc />\n" +
-                "        public void OnViewHide()\n" +
+                "        public void OnViewRecycle()\n" +
                 "        {\n" +
-                "            // Called when view will be hidden\n" +
+                "            // Called when view will be recycled\n" +
                 "        }\n\n" +
                 "        /// <inheritdoc />\n" +
                 "        public void OnViewRemoved()\n" +

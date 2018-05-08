@@ -20,7 +20,7 @@ namespace Instech.Framework
     /// </summary>
     public static class Utility
     {
-        private static int _uidCount = 100000;
+        private static uint _uidCount = 100000;
 
         /// <summary>
         /// 获取当前时间的Unix时间戳
@@ -210,7 +210,7 @@ namespace Instech.Framework
         /// 获取游戏进程中的一个全局唯一ID
         /// </summary>
         /// <returns></returns>
-        public static int GetUniqueId()
+        public static uint GetUniqueId()
         {
             return ++_uidCount;
         }

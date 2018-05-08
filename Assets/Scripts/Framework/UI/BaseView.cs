@@ -47,9 +47,20 @@ namespace Instech.Framework
         public bool IsViewRemoved { get; private set; }
 
         /// <summary>
+        /// 标识对象的唯一ID
+        /// </summary>
+        public uint Uid { get; private set; }
+
+        /// <summary>
+        /// 忽略关闭所有UI的操作
+        /// </summary>
+        public bool IgnoreCloseAll { get; set; }
+
+        /// <summary>
         /// 深灰色UI遮罩
         /// </summary>
-        [HideInInspector] public GameObject MaskGo;
+        [HideInInspector]
+        public GameObject MaskGo;
 
         /// <summary>
         /// 是否禁止使用遮罩
@@ -59,7 +70,8 @@ namespace Instech.Framework
         /// <summary>
         /// 该UI界面的RectTransform
         /// </summary>
-        [HideInInspector] public RectTransform RectTransform;
+        [HideInInspector]
+        public RectTransform RectTransform;
 
         /// <summary>
         /// 对应的Presenter
@@ -70,7 +82,7 @@ namespace Instech.Framework
         private ViewUpdator _fixedUpdator;
         private ViewUpdator _lateUpdator;
         private ViewUpdator _updator;
-        private bool _isHide;
+        private bool _isSleeping;
 
         /// <summary>
         /// 添加UI事件监听
@@ -112,36 +124,64 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// 隐藏UI（暂不关闭）
+        /// 回收UI
         /// </summary>
-        public void Hide()
+        public void Recycle()
         {
-            if (_isHide)
+            if (_isSleeping)
             {
                 return;
             }
-            _isHide = true;
-            RectTransform.Translate(9999, 0, 0);
-            Presenter.OnViewHide();
-        }
-
-        /// <summary>
-        /// 显示UI
-        /// </summary>
-        public void Show()
-        {
-            if (!_isHide)
-            {
-                _isHide = true;
-            }
-            RectTransform.Translate(-9999, 0, 0);
-            Presenter.OnViewShow();
+            _isSleeping = true;
+            Presenter.OnViewRecycle();
+            UiManager.Instance.RecycleView(this);
         }
 
         /// <summary>
         /// 关闭UI
         /// </summary>
         public void Close()
+        {
+            InternalClose(false);
+        }
+
+        /// <summary>
+        /// 子类调用完Awake后必须调用这个方法
+        /// </summary>
+        protected void OnAwakeFinish()
+        {
+            Uid = Utility.GetUniqueId();
+            IgnoreCloseAll = false;
+            RectTransform = transform as RectTransform;
+            Presenter.InitWithView(this);
+            _isSleeping = false;
+            Presenter.OnViewActivate();
+        }
+
+        protected abstract void Awake();
+
+        /// <summary>
+        /// 激活UI
+        /// </summary>
+        internal void Activate()
+        {
+            if (!_isSleeping)
+            {
+                return;
+            }
+            _isSleeping = false;
+            Presenter.OnViewActivate();
+        }
+
+        /// <summary>
+        /// 由UI管理器调用，关闭所有UI
+        /// </summary>
+        internal void CloseAllUiOperation()
+        {
+            InternalClose(true);
+        }
+
+        private void InternalClose(bool callByUiManager)
         {
             if (IsViewRemoved)
             {
@@ -152,7 +192,11 @@ namespace Instech.Framework
             _updator = null;
             _fixedUpdator = null;
             _lateUpdator = null;
-            Presenter.OnViewHide();
+            Presenter.OnViewRecycle();
+            if (callByUiManager)
+            {
+                UiManager.Instance.CloseView(this);
+            }
             Presenter.OnViewRemoved();
             if (_dispatchers != null)
             {
@@ -168,19 +212,6 @@ namespace Instech.Framework
                 Destroy(MaskGo);
             }
         }
-
-        /// <summary>
-        /// 子类调用完Awake后必须调用这个方法
-        /// </summary>
-        protected void OnAwakeFinish()
-        {
-            RectTransform = transform as RectTransform;
-            Presenter.InitWithView(this);
-            _isHide = false;
-            Presenter.OnViewShow();
-        }
-
-        protected abstract void Awake();
 
         private void Start()
         {
