@@ -8,9 +8,6 @@
 
 using System;
 using Instech.Framework;
-using UnityEngine;
-using Event = Instech.Framework.Event;
-using Logger = Instech.Framework.Logger;
 
 namespace Game
 {
@@ -22,10 +19,10 @@ namespace Game
         public void InitWithView(BaseView view)
         {
             _view = view as TestView;
-        if (_view == null)
-        {
-            throw new Exception("Init Ui View Failed: " + view);
-        }
+            if (_view == null)
+            {
+                throw new Exception("Init Ui View Failed: " + view);
+            }
 
             _view.AddEventListener(_view.BtnGo, EventEnum.UiPointerClick, OnGoClicked);
 
@@ -66,7 +63,6 @@ namespace Game
         private void OnGoClicked(Event e)
         {
             Logger.LogInfo(null, "btnGo clicked");
-            _view.Recycle();
         }
 
         private void OnUpdate(float dt)

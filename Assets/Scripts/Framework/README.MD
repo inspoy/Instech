@@ -9,13 +9,14 @@
 |UI|自带控件功能扩展|完成|
 |UI|更多常用控件|完成|
 |Productivity|日志增强|完成|
-|Productivity|日志写入文件|待规划|
+|Productivity|日志写入文件|完成|
 |Productivity|控制台增强|待规划|
 |Productivity|游戏调试图表|待规划|
 |Productivity|查找资产所有引用|完成|
 |Common|AssetBundle打包和加载管理|待规划|
 |Common|事件系统|完成|
 |Common|单例模板|完成|
+|Common|游戏状态机|待规划|
 |Common|本地化解决方案|待规划|
 |Common|音频播放管理|待规划|
 |Data|配置表管理|待规划|
@@ -27,7 +28,7 @@
 |Util|枚举标签|待规划|
 |Util|编译时间显示|待规划|
 |Util|Yield优化|完成|
-|Util|通用对象池|待规划|
+|Util|通用对象池|完成|
 |Util|自动添加文件头注释|完成|
 |Util|统一的配置入口|完成|
 |Util|实用工具类|完成|

@@ -77,7 +77,8 @@ namespace Instech.Framework.Editor
             }
             var needAgain = UpdateComponentReference(component, components);
             if (needAgain)
-            {EditorUtility.DisplayDialog("快完成了", "有新的控件，需要等待编译后再次执行一次！", "OK");
+            {
+                EditorUtility.DisplayDialog("快完成了", "有新的控件，需要等待编译后再次执行一次！", "OK");
             }
             else
             {

@@ -38,7 +38,7 @@ namespace Instech.Framework.Editor
         /// 查找选定资产的所有引用
         /// </summary>
         [MenuItem("Assets/Instech/查找资产的所有引用")]
-        public static void FindAllReferences()
+        private static void FindAllReferences()
         {
             FindAllReferencesHelper.FindAllReferences();
         }

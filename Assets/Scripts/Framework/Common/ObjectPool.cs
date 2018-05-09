@@ -24,17 +24,13 @@ namespace Instech.Framework
     /// 通用对象池，线程安全
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObjectPool<T> : Singleton<ObjectPool<T>> where T:class,IPoolable, new()
+    public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : class, IPoolable, new()
     {
         private const uint DefualtMaxCount = 50;
         public uint CurPooledCount { get; private set; }
         public uint MaxPooledCount { get; set; }
         private readonly Queue<T> _pooledQueue = new Queue<T>((int)DefualtMaxCount);
         private readonly object _locker = new object();
-        protected override void Init()
-        {
-            MaxPooledCount = DefualtMaxCount;
-        }
 
         /// <summary>
         /// 回收某对象
@@ -76,6 +72,26 @@ namespace Instech.Framework
                 ret.OnActivate();
                 return ret;
             }
+        }
+
+        /// <summary>
+        /// 释放所有已回收的对象
+        /// </summary>
+        public void Clear()
+        {
+            lock (_locker)
+            {
+                foreach (var item in _pooledQueue)
+                {
+                    item.OnRecycle();
+                    item.Dispose();
+                }
+            }
+        }
+
+        protected override void Init()
+        {
+            MaxPooledCount = DefualtMaxCount;
         }
     }
 }

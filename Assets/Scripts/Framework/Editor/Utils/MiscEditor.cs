@@ -104,7 +104,7 @@ namespace Instech.Framework.Editor
         {
             var allFiles = Directory.GetFiles("Assets/Scripts", "*.cs", SearchOption.AllDirectories);
             var encoding = new UTF8Encoding(false);
-            for (var i=0;i<allFiles.Length;++i)
+            for (var i = 0; i < allFiles.Length; ++i)
             {
                 var filePath = allFiles[i];
                 var allText = File.ReadAllText(filePath);

@@ -46,9 +46,22 @@ namespace Instech.Framework
             _instance.Init();
         }
 
+        public static void DestroySingleton()
+        {
+            _instance.Uninit();
+            _instance = null;
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
         protected abstract void Init();
+
+        /// <summary>
+        /// 销毁
+        /// </summary>
+        protected virtual void Uninit()
+        {
+        }
     }
 }

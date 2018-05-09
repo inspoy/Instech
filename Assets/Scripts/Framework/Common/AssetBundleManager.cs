@@ -16,11 +16,6 @@ namespace Instech.Framework
     /// </summary>
     public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     {
-        protected override void Init()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// 根据类型获取资产
         /// </summary>
@@ -28,6 +23,11 @@ namespace Instech.Framework
         /// <param name="path">资产路径</param>
         /// <returns></returns>
         public T LoadAsset<T>(string path) where T : Object
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Init()
         {
             throw new NotImplementedException();
         }

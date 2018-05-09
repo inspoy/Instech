@@ -16,22 +16,32 @@ namespace Game
         private void Awake()
         {
             FastYield.CreateSingleton();
+            LogToFile.CreateSingleton();
+
             // AssetBundleManager.CreateSingleton();
             UiManager.CreateSingleton();
-
-            UiManager.Instance.AddView<TestView>();
         }
 
-        #region Test
-        public bool DoTest;
         private void Update()
         {
+            // TODO: currentState.Update(dt);
+
+            // Test
             if (DoTest)
             {
                 DoTest = false;
                 TestFunc();
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            FastYield.DestroySingleton();
+            LogToFile.DestroySingleton();
+        }
+
+        #region Test
+        public bool DoTest;
 
         private static void TestFunc()
         {

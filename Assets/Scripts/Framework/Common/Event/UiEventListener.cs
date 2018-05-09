@@ -35,7 +35,8 @@ namespace Instech.Framework
         /// <summary>
         /// 事件派发器
         /// </summary>
-        [HideInInspector] public EventDispatcher Dispatcher;
+        [HideInInspector]
+        public EventDispatcher Dispatcher;
 
         public override void OnPointerClick(PointerEventData eventData)
         {
@@ -100,7 +101,7 @@ namespace Instech.Framework
         {
             Dispatcher?.DispatchEvent(EventEnum.UiEndDrag);
         }
-        
+
         private void Start()
         {
             // 处理特殊事件，EventTrigger不提供的事件
