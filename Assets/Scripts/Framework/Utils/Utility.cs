@@ -150,7 +150,7 @@ namespace Instech.Framework
             {
                 return false;
             }
-            return (int) (p * 1000000) > Random.Range(0, 1000000);
+            return (int)(p * 1000000) > Random.Range(0, 1000000);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Instech.Framework
         /// <param name="f">F.</param>
         public static int Round(float f)
         {
-            return (int) Math.Round(f, MidpointRounding.AwayFromZero);
+            return (int)Math.Round(f, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
