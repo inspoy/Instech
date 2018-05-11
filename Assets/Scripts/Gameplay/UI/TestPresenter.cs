@@ -34,7 +34,7 @@ namespace Game
         {
             // Called when view will be activated
             _view.SetUpdator(OnUpdate);
-            Logger.LogInfo(null, "Activated!");
+            Logger.LogInfo(null, "TestView Activated!");
         }
 
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace Game
         {
             // Called when view will be recycled
             _view.SetUpdator(null);
-            Logger.LogInfo(null, "Recycled!");
+            Logger.LogInfo(null, "TestView Recycled!");
         }
 
         /// <inheritdoc />

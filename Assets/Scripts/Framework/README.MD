@@ -16,7 +16,7 @@
 |Common|AssetBundle打包和加载管理|待规划|
 |Common|事件系统|完成|
 |Common|单例模板|完成|
-|Common|游戏状态机|待规划|
+|Common|游戏状态机|完成|
 |Common|本地化解决方案|待规划|
 |Common|音频播放管理|待规划|
 |Data|配置表管理|待规划|

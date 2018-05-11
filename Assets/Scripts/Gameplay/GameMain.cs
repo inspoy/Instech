@@ -11,20 +11,24 @@ using UnityEngine;
 
 namespace Game
 {
-    public class GameMain : MonoBehaviour
+    public class GameMain : MonoSingleton<GameMain>
     {
-        private void Awake()
+        protected override void Init()
         {
             FastYield.CreateSingleton();
             LogToFile.CreateSingleton();
+            GameStateMachine.CreateSingleton();
 
             // AssetBundleManager.CreateSingleton();
             UiManager.CreateSingleton();
+
+            GameStateMachine.Instance.RegisterGameState("TestState", new TestState());
+            GameStateMachine.Instance.ChangeState("TestState");
         }
 
         private void Update()
         {
-            // TODO: currentState.Update(dt);
+            GameStateMachine.Instance.UpdateFrame(Time.deltaTime);
 
             // Test
             if (DoTest)
@@ -34,10 +38,16 @@ namespace Game
             }
         }
 
+        private void FixedUpdate()
+        {
+            GameStateMachine.Instance.UpdateLogic(Time.fixedDeltaTime);
+        }
+
         private void OnApplicationQuit()
         {
-            FastYield.DestroySingleton();
+            GameStateMachine.DestroySingleton();
             LogToFile.DestroySingleton();
+            FastYield.DestroySingleton();
         }
 
         #region Test
