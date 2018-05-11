@@ -6,16 +6,18 @@
  * All rights reserved.
  */
 
-using Game;
 using UnityEngine;
 
-/// <summary>
-/// 游戏入口
-/// </summary>
-public class GameStart : MonoBehaviour
+namespace Game
 {
-    private void Awake()
+    /// <summary>
+    /// 游戏入口
+    /// </summary>
+    public class GameStart : MonoBehaviour
     {
-        GameMain.CreateSingleton();
+        private void Awake()
+        {
+            GameMain.CreateSingleton();
+        }
     }
 }
