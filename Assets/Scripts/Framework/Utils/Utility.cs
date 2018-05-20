@@ -26,10 +26,10 @@ namespace Instech.Framework
         /// 获取当前时间的Unix时间戳
         /// </summary>
         /// <returns>时间戳</returns>
-        public static long GetTimeStampNow()
+        public static int GetTimeStampNow()
         {
             var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalSeconds);
+            return Convert.ToInt32(ts.TotalSeconds);
         }
 
         /// <summary>

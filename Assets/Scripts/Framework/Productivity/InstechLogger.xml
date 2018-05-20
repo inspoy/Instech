@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InstechLogger</name>
+    </assembly>
+    <members>
+        <member name="T:Instech.Framework.LogLevel">
+            <summary>
+            输出日志等级
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Off">
+            <summary>
+                关闭所有日志
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Exception">
+            <summary>
+                异常
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Assert">
+            <summary>
+                断言
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Error">
+            <summary>
+                错误
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Warning">
+            <summary>
+                警告
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Info">
+            <summary>
+                信息类日志
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.Debug">
+            <summary>
+                调试信息
+            </summary>
+        </member>
+        <member name="F:Instech.Framework.LogLevel.All">
+            <summary>
+                输出所有日志
+            </summary>
+        </member>
+        <member name="T:Instech.Framework.Logger">
+            <summary>
+            封装Unity的Debug.Log方法族，实现灵活配置
+            </summary>
+        </member>
+        <member name="T:Instech.Framework.Logger.LogCallback">
+            <summary>
+            用于日志的回调委托
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="content">日志内容</param>
+            <param name="level">日志等级</param>
+            <param name="stackTrace">堆栈信息</param>
+        </member>
+        <member name="F:Instech.Framework.Logger.LogLevel">
+            <summary>
+                输出的日志等级，高于或等于该等级的日志将会被记录
+            </summary>
+        </member>
+        <member name="E:Instech.Framework.Logger.OnLog">
+            <summary>
+                当日志发生时触发
+            </summary>
+        </member>
+        <member name="M:Instech.Framework.Logger.LogDebug(System.String,System.String,UnityEngine.Object)">
+            <summary>
+            输出调试信息
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.LogInfo(System.String,System.String,UnityEngine.Object)">
+            <summary>
+            输出常规信息
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.LogWarning(System.String,System.String,UnityEngine.Object)">
+            <summary>
+            输出警告信息
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.LogError(System.String,System.String,UnityEngine.Object)">
+            <summary>
+            输出错误信息
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.LogException(System.String,System.Exception,UnityEngine.Object)">
+            <summary>
+            输出异常信息
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="ex">发生的异常</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.Assert(System.String,System.Boolean,System.String,UnityEngine.Object)">
+            <summary>
+            执行断言
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="condition">断言条件</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+        </member>
+        <member name="M:Instech.Framework.Logger.Log(System.String,Instech.Framework.LogLevel,System.String,UnityEngine.Object,System.Exception)">
+            <summary>
+            输出日志
+            </summary>
+            <param name="module">日志所属模块</param>
+            <param name="level">日志等级</param>
+            <param name="message">日志信息</param>
+            <param name="context">上下文信息</param>
+            <param name="ex">异常信息</param>
+        </member>
+    </members>
+</doc>

@@ -10,7 +10,6 @@
 |UI|更多常用控件|完成|
 |Productivity|日志增强|完成|
 |Productivity|日志写入文件|完成|
-|Productivity|控制台增强|待规划|
 |Productivity|游戏调试图表|待规划|
 |Productivity|查找资产所有引用|完成|
 |Common|AssetBundle打包和加载管理|待规划|
@@ -25,8 +24,8 @@
 |Data|可序列化的字典|待规划|
 |Util|预定义宏管理|待规划|
 |Util|压缩功能|待规划|
-|Util|枚举标签|待规划|
-|Util|编译时间显示|待规划|
+|Util|枚举标签|完成|
+|Util|编译时间显示|完成|
 |Util|Yield优化|完成|
 |Util|通用对象池|完成|
 |Util|自动添加文件头注释|完成|
@@ -61,9 +60,6 @@ VP即View-Presenter，UI采用界面逻辑分离的思路，方便UI人员随时
 
 ### Productivity-日志增强
 把Unity自带的`Debug.Log()`封装了一层，实现了更多功能。现在可以自定义输出日志级别，支持设定日志所属模块，配合控制台增强可以按模块进行筛选。
-
-### Productivity-控制台增强
-替换掉Unity自带的控制台，配合框架的日志增强，可以按模块，级别筛选日志，打开定位堆栈层级中任意一层的代码。
 
 ### Productivity-游戏调试图表
 全屏的图表，随时间更新，支持多个指标如帧率等。一定程度上把Unity的Profile做在游戏里，方便在真机上调试。
