@@ -36,7 +36,7 @@ namespace Instech.Framework
         {
             if (Fill == null)
             {
-                Logger.LogWarning("UI", $"进度条{gameObject.name}没有设置Fill");
+                Logger.LogWarning(LogModule.Ui, $"进度条{gameObject.name}没有设置Fill");
             }
         }
 

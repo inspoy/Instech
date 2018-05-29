@@ -33,7 +33,7 @@ namespace Instech.Framework.Editor
             if (_isCompiling && !EditorApplication.isCompiling)
             {
                 var cost = Utility.GetTimeStampNow() - _beginTime;
-                Logger.LogInfo("Editor", $"Compiling cost: {cost}s");
+                Logger.LogInfo(LogModule.Editor, $"Compiling cost: {cost}s");
                 EditorUtility.DisplayDialog("编译完成", $"编译耗时：{cost}s", "OK");
                 _isCompiling = false;
                 EditorPrefs.SetBool(CompilingKey, false);

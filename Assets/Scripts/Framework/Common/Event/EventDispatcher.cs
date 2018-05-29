@@ -67,7 +67,7 @@ namespace Instech.Framework
             }
             if (HasEventListener(eventType, sel))
             {
-                Logger.LogWarning("Framework", $"重复监听！type={eventType}");
+                Logger.LogWarning(LogModule.Framework, $"重复监听！type={eventType}");
             }
             if (!_dictListeners.ContainsKey(eventType))
             {
@@ -201,8 +201,8 @@ namespace Instech.Framework
                     }
                     catch (Exception exc)
                     {
-                        Logger.LogError("Framework", "派发事件时出错");
-                        Logger.LogException("Framework", exc);
+                        Logger.LogError(LogModule.Framework, "派发事件时出错");
+                        Logger.LogException(LogModule.Framework, exc);
                     }
                     count += 1;
                 }

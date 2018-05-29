@@ -67,7 +67,7 @@ namespace Instech.Framework
                 ret = go.GetComponent<T>();
                 if (ret == null)
                 {
-                    Logger.LogError("UI", "Prefab未挂载View组件: " + typeof(T));
+                    Logger.LogError(LogModule.Ui, "Prefab未挂载View组件: " + typeof(T));
                 }
             }
             return ret as T;

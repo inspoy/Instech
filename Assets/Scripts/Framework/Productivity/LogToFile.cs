@@ -93,6 +93,7 @@ namespace Instech.Framework
             // 启动写文件的线程
             _writerThread = new Thread(FileWriterMain);
             _writerThread.Start();
+            Logger.LogInfo(LogModule.Framework, "写日志线程已启动");
         }
 
         protected override void Uninit()
@@ -157,7 +158,7 @@ namespace Instech.Framework
             catch (Exception e)
             {
                 // 意外错误
-                Logger.LogWarning("Framework", "日志线程意外退出: " + e.Message);
+                Logger.LogWarning(LogModule.Framework, "日志线程意外退出: " + e.Message);
             }
         }
 

@@ -93,7 +93,7 @@ namespace Instech.Framework.Editor
             var obj = Selection.activeObject;
             if (obj != null)
             {
-                Logger.LogInfo("Editor", $"{obj.name} => {obj.GetInstanceID()}");
+                Logger.LogInfo(LogModule.Editor, $"{obj.name} => {obj.GetInstanceID()}");
             }
         }
 
@@ -144,7 +144,7 @@ namespace Instech.Framework.Editor
                 return;
             }
             _guid = AssetDatabase.AssetPathToGUID(path);
-            var extensions = new List<string> {".anim", ".prefab", ".unity", ".mat", ".asset"};
+            var extensions = new List<string> { ".anim", ".prefab", ".unity", ".mat", ".asset" };
             _files = Directory.GetFiles(Application.dataPath, "*.*", SearchOption.AllDirectories)
                 .Where(s =>
                 {
@@ -164,7 +164,7 @@ namespace Instech.Framework.Editor
 
             if (Regex.IsMatch(File.ReadAllText(file), _guid))
             {
-                Logger.LogInfo("Editor", file, AssetDatabase.LoadAssetAtPath<Object>(GetRelativeAssetsPath(file)));
+                Logger.LogInfo(LogModule.Editor, file, AssetDatabase.LoadAssetAtPath<Object>(GetRelativeAssetsPath(file)));
                 _refCount += 1;
             }
 
@@ -173,7 +173,7 @@ namespace Instech.Framework.Editor
             {
                 EditorUtility.ClearProgressBar();
                 _curIdx = 0;
-                Logger.LogInfo("Editor", $"匹配结束, 共{_refCount}个引用");
+                Logger.LogInfo(LogModule.Editor, $"匹配结束, 共{_refCount}个引用");
 
                 // ReSharper disable once DelegateSubtraction
                 EditorApplication.update -= Update;

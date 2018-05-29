@@ -70,7 +70,7 @@ namespace Instech.Framework.Editor
                 if (viewType == null)
                 {
                     EditorUtility.DisplayDialog("快完成了", "第一次导出，需要等待编译后再次执行一次！", "OK");
-                    Logger.LogInfo("Editor", $"Generated code for view: {viewName}");
+                    Logger.LogInfo(LogModule.Editor, $"Generated code for view: {viewName}");
                     return;
                 }
                 component = prefab.AddComponent(viewType);
@@ -84,7 +84,7 @@ namespace Instech.Framework.Editor
             {
                 EditorUtility.DisplayDialog("完成", $"导出完成，该View有{components.Count}个控件！", "OK");
             }
-            Logger.LogInfo("Editor", $"Generated code for view: {viewName}");
+            Logger.LogInfo(LogModule.Editor, $"Generated code for view: {viewName}");
         }
 
         private static Type GetTypeByName(string className)
@@ -337,7 +337,7 @@ namespace Instech.Framework.Editor
             }
             if (components.ContainsKey(go.name))
             {
-                Logger.LogError("Editor", "重名的控件: " + go.name);
+                Logger.LogError(LogModule.Editor, "重名的控件: " + go.name);
             }
             else
             {
