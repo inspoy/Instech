@@ -16,10 +16,10 @@ namespace Instech.Framework
     /// </summary>
     public interface IGameState
     {
-        void UpdateFrame(float dt);
-        void UpdateLogic(float dt);
         void OnStateEnter(string lastState);
         void OnStateLeave(string nextState);
+        void UpdateFrame(float dt);
+        void UpdateLogic(float dt);
     }
 
     public class GameStateMachine : Singleton<GameStateMachine>
@@ -85,9 +85,11 @@ namespace Instech.Framework
             {
                 throw new ArgumentException("状态未注册", nameof(stateName));
             }
+            Logger.LogInfo(LogModule.GameFlow, $"准备切换状态[{_curStateName}]=>[{stateName}]");
             _curState?.OnStateLeave(stateName);
             newState.OnStateEnter(_curStateName);
             _curState = newState;
+            Logger.LogInfo(LogModule.GameFlow, "状态切换完成");
         }
 
         protected override void Init()
