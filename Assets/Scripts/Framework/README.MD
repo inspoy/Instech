@@ -10,7 +10,7 @@
 |UI|更多常用控件|完成|
 |Productivity|日志增强|完成|
 |Productivity|日志写入文件|完成|
-|Productivity|游戏调试图表|待规划|
+|Productivity|游戏调试图表|完成|
 |Productivity|查找资产所有引用|完成|
 |Common|AssetBundle打包和加载管理|待规划|
 |Common|事件系统|完成|

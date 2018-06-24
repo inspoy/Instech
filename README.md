@@ -10,7 +10,7 @@
 |UI|更多常用控件|完成|
 |Productivity|日志增强|完成|
 |Productivity|日志写入文件|完成|
-|Productivity|游戏调试图表|待规划|
+|Productivity|游戏调试图表|完成|
 |Productivity|查找资产所有引用|完成|
 |Common|AssetBundle打包和加载管理|待规划|
 |Common|事件系统|完成|
@@ -22,8 +22,8 @@
 |Data|Sqlite数据库访问|待规划|
 |Data|数据追踪|待规划|
 |Data|可序列化的字典|待规划|
-|Util|预定义宏管理|待规划|
-|Util|压缩功能|待规划|
+|Util|预定义宏管理|完成|
+|Util|压缩功能|完成|
 |Util|枚举标签|完成|
 |Util|编译时间显示|完成|
 |Util|Yield优化|完成|

@@ -75,8 +75,6 @@ namespace Instech.Framework
 
         protected override void Init()
         {
-            Logger.OnLog += OnHandleLog;
-
             // 创建文件
             var timeNow = DateTime.Now;
             var folderPath = Application.persistentDataPath + "/GameLog";
@@ -89,10 +87,12 @@ namespace Instech.Framework
             var sw = _logFileInfo.CreateText();
             sw.WriteLine("[{0}] - {1:yyyy/MM/dd HH:mm:ss}", Application.productName, timeNow);
             sw.Close();
+            Logger.LogInfo(LogModule.Framework, "日志文件路径: " + path);
 
             // 启动写文件的线程
             _writerThread = new Thread(FileWriterMain);
             _writerThread.Start();
+            Logger.OnLog += OnHandleLog;
             Logger.LogInfo(LogModule.Framework, "写日志线程已启动");
         }
 
