@@ -34,7 +34,7 @@ namespace Instech.Framework.Editor
             {
                 var cost = Utility.GetTimeStampNow() - _beginTime;
                 Logger.LogInfo(LogModule.Editor, $"Compiling cost: {cost}s");
-                EditorUtility.DisplayDialog("编译完成", $"编译耗时：{cost}s", "OK");
+                // EditorUtility.DisplayDialog("编译完成", $"编译耗时：{cost}s", "OK");
                 _isCompiling = false;
                 EditorPrefs.SetBool(CompilingKey, false);
             }

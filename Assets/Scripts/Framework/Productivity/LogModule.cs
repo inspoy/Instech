@@ -14,4 +14,5 @@ public static class LogModule
     public const string Ui = "UI";
     public const string Data = "Data";
     public const string GameFlow = "GameFlow";
+    public const string System = "System";
 }
