@@ -35,8 +35,6 @@ namespace Instech.Framework
 
         private readonly Dictionary<string, Graph> _allGraphs = new Dictionary<string, Graph>();
         private Material _lineMat;
-        private int _screenSizeX;
-        private int _screenSizeY;
 
         public Graph AddGraph(string key, uint maxSamples)
         {
