@@ -60,8 +60,28 @@ namespace Instech.Framework
         }
 
         /// <summary>
+        /// 销毁实例
+        /// </summary>
+        public static void DestroySingleton()
+        {
+            if (_instance != null)
+            {
+                _instance.Uninit();
+                Destroy(_instance);
+                _instance = null;
+            }
+        }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         protected abstract void Init();
+
+        /// <summary>
+        /// 销毁
+        /// </summary>
+        protected void Uninit()
+        {
+        }
     }
 }

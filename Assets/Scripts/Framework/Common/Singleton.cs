@@ -48,8 +48,11 @@ namespace Instech.Framework
 
         public static void DestroySingleton()
         {
-            _instance.Uninit();
-            _instance = null;
+            if (_instance != null)
+            {
+                _instance.Uninit();
+                _instance = null;
+            }
         }
 
         /// <summary>
