@@ -1,6 +1,6 @@
 /**
  * == Inspoy Technology ==
- * Assembly: Framework
+ * Assembly: Framework.Editor
  * FileName: DefinedSymbolManager.cs
  * Created on 2018/05/23 by inspoy
  * All rights reserved.
@@ -9,7 +9,7 @@
 using System.Linq;
 using UnityEditor;
 
-namespace Instech.Framework
+namespace Instech.Framework.Editor
 {
     /// <summary>
     /// 管理自定义宏
