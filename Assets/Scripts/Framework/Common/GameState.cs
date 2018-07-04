@@ -29,6 +29,15 @@ namespace Instech.Framework
         private string _curStateName;
 
         /// <summary>
+        /// 获取当前状态
+        /// </summary>
+        /// <returns></returns>
+        public IGameState GetCurrentState()
+        {
+            return _curState;
+        }
+
+        /// <summary>
         /// 更新帧
         /// </summary>
         /// <param name="dt"></param>
