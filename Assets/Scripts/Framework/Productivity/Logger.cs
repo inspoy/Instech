@@ -201,26 +201,22 @@ namespace Instech.Framework
             OnLog?.Invoke(module, message, level, stackTrace);
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                var msg = new StringBuilder(module.Length + message.Length + 2);
-                msg.Append('[');
-                msg.Append(module);
-                msg.Append(']');
-                msg.Append(message);
+                var msg = $"[{level}][{module}] - {message}";
                 switch (level)
                 {
                     case LogLevel.Assert:
-                        Debug.LogAssertion(msg.ToString(), context);
+                        Debug.LogAssertion(msg, context);
                         break;
                     case LogLevel.Exception:
                     case LogLevel.Error:
-                        Debug.LogError(msg.ToString(), context);
+                        Debug.LogError(msg, context);
                         break;
                     case LogLevel.Warning:
-                        Debug.LogWarning(msg.ToString(), context);
+                        Debug.LogWarning(msg, context);
                         break;
                     case LogLevel.Info:
                     case LogLevel.Debug:
-                        Debug.Log(msg.ToString(), context);
+                        Debug.Log(msg, context);
                         break;
                 }
             }
