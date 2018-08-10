@@ -16,7 +16,14 @@ namespace Instech.Framework
     /// </summary>
     public interface IPoolable : IDisposable
     {
+        /// <summary>
+        /// 回收时调用
+        /// </summary>
         void OnRecycle();
+
+        /// <summary>
+        /// 初始化时调用
+        /// </summary>
         void OnActivate();
     }
 
@@ -71,6 +78,23 @@ namespace Instech.Framework
                 ret = new T();
                 ret.OnActivate();
                 return ret;
+            }
+        }
+
+        /// <summary>
+        /// 预先分配一些出来
+        /// </summary>
+        /// <param name="size">分配数量，0表示最大数量</param>
+        public void Alloc(uint size = 0)
+        {
+            if (size == 0)
+            {
+                size = MaxPooledCount;
+            }
+            size = Math.Min(size, MaxPooledCount - CurPooledCount);
+            for (var i = 0; i < size; ++i)
+            {
+                Recycle(new T());
             }
         }
 
