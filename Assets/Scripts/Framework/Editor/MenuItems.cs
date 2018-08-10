@@ -63,12 +63,30 @@ namespace Instech.Framework.Editor
         }
 
         /// <summary>
+        /// 复制选中资产的路径到剪贴板
+        /// </summary>
+        [MenuItem("Assets/Instech/复制选中资产的路径到剪贴板")]
+        private static void CopyAssetPath()
+        {
+            MiscEditor.CopyAssetPathToClipboard();
+        }
+
+        /// <summary>
         /// 把所有代码的编码修改为UTF-8
         /// </summary>
         [MenuItem("Instech/把所有代码的编码修改为UTF-8")]
         private static void ConvertToUtf8()
         {
             MiscEditor.ConvertToUtf8();
+        }
+
+        /// <summary>
+        /// 打包AssetBundle
+        /// </summary>
+        [MenuItem("Instech/打包AssetBundle")]
+        private static void BuildAssetBundles()
+        {
+            BuildAssetBundle.DoBuild();
         }
 
         /// <summary>
@@ -79,5 +97,6 @@ namespace Instech.Framework.Editor
         {
             MiscEditor.FunctionTest();
         }
+
     }
 }

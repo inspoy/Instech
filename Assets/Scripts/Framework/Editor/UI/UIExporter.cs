@@ -260,7 +260,7 @@ namespace Instech.Framework.Editor
                     $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{go.name.Substring(3)}ToggleValueChange);\n");
                 presenterPart2.Append(
                     "\n" +
-                    "        private void On{go.name.Substring(3)}ToggleValueChange(Event e)\n" +
+                    $"        private void On{go.name.Substring(3)}ToggleValueChange(Event e)\n" +
                     "        {\n" +
                     "            throw new NotImplementedException();\n" +
                     "        }\n");
@@ -269,13 +269,13 @@ namespace Instech.Framework.Editor
             {
                 // Toggle Button
                 comType = typeof(Toggle);
-                GenerateNormalViewCode(go.name, "Button", viewPart1, viewPart2);
+                GenerateNormalViewCode(go.name, "Toggle", viewPart1, viewPart2);
                 presenterPart1.Append(
                     "            " +
                     $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiToggleChange, On{go.name.Substring(3)}ToggleChange);\n");
                 presenterPart2.Append(
                     "\n" +
-                    "        private void On{go.name.Substring(3)}ToggleChange(Event e)\n" +
+                    $"        private void On{go.name.Substring(3)}ToggleChange(Event e)\n" +
                     "        {\n" +
                     "            throw new NotImplementedException();\n" +
                     "        }\n");
@@ -290,7 +290,7 @@ namespace Instech.Framework.Editor
                     $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiToggleChange, On{go.name.Substring(3)}SliderChange);\n");
                 presenterPart2.Append(
                     "\n" +
-                    "        private void On{go.name.Substring(3)}SliderChange(Event e)\n" +
+                    $"        private void On{go.name.Substring(3)}SliderChange(Event e)\n" +
                     "        {\n" +
                     "            throw new NotImplementedException();\n" +
                     "        }\n");

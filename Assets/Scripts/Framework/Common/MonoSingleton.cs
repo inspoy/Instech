@@ -80,7 +80,7 @@ namespace Instech.Framework
         /// <summary>
         /// 销毁
         /// </summary>
-        protected void Uninit()
+        protected virtual void Uninit()
         {
         }
     }

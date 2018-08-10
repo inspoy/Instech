@@ -12,6 +12,12 @@ using UnityEngine.UI;
 
 namespace Instech.Framework
 {
+    /// <summary>
+    /// 注意：这个组件是自动添加的
+    /// 扩展ToggleGroup，实现可以方便监控当前选定项的单选框组
+    /// 要给每个Toggle添加ToggleExtension，并设置Value
+    /// 当组内的Toggle选择状态变化时，触发UiValueChange事件
+    /// </summary>
     public class ToggleGroupExtension : MonoBehaviour
     {
         private int _curVal;
@@ -88,7 +94,7 @@ namespace Instech.Framework
                 toggleEx.Awake();
                 if (_dictToggles.ContainsKey(toggleEx.Value))
                 {
-                    Debug.LogWarningFormat("{0}有重复的Toggle Value:{1}", gameObject.name, toggleEx.Value);
+                    Logger.LogWarning(LogModule.Ui, $"{gameObject.name}有重复的Toggle Value:{toggleEx.Value}");
                     continue;
                 }
                 _dictToggles.Add(toggleEx.Value, toggleEx);

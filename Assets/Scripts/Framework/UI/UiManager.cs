@@ -35,8 +35,11 @@ namespace Instech.Framework
     {
         private readonly Dictionary<Type, UiCacheData> _cacheData = new Dictionary<Type, UiCacheData>();
         private Canvas _canvas;
-        private Camera _uiCamera;
         private Transform _sleepingViews;
+        private GraphicRaycaster _raycaster;
+        private PointerEventData _pointerEventData;
+        private readonly List<RaycastResult> _mouseCastList = new List<RaycastResult>();
+        private Camera _uiCamera;
 
         /// <summary>
         /// 创建一个UI
@@ -61,8 +64,9 @@ namespace Instech.Framework
             }
             else
             {
-                var prefab = Resources.Load<GameObject>(cacheData.PrefabPath);
+                var prefab = AssetBundleManager.Instance.LoadAsset<GameObject>(cacheData.PrefabPath);
                 var go = Instantiate(prefab, parent);
+                AssetBundleManager.Instance.AddRecord(go, cacheData.PrefabPath);
                 go.transform.localPosition = Vector3.zero;
                 ret = go.GetComponent<T>();
                 if (ret == null)
@@ -118,11 +122,27 @@ namespace Instech.Framework
             }
         }
 
+        /// <summary>
+        /// 检测鼠标是否在任何UI组件上
+        /// </summary>
+        /// <param name="mouseX"></param>
+        /// <param name="mouseY"></param>
+        /// <returns></returns>
+        public bool IsMouseOnUi(float mouseX, float mouseY)
+        {
+            _pointerEventData.position = new Vector2(mouseX, mouseY);
+            _pointerEventData.pressPosition = new Vector2(mouseX, mouseY);
+            _mouseCastList.Clear();
+            _raycaster.Raycast(_pointerEventData, _mouseCastList);
+            return _mouseCastList.Count > 0;
+        }
+
         protected override void Init()
         {
             gameObject.layer = 5; // UI Layer
             var eventSystemGo = gameObject.AddEmptyChild("EventSystem");
-            eventSystemGo.AddComponent<EventSystem>();
+            var eventSystem = eventSystemGo.AddComponent<EventSystem>();
+            _pointerEventData = new PointerEventData(eventSystem);
             eventSystemGo.AddComponent<StandaloneInputModule>();
             _uiCamera = gameObject.AddEmptyChild("UICamera").AddComponent<Camera>();
             _uiCamera.transform.localPosition = Vector3.back * 100;
@@ -132,7 +152,7 @@ namespace Instech.Framework
             _canvas = gameObject.AddComponent<Canvas>();
             _canvas.renderMode = RenderMode.ScreenSpaceCamera;
             _canvas.worldCamera = _uiCamera;
-            gameObject.AddComponent<GraphicRaycaster>();
+            _raycaster = gameObject.AddComponent<GraphicRaycaster>();
             var sleepingViewsGo = gameObject.AddEmptyChild("SleepingViews");
             sleepingViewsGo.SetActive(false);
             _sleepingViews = sleepingViewsGo.transform;
@@ -175,7 +195,7 @@ namespace Instech.Framework
             cacheData = new UiCacheData();
             var typeStr = t.ToString();
             var dotPos = typeStr.LastIndexOf('.');
-            cacheData.PrefabPath = "Prefabs/UI/vw" + typeStr.Substring(dotPos + 1, typeStr.Length - dotPos - 5);
+            cacheData.PrefabPath = "Prefabs/UI/vw" + typeStr.Substring(dotPos + 1, typeStr.Length - dotPos - 5) + ".prefab";
             _cacheData.Add(t, cacheData);
             return cacheData;
         }
