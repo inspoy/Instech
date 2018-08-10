@@ -17,5 +17,7 @@ namespace Instech.Framework
         public const string Data = "Data";
         public const string GameFlow = "GameFlow";
         public const string System = "System";
+        public const string Resource = "Resource";
+        public const string Render = "Render";
     }
 }

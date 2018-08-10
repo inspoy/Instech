@@ -93,7 +93,7 @@ namespace Instech.Framework.Editor
             var obj = Selection.activeObject;
             if (obj != null)
             {
-                Logger.LogInfo(LogModule.Editor, $"{obj.name} => {obj.GetInstanceID()}");
+                Logger.LogInfo(LogModule.Editor, $"{obj.name} => {obj.GetInstanceID()}(Type={obj.GetType()})");
             }
         }
 
@@ -115,6 +115,22 @@ namespace Instech.Framework.Editor
                 }
             }
             EditorUtility.ClearProgressBar();
+        }
+
+        /// <summary>
+        /// 复制选中资产的路径到剪贴板
+        /// </summary>
+        public static void CopyAssetPathToClipboard()
+        {
+            var asset = Selection.activeObject;
+            var str = AssetDatabase.GetAssetPath(asset);
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                str = str.Replace("Assets" + EditorPrefs.GetString(PrefWindow.AssetPath), "");
+                var t = new TextEditor { text = str };
+                t.OnFocus();
+                t.Copy();
+            }
         }
 
         /// <summary>

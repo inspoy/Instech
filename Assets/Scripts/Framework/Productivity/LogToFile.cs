@@ -82,7 +82,7 @@ namespace Instech.Framework
             {
                 Directory.CreateDirectory(folderPath);
             }
-            var path = $"{folderPath}/GameLog{timeNow:yyyyMMddHHmmss}.txt";
+            var path = $"{folderPath}/GameLog{timeNow:yyyyMMddHHmmss}.log";
             _logFileInfo = new FileInfo(path);
             var sw = _logFileInfo.CreateText();
             sw.WriteLine("[{0}] - {1:yyyy/MM/dd HH:mm:ss}", Application.productName, timeNow);

@@ -173,7 +173,7 @@ namespace Instech.Framework
             {
                 return;
             }
-            if (string.IsNullOrWhiteSpace(message))
+            if (string.IsNullOrWhiteSpace(message) && level != LogLevel.Exception)
             {
                 return;
             }
@@ -196,6 +196,7 @@ namespace Instech.Framework
                 exMessage.Append("\n=============");
                 OnLog?.Invoke(module, exMessage.ToString(), LogLevel.Exception, stackTrace);
                 Debug.LogException(ex, context);
+                Debug.Log(exMessage, context);
                 return;
             }
             OnLog?.Invoke(module, message, level, stackTrace);
