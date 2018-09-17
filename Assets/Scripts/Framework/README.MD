@@ -12,7 +12,7 @@
 |Productivity|日志写入文件|完成|
 |Productivity|游戏调试图表|完成|
 |Productivity|查找资产所有引用|完成|
-|Common|AssetBundle打包和加载管理|待规划|
+|Common|AssetBundle打包和加载管理|完成|
 |Common|事件系统|完成|
 |Common|单例模板|完成|
 |Common|游戏状态机|完成|

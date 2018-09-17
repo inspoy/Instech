@@ -8,13 +8,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Instech.Framework
 {
-    public sealed partial class ConfigManager : Singleton<ConfigManager>
+    public class ConfigManager : Singleton<ConfigManager>
     {
         /// <summary>
         /// 这里存储了所有的配置数据
@@ -29,44 +28,32 @@ namespace Instech.Framework
         /// </summary>
         private Dictionary<Type, BaseConfig> _dictEmptyConfig;
 
-        private SqlHelper _sqlClient;
+        private IConfigDataSource _dataSource;
         private DateTime _beginInitTime;
-
-        protected override void Init()
-        {
-            _dictConfigData = new Dictionary<Type, object>();
-            _dictEmptyConfig = new Dictionary<Type, BaseConfig>();
-            try
-            {
-                // 加载
-                _beginInitTime = DateTime.Now;
-                _sqlClient = new SqlHelper(Application.streamingAssetsPath + "/conf.db");
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(LogModule.Data, "加载数据库出错：" + e);
-            }
-        }
 
         /// <summary>
         /// 结束初始化
         /// </summary>
         public void FinishInit()
         {
-            _sqlClient.Dispose();
-            _sqlClient = null;
+            if (_dataSource == null)
+            {
+                throw new ConfigException("数据源为空，是否没调用Init?");
+            }
+            _dataSource.FinishInit();
+            _dataSource.Uninit();
+            _dataSource = null;
             Logger.LogInfo(LogModule.Data, $"数据库加载耗时{(DateTime.Now - _beginInitTime).TotalMilliseconds:F2}ms");
         }
 
-        public Dictionary<int, T> CreateAll<T>(string tableName) where T : BaseConfig, new()
+        private Dictionary<int, T> CreateAll<T>(string tableName) where T : BaseConfig, new()
         {
             if (_dictConfigData.ContainsKey(typeof(T)))
             {
                 Logger.LogError(LogModule.Data, $"已经初始化过{typeof(T)}的数据了！");
                 return null;
             }
-            var sql = "SELECT * FROM `{tableName}`";
-            var data = GetData(sql);
+            var data = GetData(tableName);
             var ret = new Dictionary<int, T>();
             do
             {
@@ -87,6 +74,7 @@ namespace Instech.Framework
         {
             _dictEmptyConfig[typeof(T)] = new T();
             _dictConfigData[typeof(T)] = CreateAll<T>(tableName);
+            Logger.LogInfo(LogModule.Data, $"加载了配置表:{tableName}");
         }
 
         /// <summary>
@@ -164,121 +152,93 @@ namespace Instech.Framework
             return _dictEmptyConfig[typeof(T)] as T;
         }
 
-        /// <summary>
-        /// 执行查询获取数据
-        /// </summary>
-        /// <param name="sql">SQL语句</param>
-        /// <returns></returns>
-        private SqlData GetData(string sql)
+        protected override void Init()
         {
-            var reader = _sqlClient.Query(sql);
-            reader.Read();
-            if (!reader.HasRows)
+            _dictConfigData = new Dictionary<Type, object>();
+            _dictEmptyConfig = new Dictionary<Type, BaseConfig>();
+            try
             {
-                Logger.LogWarning(LogModule.Data, "查询不到记录：" + sql);
+                // 加载
+                _beginInitTime = DateTime.Now;
+#if UNITY_EDITOR
+                _dataSource = new ExcelDataSource();
+#else
+                _dataSource = new SqlDataSource();
+#endif
+                _dataSource.Init();
             }
-            var ret = new SqlData(reader, sql);
-            return ret;
+            catch (Exception e)
+            {
+                Logger.LogError(LogModule.Data, "加载数据库出错：" + e);
+            }
         }
 
         protected override void Uninit()
         {
-            _sqlClient?.Dispose();
+            _dataSource?.Uninit();
+        }
+
+        private IConfigData GetData(string tableName)
+        {
+            if (_dataSource == null)
+            {
+                throw new ConfigException("数据源为空");
+            }
+            return _dataSource.GetData(tableName);
         }
     }
 
     /// <summary>
-    /// SQLite数据
+    /// 单个配置表数据
     /// </summary>
-    public class SqlData
+    public interface IConfigData
     {
-        private readonly SQLiteDataReader _reader;
-        private readonly Dictionary<string, int> _dictFieldId;
-        public string QueryString { get; }
-
-        public SqlData(SQLiteDataReader reader, string sql)
-        {
-            _reader = reader;
-            QueryString = sql;
-        }
-
-        public void Close()
-        {
-            _reader.Close();
-        }
-
         /// <summary>
         /// 读取下一条记录
         /// </summary>
         /// <returns>返回false表示已经没有下一条记录了</returns>
-        public bool Next()
-        {
-            if (_reader == null)
-            {
-                return false;
-            }
-            return _reader.Read();
-        }
-
-        private int GetFieldId(string field)
-        {
-            if (!_dictFieldId.ContainsKey(field))
-            {
-                _dictFieldId[field] = _reader.GetOrdinal(field);
-            }
-            return _dictFieldId[field];
-        }
+        bool Next();
 
         /// <summary>
-        /// 读取一个整数
+        /// 读取当前记录的整数值
         /// </summary>
         /// <param name="field">字段名</param>
-        /// <returns>整数值</returns>
-        public int GetInt(string field)
-        {
-            if (_reader == null)
-            {
-                return 0;
-            }
-            if (!_reader.HasRows)
-            {
-                return 0;
-            }
-            try
-            {
-                return _reader.GetInt32(GetFieldId(field));
-            }
-            catch (Exception)
-            {
-                Logger.LogError(LogModule.Data, "数据类型不匹配，正在尝试获取一个非法的整数值:" + field + "\nSQL: " + QueryString);
-                return 0;
-            }
-        }
+        /// <returns></returns>
+        int GetInt(string field);
 
         /// <summary>
-        /// 读取一个字符串
+        /// 读取当前记录的字符串值
         /// </summary>
         /// <param name="field">字段名</param>
-        /// <returns>字符串值</returns>
-        public string GetString(string field)
-        {
-            if (_reader == null)
-            {
-                return "";
-            }
-            if (!_reader.HasRows)
-            {
-                return "";
-            }
-            try
-            {
-                return _reader.GetString(GetFieldId(field));
-            }
-            catch (Exception)
-            {
-                Logger.LogError(LogModule.Data, "数据类型不匹配，正在尝试获取一个非法的字符串值:" + field + "\nSQL: " + QueryString);
-                return "";
-            }
-        }
+        /// <returns></returns>
+        string GetString(string field);
+
+        /// <summary>
+        /// 结束读取
+        /// </summary>
+        void Close();
+    }
+
+    /// <summary>
+    /// 配置表数据源
+    /// </summary>
+    public interface IConfigDataSource
+    {
+        void Init();
+        void FinishInit();
+        void Uninit();
+        IConfigData GetData(string tableName);
+    }
+
+    /// <summary>
+    /// 配置相关异常
+    /// </summary>
+    public sealed class ConfigException : Exception
+    {
+        public ConfigException(string msg) : base($"配置加载或读取出错:\n{msg}")
+        { }
+
+        public ConfigException(string msg, string tableName) : base($"配置加载或读取出错:\n{msg}\nin Data Table: {tableName}")
+        { }
     }
 }

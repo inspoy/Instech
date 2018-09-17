@@ -20,9 +20,9 @@ namespace Instech.Framework
         /// </summary>
         public int Id;
 
-        public abstract void InitWithData(SqlData data);
+        public abstract void InitWithData(IConfigData data);
 
-        protected virtual void CustomProcess(SqlData data)
+        protected virtual void CustomProcess(IConfigData data)
         {
             Logger.Assert(LogModule.Data, Id != 0, $"{GetType()}表的Id字段不可以是0");
         }
