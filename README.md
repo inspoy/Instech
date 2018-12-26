@@ -12,14 +12,12 @@
 |Productivity|日志写入文件|完成|
 |Productivity|游戏调试图表|完成|
 |Productivity|查找资产所有引用|完成|
-|Common|AssetBundle打包和加载管理|待规划|
+|Common|AssetBundle打包和加载管理|完成|
 |Common|事件系统|完成|
 |Common|单例模板|完成|
 |Common|游戏状态机|完成|
 |Common|本地化解决方案|待规划|
-|Common|音频播放管理|待规划|
-|Data|配置表管理|待规划|
-|Data|Sqlite数据库访问|待规划|
+|Data|配置表管理|完成|
 |Data|数据追踪|待规划|
 |Data|可序列化的字典|待规划|
 |Util|预定义宏管理|完成|
@@ -81,11 +79,7 @@ VP即View-Presenter，UI采用界面逻辑分离的思路，方便UI人员随时
 
 ### Common-本地化解决方案
 
-### Common-音频播放管理
-
 ### Data-配置表管理
-
-### Data-Sqlite数据库访问
 
 ### Data-数据追踪
 
