@@ -21,15 +21,26 @@ namespace Instech.Framework
     public static class Utility
     {
         private static uint _uidCount = 100000;
+        private static readonly DateTime _timeStamp1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         /// <summary>
         /// 获取当前时间的Unix时间戳
         /// </summary>
         /// <returns>时间戳</returns>
-        public static int GetTimeStampNow()
+        public static uint GetTimeStampNow()
         {
-            var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt32(ts.TotalSeconds);
+            var ts = DateTime.UtcNow - _timeStamp1970;
+            return Convert.ToUInt32(ts.TotalSeconds);
+        }
+
+        /// <summary>
+        /// 获取当前时间的精确到毫秒的Unix时间戳
+        /// </summary>
+        /// <returns>时间戳</returns>
+        public static ulong GetMiliTimeStampNow()
+        {
+            var ts = DateTime.UtcNow - _timeStamp1970;
+            return Convert.ToUInt64(ts.TotalMilliseconds);
         }
 
         /// <summary>
@@ -161,7 +172,7 @@ namespace Instech.Framework
         /// <returns></returns>
         public static int[] SplitToInt(string str, char sep = ',')
         {
-            if (str == "")
+            if (string.IsNullOrEmpty(str))
             {
                 return new int[0];
             }
@@ -189,7 +200,7 @@ namespace Instech.Framework
         /// <returns></returns>
         public static string[] SplitToString(string str, char sep = ',')
         {
-            if (str == "")
+            if (string.IsNullOrEmpty(str))
             {
                 return new string[0];
             }
@@ -224,6 +235,17 @@ namespace Instech.Framework
         public static bool FloatEqual(float f1, float f2)
         {
             return Mathf.Abs(f1 - f2) < Mathf.Epsilon;
+        }
+
+        /// <summary>
+        /// 判断两个浮点数是否相等（足够接近）
+        /// </summary>
+        /// <param name="f1"></param>
+        /// <param name="f2"></param>
+        /// <returns></returns>
+        public static bool FloatEqual(double f1, double f2)
+        {
+            return Mathf.Abs((float)(f1 - f2)) < Mathf.Epsilon;
         }
 
         /// <summary>

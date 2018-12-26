@@ -32,7 +32,8 @@ namespace Instech.Framework
         /// 当UI被回收时（暂不销毁，即将移除时也会调用）
         /// 一般在这里清理数据
         /// </summary>
-        void OnViewRecycle();
+        /// <param name="isClosing">即将关闭</param>
+        void OnViewRecycle(bool isClosing);
 
         /// <summary>
         /// 当UI移除

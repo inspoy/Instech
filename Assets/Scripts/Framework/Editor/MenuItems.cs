@@ -86,7 +86,22 @@ namespace Instech.Framework.Editor
         [MenuItem("Instech/打包AssetBundle")]
         private static void BuildAssetBundles()
         {
-            BuildAssetBundle.DoBuild();
+            BuildAssetBundle.DoBuild(null);
+        }
+
+        /// <summary>
+        /// 导入xlsx配置表
+        /// </summary>
+        [MenuItem("Instech/配置表/导入xlsx配置表")]
+        private static void ImportConfig()
+        {
+            ConfigImporter.ImportFromExcelToBinary(false, true);
+        }
+
+        [MenuItem("Instech/配置表/生成Config代码")]
+        private static void GenConfigCode()
+        {
+            ConfigImporter.ImportFromExcelToBinary(true, false);
         }
 
         /// <summary>
@@ -98,5 +113,13 @@ namespace Instech.Framework.Editor
             MiscEditor.FunctionTest();
         }
 
+        /// <summary>
+        /// 偏好设置
+        /// </summary>
+        [MenuItem("Instech/Preferences")]
+        private static void OpenPreferencesWindow()
+        {
+            PrefWindow.OnShow();
+        }
     }
 }

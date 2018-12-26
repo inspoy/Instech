@@ -14,11 +14,11 @@ namespace Instech.Framework
     public class ProgressBar : MonoBehaviour
     {
         /// <summary>
-        /// 当前进度值
+        /// 当前进度值，范围0-1
         /// </summary>
         public float Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 _progress = Mathf.Clamp01(value);
@@ -27,6 +27,7 @@ namespace Instech.Framework
         }
 
         public RectTransform Fill;
+        public Vector2 Boarder;
 
         [SerializeField]
         [Range(0, 1)]
@@ -49,6 +50,7 @@ namespace Instech.Framework
             Fill.anchorMin = Vector2.zero;
             Fill.anchorMax = new Vector2(_progress, 1);
             Fill.anchoredPosition = Vector2.zero;
+            Fill.sizeDelta = Boarder;
         }
 
 #if UNITY_EDITOR

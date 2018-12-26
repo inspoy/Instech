@@ -78,7 +78,12 @@ namespace Instech.Framework
         /// <summary>
         ///     输出的日志等级，高于或等于该等级的日志将会被记录
         /// </summary>
-        public static LogLevel LogLevel = LogLevel.All;
+        public static LogLevel LogLevel { get; set; } = LogLevel.All;
+
+        /// <summary>
+        /// 屏蔽Unity的Debug.Log
+        /// </summary>
+        public static bool DisableUnityLog { get; set; } = false;
 
         /// <summary>
         ///     当日志发生时触发
@@ -195,12 +200,15 @@ namespace Instech.Framework
                 exMessage.Append(ex.StackTrace);
                 exMessage.Append("\n=============");
                 OnLog?.Invoke(module, exMessage.ToString(), LogLevel.Exception, stackTrace);
-                Debug.LogException(ex, context);
-                Debug.Log(exMessage, context);
+                if (!DisableUnityLog)
+                {
+                    Debug.LogException(ex, context);
+                    Debug.Log(exMessage, context);
+                }
                 return;
             }
             OnLog?.Invoke(module, message, level, stackTrace);
-            if (Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.platform == RuntimePlatform.WindowsEditor && !DisableUnityLog)
             {
                 var msg = $"[{level}][{module}] - {message}";
                 switch (level)

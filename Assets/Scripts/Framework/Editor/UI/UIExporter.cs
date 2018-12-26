@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = System.Object;
 
 namespace Instech.Framework.Editor
 {
@@ -64,15 +66,20 @@ namespace Instech.Framework.Editor
             // 给prefab挂载脚本
             var componentName = viewName + "View";
             var component = prefab.GetComponent(componentName);
+            var viewType = GetTypeByName(componentName);
             if (component == null)
             {
-                var viewType = GetTypeByName(componentName);
                 if (viewType == null)
                 {
                     EditorUtility.DisplayDialog("快完成了", "第一次导出，需要等待编译后再次执行一次！", "OK");
                     Logger.LogInfo(LogModule.Editor, $"Generated code for view: {viewName}");
                     return;
                 }
+                component = prefab.AddComponent(viewType);
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(component, true);
                 component = prefab.AddComponent(viewType);
             }
             var needAgain = UpdateComponentReference(component, components);
@@ -85,6 +92,8 @@ namespace Instech.Framework.Editor
                 EditorUtility.DisplayDialog("完成", $"导出完成，该View有{components.Count}个控件！", "OK");
             }
             Logger.LogInfo(LogModule.Editor, $"Generated code for view: {viewName}");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         private static Type GetTypeByName(string className)
@@ -112,6 +121,7 @@ namespace Instech.Framework.Editor
                 "using Instech.Framework;\n" +
                 "using UnityEngine;\n" +
                 "using UnityEngine.UI;\n" +
+                "using TMPro;\n" +
                 "using Logger = Instech.Framework.Logger;\n\n" +
                 "namespace Game\n{\n");
             presenterCode.Append(
@@ -130,8 +140,8 @@ namespace Instech.Framework.Editor
                 $"            _view = view as {viewName}View;\n" +
                 "        if (_view == null)\n" +
                 "        {\n" +
-                "            throw new Exception(\"Init Ui View Failed: \" + view);\n" +
-                "        }\n\n");
+                "            throw new ViewInitException(view);\n" +
+                "        }\n");
             var viewPart1 = new StringBuilder();
             var viewPart2 = new StringBuilder();
             var presenterPart1 = new StringBuilder();
@@ -297,9 +307,9 @@ namespace Instech.Framework.Editor
             }
             else if (prefix.Equals("txt"))
             {
-                // Text
-                comType = typeof(Text);
-                GenerateNormalViewCode(go.name, "Text", viewPart1, viewPart2);
+                // Text Mesh Pro
+                comType = typeof(TextMeshProUGUI);
+                GenerateNormalViewCode(go.name, "TextMeshProUGUI", viewPart1, viewPart2);
             }
             else if (prefix.Equals("img"))
             {
@@ -310,8 +320,8 @@ namespace Instech.Framework.Editor
             else if (prefix.Equals("inp"))
             {
                 // Input Field
-                comType = typeof(InputField);
-                GenerateNormalViewCode(go.name, "InputField", viewPart1, viewPart2);
+                comType = typeof(TMP_InputField);
+                GenerateNormalViewCode(go.name, "TMP_InputField", viewPart1, viewPart2);
             }
             else if (prefix.Equals("scr"))
             {

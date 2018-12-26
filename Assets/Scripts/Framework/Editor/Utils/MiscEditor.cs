@@ -104,17 +104,23 @@ namespace Instech.Framework.Editor
         {
             var allFiles = Directory.GetFiles("Assets/Scripts", "*.cs", SearchOption.AllDirectories);
             var encoding = new UTF8Encoding(false);
-            for (var i = 0; i < allFiles.Length; ++i)
+            try
             {
-                var filePath = allFiles[i];
-                var allText = File.ReadAllText(filePath);
-                File.WriteAllText(filePath, allText, encoding);
-                if (EditorUtility.DisplayCancelableProgressBar("处理中", filePath, 1.0f * i / allFiles.Length))
+                for (var i = 0; i < allFiles.Length; ++i)
                 {
-                    break;
+                    var filePath = allFiles[i];
+                    var allText = File.ReadAllText(filePath);
+                    File.WriteAllText(filePath, allText, encoding);
+                    if (EditorUtility.DisplayCancelableProgressBar("处理中", filePath, 1.0f * i / allFiles.Length))
+                    {
+                        break;
+                    }
                 }
             }
-            EditorUtility.ClearProgressBar();
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
  * All rights reserved.
  */
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,8 +36,7 @@ namespace Instech.Framework
         /// <summary>
         /// 事件派发器
         /// </summary>
-        [HideInInspector]
-        public EventDispatcher Dispatcher;
+        public EventDispatcher Dispatcher { get; internal set; }
 
         public override void OnPointerClick(PointerEventData eventData)
         {
@@ -54,52 +54,52 @@ namespace Instech.Framework
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiPointerDown);
+            Dispatcher?.DispatchEvent(EventEnum.UiPointerDown, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiPointerUp);
+            Dispatcher?.DispatchEvent(EventEnum.UiPointerUp, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiPointerEnter);
+            Dispatcher?.DispatchEvent(EventEnum.UiPointerEnter, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiPointerExit);
+            Dispatcher?.DispatchEvent(EventEnum.UiPointerExit, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnSelect(BaseEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiSelect);
+            Dispatcher?.DispatchEvent(EventEnum.UiSelect, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnUpdateSelected(BaseEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiUpdateSelected);
+            Dispatcher?.DispatchEvent(EventEnum.UiUpdateSelected, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnSubmit(BaseEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiSubmit);
+            Dispatcher?.DispatchEvent(EventEnum.UiSubmit, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiBeginDrag);
+            Dispatcher?.DispatchEvent(EventEnum.UiBeginDrag, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnDrag(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiDrag);
+            Dispatcher?.DispatchEvent(EventEnum.UiDrag, UnityEventData.GetNewOne(eventData));
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiEndDrag);
+            Dispatcher?.DispatchEvent(EventEnum.UiEndDrag, UnityEventData.GetNewOne(eventData));
         }
 
         private void Start()
@@ -119,11 +119,12 @@ namespace Instech.Framework
                 toggleCom.onValueChanged.AddListener(OnToggleChange);
             }
 
-            var inputCom = gameObject.GetComponent<InputField>();
+            var inputCom = gameObject.GetComponent<TMP_InputField>();
             if (inputCom != null)
             {
                 // 这是个InputField，输入框
                 inputCom.onValueChanged.AddListener(OnInputChange);
+                inputCom.onSubmit.AddListener(OnInputSubmit);
             }
 
             var sliderCom = gameObject.GetComponent<Slider>();
@@ -136,22 +137,27 @@ namespace Instech.Framework
 
         private void OnToggleChange(bool selected)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiToggleChange, new SimpleEventData(selected));
+            Dispatcher?.DispatchEvent(EventEnum.UiToggleChange, SimpleEventData.GetNewOne(selected));
         }
 
         private void OnToggleValueChange(int selectId)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, new SimpleEventData(selectId));
+            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, SimpleEventData.GetNewOne(selectId));
         }
 
         private void OnInputChange(string val)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, new SimpleEventData(val));
+            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, SimpleEventData.GetNewOne(val));
         }
 
         private void OnSliderChange(float val)
         {
-            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, new SimpleEventData(val));
+            Dispatcher?.DispatchEvent(EventEnum.UiValueChange, SimpleEventData.GetNewOne(val));
+        }
+
+        private void OnInputSubmit(string val)
+        {
+            Dispatcher?.DispatchEvent(EventEnum.UiSubmit, SimpleEventData.GetNewOne(val));
         }
 
         private void OnDestroy()

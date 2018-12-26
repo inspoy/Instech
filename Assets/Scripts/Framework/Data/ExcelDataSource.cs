@@ -14,23 +14,28 @@ using UnityEngine;
 
 namespace Instech.Framework
 {
-    public class ExcelDataSource : IConfigDataSource
+    /// <inheritdoc />
+    internal class ExcelDataSource : IConfigDataSource
     {
-        public void Init()
+        private string _basePath;
+        public void Init(string src = null)
         {
+            _basePath = src ?? $"{Application.dataPath}/../../Documents/GameConfig/";
         }
 
         public void FinishInit()
         {
+            // do nothing
         }
 
         public void Uninit()
         {
+            // do nothing
         }
 
         public IConfigData GetData(string tableName)
         {
-            var xlsPath = $"{Application.dataPath}/../GameConfig/{tableName}.xlsx";
+            var xlsPath = $"{_basePath}{tableName}.xlsx";
             if (!File.Exists(xlsPath))
             {
                 throw new ConfigException($"找不到excel文件:{xlsPath}", tableName);
@@ -50,7 +55,7 @@ namespace Instech.Framework
         private readonly Dictionary<string, int> _dictFieldIdx = new Dictionary<string, int>();
         private readonly string[] _curLine;
         private int _curLineNumber;
-        public ExcelData(string xlsPath, string tableName)
+        internal ExcelData(string xlsPath, string tableName)
         {
             TableName = tableName;
             var fileInfo = new FileInfo(xlsPath);
@@ -58,9 +63,9 @@ namespace Instech.Framework
             _ws = _package.Workbook.Worksheets["Data"];
             if (_ws == null)
             {
-                throw new ConfigException("xls文件中没有'Data'Sheet页", tableName);
+                throw new ConfigException("xls文件中没有 'Data' Sheet页", tableName);
             }
-            int columnCount = 1;
+            var columnCount = 1;
             while (true)
             {
                 var fieldName = _ws.Cells[2, columnCount].Value?.ToString();
@@ -89,8 +94,7 @@ namespace Instech.Framework
         {
             try
             {
-                int id;
-                int.TryParse(_ws.Cells[_curLineNumber, 1].Value?.ToString(), out id);
+                int.TryParse(_ws.Cells[_curLineNumber, 1].Value?.ToString(), out var id);
                 if (id == 0)
                 {
                     return false;
@@ -111,15 +115,13 @@ namespace Instech.Framework
 
         public int GetInt(string field)
         {
-            int fieldIdx;
-            _dictFieldIdx.TryGetValue(field, out fieldIdx);
+            _dictFieldIdx.TryGetValue(field, out var fieldIdx);
             if (fieldIdx == 0)
             {
                 Logger.LogWarning(LogModule.Data, $"找不到字段名称:{field}");
                 return 0;
             }
-            int ret;
-            if (!int.TryParse(_curLine[fieldIdx - 1], out ret) && !string.IsNullOrWhiteSpace(_curLine[fieldIdx - 1]))
+            if (!int.TryParse(_curLine[fieldIdx - 1], out var ret) && !string.IsNullOrWhiteSpace(_curLine[fieldIdx - 1]))
             {
                 Logger.LogWarning(LogModule.Data, $"不能转换为整数:{_curLine[fieldIdx - 1]}");
             }
@@ -128,8 +130,7 @@ namespace Instech.Framework
 
         public string GetString(string field)
         {
-            int fieldIdx;
-            _dictFieldIdx.TryGetValue(field, out fieldIdx);
+            _dictFieldIdx.TryGetValue(field, out var fieldIdx);
             if (fieldIdx == 0)
             {
                 Logger.LogWarning(LogModule.Data, $"找不到字段名称:{field}");

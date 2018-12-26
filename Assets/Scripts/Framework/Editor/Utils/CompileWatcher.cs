@@ -18,13 +18,11 @@ namespace Instech.Framework.Editor
     {
         private const string CompilingKey = "Instech_EditorPrefs_Compling";
         private const string CompilingTimeKey = "Instech_EditorPrefs_ComplingTime";
-        private static bool _isCompiling;
-        private static int _beginTime;
+        private static bool _isCompiling = EditorPrefs.GetBool(CompilingKey, false);
+        private static int _beginTime = EditorPrefs.GetInt(CompilingTimeKey, 0);
 
         static CompileWatcher()
         {
-            _isCompiling = EditorPrefs.GetBool(CompilingKey, false);
-            _beginTime = EditorPrefs.GetInt(CompilingTimeKey, 0);
             EditorApplication.update += Update;
         }
 
@@ -34,14 +32,13 @@ namespace Instech.Framework.Editor
             {
                 var cost = Utility.GetTimeStampNow() - _beginTime;
                 Logger.LogInfo(LogModule.Editor, $"Compiling cost: {cost}s");
-                // EditorUtility.DisplayDialog("编译完成", $"编译耗时：{cost}s", "OK");
                 _isCompiling = false;
                 EditorPrefs.SetBool(CompilingKey, false);
             }
             else if (!_isCompiling && EditorApplication.isCompiling)
             {
                 _isCompiling = true;
-                _beginTime = Utility.GetTimeStampNow();
+                _beginTime = (int)Utility.GetTimeStampNow();
                 EditorPrefs.SetBool(CompilingKey, true);
                 EditorPrefs.SetInt(CompilingTimeKey, _beginTime);
             }

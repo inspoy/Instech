@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 #endif
 
@@ -24,7 +25,7 @@ namespace Instech.Framework
     [AttributeUsage(AttributeTargets.Enum)]
     public class EnumLabelAttribute : PropertyAttribute
     {
-        public string Label;
+        public string Label { get; }
 
         public EnumLabelAttribute(string label)
         {
@@ -58,32 +59,37 @@ namespace Instech.Framework
             }
         }
 
-        public void SetUpCustomEnumNames(SerializedProperty property, string[] enumNames)
+        private void SetUpCustomEnumNames(SerializedProperty property, string[] enumNames)
         {
             var type = property.serializedObject.targetObject.GetType();
             foreach (var item in type.GetFields())
             {
                 var customAttributes = item.GetCustomAttributes(typeof(EnumLabelAttribute), false);
-                foreach (EnumLabelAttribute customAttribute in customAttributes)
-                {
-                    var enumType = item.FieldType;
-                    foreach (var enumName in enumNames)
-                    {
-                        var field = enumType.GetField(enumName);
-                        if (field == null)
-                        {
-                            continue;
-                        }
-                        var attrs = (EnumLabelAttribute[])field.GetCustomAttributes(customAttribute.GetType(), false);
+                ProcessSingle(item, customAttributes, enumNames);
+            }
+        }
 
-                        if (_customEnumNames.ContainsKey(enumName))
-                        {
-                            continue;
-                        }
-                        foreach (var labelAttribute in attrs)
-                        {
-                            _customEnumNames.Add(enumName, labelAttribute.Label);
-                        }
+        private void ProcessSingle(FieldInfo item, object[] attributes, string[] enumNames)
+        {
+            foreach (EnumLabelAttribute customAttribute in attributes)
+            {
+                var enumType = item.FieldType;
+                foreach (var enumName in enumNames)
+                {
+                    var field = enumType.GetField(enumName);
+                    if (field == null)
+                    {
+                        continue;
+                    }
+                    var attrs = (EnumLabelAttribute[])field.GetCustomAttributes(customAttribute.GetType(), false);
+
+                    if (_customEnumNames.ContainsKey(enumName))
+                    {
+                        continue;
+                    }
+                    foreach (var labelAttribute in attrs)
+                    {
+                        _customEnumNames.Add(enumName, labelAttribute.Label);
                     }
                 }
             }

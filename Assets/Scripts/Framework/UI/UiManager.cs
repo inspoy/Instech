@@ -33,13 +33,14 @@ namespace Instech.Framework
     /// </summary>
     public class UiManager : MonoSingleton<UiManager>
     {
+        // TODO: 分为多个canvas，根据配置表读取具体需要几个canvas，sleepingViews这个canvas固定存在
+        public Canvas Canvas { get; private set; }
+        public Camera UiCamera { get; private set; }
         private readonly Dictionary<Type, UiCacheData> _cacheData = new Dictionary<Type, UiCacheData>();
-        private Canvas _canvas;
         private Transform _sleepingViews;
         private GraphicRaycaster _raycaster;
         private PointerEventData _pointerEventData;
         private readonly List<RaycastResult> _mouseCastList = new List<RaycastResult>();
-        private Camera _uiCamera;
 
         /// <summary>
         /// 创建一个UI
@@ -72,7 +73,9 @@ namespace Instech.Framework
                 if (ret == null)
                 {
                     Logger.LogError(LogModule.Ui, "Prefab未挂载View组件: " + typeof(T));
+                    return null;
                 }
+                cacheData.ActiveViews.Add(ret);
             }
             return ret as T;
         }
@@ -92,9 +95,9 @@ namespace Instech.Framework
             }
             foreach (var view in cacheData.ActiveViews)
             {
-                if (view.Uid == uid && view is T)
+                if (view.Uid == uid && view is T result)
                 {
-                    return view as T;
+                    return result;
                 }
             }
             return cacheData.ActiveViews[0] as T;
@@ -144,14 +147,18 @@ namespace Instech.Framework
             var eventSystem = eventSystemGo.AddComponent<EventSystem>();
             _pointerEventData = new PointerEventData(eventSystem);
             eventSystemGo.AddComponent<StandaloneInputModule>();
-            _uiCamera = gameObject.AddEmptyChild("UICamera").AddComponent<Camera>();
-            _uiCamera.transform.localPosition = Vector3.back * 100;
-            _uiCamera.cullingMask = 1 << 5; // Only UI
-            _uiCamera.clearFlags = CameraClearFlags.Nothing;
-            _uiCamera.orthographic = true;
-            _canvas = gameObject.AddComponent<Canvas>();
-            _canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            _canvas.worldCamera = _uiCamera;
+            UiCamera = gameObject.AddEmptyChild("UICamera").AddComponent<Camera>();
+            UiCamera.transform.localPosition = Vector3.back * 100;
+            UiCamera.cullingMask = 1 << 5; // Only UI
+            UiCamera.clearFlags = CameraClearFlags.Nothing;
+            UiCamera.orthographic = true;
+            Canvas = gameObject.AddComponent<Canvas>();
+            Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            Canvas.worldCamera = UiCamera;
+            var scaler = gameObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Shrink;
             _raycaster = gameObject.AddComponent<GraphicRaycaster>();
             var sleepingViewsGo = gameObject.AddEmptyChild("SleepingViews");
             sleepingViewsGo.SetActive(false);
@@ -187,8 +194,7 @@ namespace Instech.Framework
         /// <returns></returns>
         private UiCacheData GetCacheData(Type t)
         {
-            UiCacheData cacheData;
-            if (_cacheData.TryGetValue(t, out cacheData))
+            if (_cacheData.TryGetValue(t, out var cacheData))
             {
                 return cacheData;
             }

@@ -8,13 +8,37 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Instech.Framework
 {
+    /// <summary>
+    /// 配置表管理
+    /// <para>使用方法：</para>
+    /// <para>1.创建单例<code>CreateInstance</code></para>
+    /// <para>2.注册所有类型<code>RegisterConfigType</code>（可通过代码生成或者反射的方式统一注册）</para>
+    /// <para>3.调用<code>FinishInit</code></para>
+    /// <para>4.使用<code>GetSingle</code>, <code>GetAllConfig</code>和<code>GetAll</code>来获取数据</para>
+    /// </summary>
     public class ConfigManager : Singleton<ConfigManager>
     {
+#if UNITY_EDITOR
+        /// <summary>
+        /// 编辑器中也强制使用二进制数据源
+        /// </summary>
+        public static bool ForceUseBinary { get; set; } = false;
+        /// <summary>
+        /// 单元测试开关
+        /// </summary>
+        public static bool IsTesting { get; set; } = false;
+#endif
+
+        private DateTime _beginInitTime;
+
+        private IConfigDataSource _dataSource;
+
         /// <summary>
         /// 这里存储了所有的配置数据
         /// 值类型是Dictionary(int, BaseConfig)
@@ -27,9 +51,6 @@ namespace Instech.Framework
         /// 节省了创建新对象的时间
         /// </summary>
         private Dictionary<Type, BaseConfig> _dictEmptyConfig;
-
-        private IConfigDataSource _dataSource;
-        private DateTime _beginInitTime;
 
         /// <summary>
         /// 结束初始化
@@ -54,11 +75,16 @@ namespace Instech.Framework
                 return null;
             }
             var data = GetData(tableName);
+            if (data == null)
+            {
+                throw new ConfigException("数据没有被正确加载", tableName);
+            }
             var ret = new Dictionary<int, T>();
             do
             {
                 var item = new T();
                 item.InitWithData(data);
+                item.CustomProcess(data);
                 ret.Add(item.Id, item);
             } while (data.Next());
             data.Close();
@@ -93,8 +119,7 @@ namespace Instech.Framework
                     Logger.LogError(LogModule.Data, $"没有加载这个类型的配置数据：{typeof(T)}");
                     break;
                 }
-                var allData = _dictConfigData[typeof(T)] as Dictionary<int, T>;
-                if (allData == null)
+                if (!(_dictConfigData[typeof(T)] is Dictionary<int, T> allData))
                 {
                     Logger.LogError(LogModule.Data, $"没有加载这个类型的配置数据：{typeof(T)}");
                     break;
@@ -161,11 +186,28 @@ namespace Instech.Framework
                 // 加载
                 _beginInitTime = DateTime.Now;
 #if UNITY_EDITOR
-                _dataSource = new ExcelDataSource();
+                string path = null;
+                if (ForceUseBinary)
+                {
+                    _dataSource = new BinaryDataSource();
+                    if (IsTesting)
+                    {
+                        path = $"{Application.dataPath}/Framework/Tests/TestData/TestBinData.bin";
+                    }
+                }
+                else
+                {
+                    _dataSource = new ExcelDataSource();
+                    if (IsTesting)
+                    {
+                        path = $"{Application.dataPath}/Framework/Tests/TestData/TestExcelData/";
+                    }
+                }
+                _dataSource.Init(path);
 #else
-                _dataSource = new SqlDataSource();
-#endif
+                _dataSource = new BinaryDataSource();
                 _dataSource.Init();
+#endif
             }
             catch (Exception e)
             {
@@ -224,7 +266,7 @@ namespace Instech.Framework
     /// </summary>
     public interface IConfigDataSource
     {
-        void Init();
+        void Init(string src = null);
         void FinishInit();
         void Uninit();
         IConfigData GetData(string tableName);
@@ -233,12 +275,19 @@ namespace Instech.Framework
     /// <summary>
     /// 配置相关异常
     /// </summary>
+    [Serializable]
     public sealed class ConfigException : Exception
     {
         public ConfigException(string msg) : base($"配置加载或读取出错:\n{msg}")
-        { }
+        {
+        }
 
         public ConfigException(string msg, string tableName) : base($"配置加载或读取出错:\n{msg}\nin Data Table: {tableName}")
-        { }
+        {
+        }
+
+        private ConfigException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

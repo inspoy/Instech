@@ -20,13 +20,14 @@ namespace Instech.Framework
     /// </summary>
     public class LogToFileItem : IPoolable
     {
-        public string Module;
-        public string Content;
-        public LogLevel Level;
-        public StackTrace StackTrace;
+        public string Module { get; set; }
+        public string Content { get; set; }
+        public LogLevel Level { get; set; }
+        public StackTrace StackTrace { get; set; }
 
         public void OnActivate()
         {
+            // do nothing
         }
 
         public void OnRecycle()
@@ -37,29 +38,10 @@ namespace Instech.Framework
             StackTrace = null;
         }
 
-        #region IDisposable Support
-        private bool _disposedValue; // 要检测冗余调用
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-            {
-                return;
-            }
-            if (disposing)
-            {
-                OnRecycle();
-            }
-            _disposedValue = true;
-        }
-
-        // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-            Dispose(true);
+            // do nothing
         }
-        #endregion
     }
 
     /// <summary>
@@ -130,12 +112,13 @@ namespace Instech.Framework
                             var sw = _logFileInfo.AppendText();
                             var item = _logItemsForWriter.Peek();
                             var timeNow = DateTime.Now;
-                            var logStr = $"{timeNow:yyyy/MM/dd HH:mm:ss}-[{item.Level.ToString().ToUpper().PadLeft(7)}][{item.Module}]{item.Content}";
+                            var logStr = $"{timeNow:yyyy/MM/dd HH:mm:ss}-[{item.Level.ToString().ToUpper().PadLeft(7)}][{item.Module.PadLeft(10)}]-{item.Content}";
                             if (item.Level == LogLevel.Exception || item.Level == LogLevel.Assert || item.Level == LogLevel.Error)
                             {
                                 logStr += "\n" + item.StackTrace;
                             }
-                            sw.WriteLine(logStr);
+                            logStr += "\n";
+                            sw.Write(logStr);
                             sw.Close();
                             ObjectPool<LogToFileItem>.Instance.Recycle(_logItemsForWriter.Dequeue());
                         }

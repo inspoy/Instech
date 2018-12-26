@@ -46,6 +46,9 @@ namespace Instech.Framework
             _instance.Init();
         }
 
+        /// <summary>
+        /// 销毁单例实例，并调用Uninit方法
+        /// </summary>
         public static void DestroySingleton()
         {
             if (_instance != null)

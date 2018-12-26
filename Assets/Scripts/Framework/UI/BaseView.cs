@@ -42,6 +42,7 @@ namespace Instech.Framework
     /// <summary>
     /// 所有UI View的基类
     /// </summary>
+    [DisallowMultipleComponent]
     public abstract class BaseView : MonoBehaviour
     {
         public bool IsViewRemoved { get; private set; }
@@ -55,6 +56,10 @@ namespace Instech.Framework
         /// 忽略关闭所有UI的操作
         /// </summary>
         public bool IgnoreCloseAll { get; set; }
+
+        public bool IsSleeping { get; private set; }
+
+        public bool IsActive => !IsSleeping;
 
         /// <summary>
         /// 深灰色UI遮罩
@@ -82,7 +87,6 @@ namespace Instech.Framework
         private ViewUpdator _fixedUpdator;
         private ViewUpdator _lateUpdator;
         private ViewUpdator _updator;
-        private bool _isSleeping;
 
         /// <summary>
         /// 添加UI事件监听
@@ -128,12 +132,12 @@ namespace Instech.Framework
         /// </summary>
         public void Recycle()
         {
-            if (_isSleeping)
+            if (IsSleeping)
             {
                 return;
             }
-            _isSleeping = true;
-            Presenter.OnViewRecycle();
+            IsSleeping = true;
+            Presenter.OnViewRecycle(false);
             UiManager.Instance.RecycleView(this);
         }
 
@@ -154,7 +158,7 @@ namespace Instech.Framework
             IgnoreCloseAll = false;
             RectTransform = transform as RectTransform;
             Presenter.InitWithView(this);
-            _isSleeping = false;
+            IsSleeping = false;
             Presenter.OnViewActivate();
         }
 
@@ -165,11 +169,11 @@ namespace Instech.Framework
         /// </summary>
         internal void Activate()
         {
-            if (!_isSleeping)
+            if (!IsSleeping)
             {
                 return;
             }
-            _isSleeping = false;
+            IsSleeping = false;
             Presenter.OnViewActivate();
         }
 
@@ -192,7 +196,7 @@ namespace Instech.Framework
             _updator = null;
             _fixedUpdator = null;
             _lateUpdator = null;
-            Presenter.OnViewRecycle();
+            Presenter.OnViewRecycle(true);
             if (callByUiManager)
             {
                 UiManager.Instance.CloseView(this);
@@ -217,7 +221,7 @@ namespace Instech.Framework
         {
             if (RectTransform == null || Presenter == null)
             {
-                throw new Exception("View未正确初始化: " + GetType());
+                throw new InvalidOperationException("View未正确初始化: " + GetType());
             }
         }
 
@@ -243,6 +247,16 @@ namespace Instech.Framework
                 // 意外的情况，补调一下
                 Close();
             }
+        }
+    }
+
+    /// <summary>
+    /// View初始化失败会抛出该异常
+    /// </summary>
+    public class ViewInitException : Exception
+    {
+        public ViewInitException(BaseView view) : base("Init Ui View Failed: " + view)
+        {
         }
     }
 }

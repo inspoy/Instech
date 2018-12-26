@@ -22,10 +22,7 @@ namespace Instech.Framework
         /// </summary>
         public int ReferenceCount
         {
-            get
-            {
-                return _referenceCount;
-            }
+            get => _referenceCount;
 
             set
             {
@@ -153,7 +150,7 @@ namespace Instech.Framework
         public T LoadAsset<T>(string path) where T : Object
         {
             // 编辑器下不加载AB，用AssetDataBase加载
-            // 非编辑器下根据BuildAB时生成的pathmap来找到AB路径，加载之
+            // 非编辑器下根据BuildAB时生成的PathMap来找到AB路径，加载之
 #if UNITY_EDITOR
             var ret = LoadAssetInEditor<T>("Assets" + EditorPrefs.GetString("Instech_EditorPrefs_AssetsRootPath", "/Artwork/") + path);
 #else
@@ -198,8 +195,7 @@ namespace Instech.Framework
         /// <param name="asset">要回收的Object</param>
         public void UnloadAsset<T>(T asset) where T : Object
         {
-            string assetPath;
-            if (!_bundleHelper.RemoveRecord(asset.GetInstanceID(), out assetPath))
+            if (!_bundleHelper.RemoveRecord(asset.GetInstanceID(), out var assetPath))
             {
                 Logger.LogError(LogModule.Resource, $"找不到记录:{asset.name}({asset.GetInstanceID()})");
                 return;
@@ -266,8 +262,7 @@ namespace Instech.Framework
 #if UNITY_EDITOR
         private T LoadAssetInEditor<T>(string path) where T : Object
         {
-            Object asset;
-            if (_dictCache.TryGetValue(path, out asset))
+            if (_dictCache.TryGetValue(path, out var asset))
             {
                 return asset as T;
             }
@@ -306,8 +301,7 @@ namespace Instech.Framework
         /// <param name="bundleName"></param>
         private void LoadAllDependencies(string bundleName)
         {
-            LoadedAssetBundle loadedBundle;
-            if (!_dictLoadedBundles.TryGetValue(bundleName, out loadedBundle))
+            if (!_dictLoadedBundles.TryGetValue(bundleName, out var loadedBundle))
             {
                 loadedBundle = new LoadedAssetBundle(bundleName);
                 _dictLoadedBundles.Add(bundleName, loadedBundle);

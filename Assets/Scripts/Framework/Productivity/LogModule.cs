@@ -2,12 +2,15 @@
  * == Inspoy Technology ==
  * Assembly: Framework
  * FileName: LogModule.cs
- * Created on 2018/07/02 by duoyi
+ * Created on 2018/07/02 by inspoy
  * All rights reserved.
  */
 
 namespace Instech.Framework
 {
+    /// <summary>
+    /// 常用的日志模块类型
+    /// </summary>
     public static class LogModule
     {
         public const string Default = "Default";

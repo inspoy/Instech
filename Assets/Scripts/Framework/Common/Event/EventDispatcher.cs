@@ -177,8 +177,16 @@ namespace Instech.Framework
         /// <returns>通知的订阅者数量</returns>
         public int DispatchEvent(string eventType, IEventData data = null)
         {
-            var e = new Event(eventType, _target, data);
-            return DispatchEvent(e);
+            if (string.IsNullOrEmpty(eventType))
+            {
+                Logger.LogWarning(LogModule.Framework, "试图发送无效的事件类型");
+                return 0;
+            }
+            var e = Event.GetNew();
+            e.Init(eventType, _target, data);
+            var ret = InternalDispatchEvent(e);
+            e.Recycle();
+            return ret;
         }
 
         /// <summary>
@@ -187,6 +195,23 @@ namespace Instech.Framework
         /// <param name="e">事件</param>
         /// <returns>通知的订阅者数量</returns>
         public int DispatchEvent(Event e)
+        {
+            if (e == null)
+            {
+                Logger.LogWarning(LogModule.Framework, "试图派发一个为null的事件");
+                return 0;
+            }
+            var ret = InternalDispatchEvent(e);
+            e.Recycle();
+            return ret;
+        }
+
+        /// <summary>
+        /// 派发事件
+        /// </summary>
+        /// <param name="e">事件</param>
+        /// <returns>通知的订阅者数量</returns>
+        private int InternalDispatchEvent(Event e)
         {
             _dispatching += 1;
             var count = 0;

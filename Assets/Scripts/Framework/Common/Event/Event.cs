@@ -11,34 +11,57 @@ namespace Instech.Framework
     /// <summary>
     /// 事件
     /// </summary>
-    public class Event
+    public class Event : IPoolable
     {
         /// <summary>
         /// 事件包含的自定义数据
         /// </summary>
-        public IEventData Data;
+        public IEventData Data { get; private set; }
 
         /// <summary>
         /// 事件类型
         /// </summary>
-        public string EventType;
+        public string EventType { get; private set; }
 
         /// <summary>
         /// 事件发送者
         /// </summary>
-        public object Target;
+        public object Target { get; private set; }
+
+        public void OnRecycle()
+        {
+            EventType = string.Empty;
+            Target = null;
+            Data?.RecycleData();
+            Data = null;
+        }
+
+        public void OnActivate()
+        {
+            // do nothing
+        }
+
+        public void Dispose()
+        {
+            // do nothing
+        }
 
         /// <summary>
-        /// 构造函数
+        /// 初始化
         /// </summary>
         /// <param name="eventType">类型</param>
         /// <param name="target">发送者</param>
         /// <param name="data">[可选]附加数据</param>
-        public Event(string eventType, object target, IEventData data = null)
+        public void Init(string eventType, object target, IEventData data = null)
         {
             EventType = eventType;
             Target = target;
             Data = data;
+        }
+
+        public static Event GetNew()
+        {
+            return ObjectPool<Event>.Instance.Get();
         }
     }
 
@@ -46,7 +69,8 @@ namespace Instech.Framework
     /// 事件类型定义
     /// 这里声明为partial，可自行扩展此类
     /// </summary>
-    public partial class EventEnum
+    // ReSharper disable once PartialTypeWithSinglePart
+    public static partial class EventEnum
     {
         /// <summary>
         /// UI鼠标点击

@@ -24,7 +24,7 @@ namespace Instech.Framework
 
     public class GameStateMachine : Singleton<GameStateMachine>
     {
-        private readonly Dictionary<string, IGameState> _registeredGameStates = new Dictionary<string, IGameState>();
+        private readonly Dictionary<Type, IGameState> _registeredGameStates = new Dictionary<Type, IGameState>();
         private IGameState _curState;
         private string _curStateName;
 
@@ -58,46 +58,43 @@ namespace Instech.Framework
         /// <summary>
         /// 注册状态，应当在游戏初始化时调用
         /// </summary>
-        /// <param name="stateName"></param>
         /// <param name="state"></param>
         /// <exception cref="ArgumentNullException">参数无效</exception>
         /// <exception cref="ArgumentException">重复注册</exception>
-        public void RegisterGameState(string stateName, IGameState state)
+        public void RegisterGameState(IGameState state)
         {
-            if (string.IsNullOrWhiteSpace(stateName))
-            {
-                throw new ArgumentNullException(nameof(stateName), "名称无效");
-            }
             if (state == null)
             {
                 throw new ArgumentNullException(nameof(state), "状态为空");
             }
-            if (_registeredGameStates.ContainsKey(stateName))
+            if (_registeredGameStates.ContainsKey(state.GetType()))
             {
-                throw new ArgumentException("重复的状态", nameof(stateName));
+                throw new ArgumentException("重复的状态", nameof(state));
             }
-            _registeredGameStates.Add(stateName, state);
+            _registeredGameStates.Add(state.GetType(), state);
+            Logger.LogInfo(LogModule.GameFlow, "状态已注册:" + state.GetType().FullName);
         }
 
         /// <summary>
         /// 切换状态
         /// </summary>
-        /// <param name="stateName"></param>
-        public void ChangeState(string stateName)
+        /// <param name="stateType"></param>
+        public void ChangeState(Type stateType)
         {
-            if (string.IsNullOrWhiteSpace(stateName))
+            if (stateType == null)
             {
-                throw new ArgumentNullException(nameof(stateName), "名称无效");
+                throw new ArgumentNullException(nameof(stateType), "状态类型无效");
             }
-            IGameState newState;
-            if (!_registeredGameStates.TryGetValue(stateName, out newState))
+
+            if (!_registeredGameStates.TryGetValue(stateType, out var newState))
             {
-                throw new ArgumentException("状态未注册", nameof(stateName));
+                throw new ArgumentException("状态未注册", nameof(stateType));
             }
-            Logger.LogInfo(LogModule.GameFlow, $"准备切换状态[{_curStateName}]=>[{stateName}]");
-            _curState?.OnStateLeave(stateName);
+            Logger.LogInfo(LogModule.GameFlow, $"准备切换状态[{_curStateName}]=>[{stateType}]");
+            _curState?.OnStateLeave(stateType.FullName);
             newState.OnStateEnter(_curStateName);
             _curState = newState;
+            _curStateName = stateType.FullName;
             Logger.LogInfo(LogModule.GameFlow, "状态切换完成");
         }
 
