@@ -1,0 +1,33 @@
+using Instech.Framework;
+
+namespace Game.Config
+{
+    /// <summary>
+    /// 自动生成于:#GenTime#
+    /// Hash:#Hash#
+    /// </summary>
+    [GameConfig("#TableName#")]
+    public sealed class #TableName#Config : BaseConfig
+    {
+#FieldDeclare#
+        public static #TableName#Config Get(int id)
+        {
+            return ConfigManager.Instance.GetSingle<#TableName#Config>(id);
+        }
+
+        public override void InitWithData(IConfigData data)
+        {
+            if (Id != 0)
+            {
+                Logger.LogError(LogModule.Data, "已经初始化过了！");
+                return;
+            }
+            Id = data.GetInt("Id");
+#FieldInit#
+        }
+
+        #region ===== 自定义的代码
+#CustomCode#
+        #endregion ===== 自定义的代码
+    }
+}
