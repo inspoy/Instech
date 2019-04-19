@@ -8,8 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.Rendering.HDPipeline;
 using UnityEngine.UI;
 
 namespace Instech.Framework
@@ -24,7 +26,7 @@ namespace Instech.Framework
         /// </summary>
         public string PrefabPath;
 
-        public Queue<BaseView> CachedViews = new Queue<BaseView>();
+        public List<BaseView> CachedViews = new List<BaseView>();
         public List<BaseView> ActiveViews = new List<BaseView>();
     }
 
@@ -33,13 +35,39 @@ namespace Instech.Framework
     /// </summary>
     public class UiManager : MonoSingleton<UiManager>
     {
-        public Camera UiCamera { get; private set; }
+        // 暂时使用Screen-Overlay，目前UICamera和HDRP的后处理效果不兼容
+        // public Camera UiCamera { get; private set; }
         private readonly Dictionary<Type, UiCacheData> _cacheData = new Dictionary<Type, UiCacheData>();
         private Transform _sleepingViews;
-        private Dictionary<string, Canvas> _dictCanvases = new Dictionary<string, Canvas>();
+        private readonly Dictionary<string, Canvas> _dictCanvases = new Dictionary<string, Canvas>();
         private GraphicRaycaster _raycaster;
         private PointerEventData _pointerEventData;
         private readonly List<RaycastResult> _mouseCastList = new List<RaycastResult>();
+
+        protected override void Init()
+        {
+            transform.position = new Vector3(0, 100, 0);
+            gameObject.layer = 5; // UI Layer
+            var eventSystemGo = gameObject.AddEmptyChild("EventSystem");
+            var eventSystem = eventSystemGo.AddComponent<EventSystem>();
+            _pointerEventData = new PointerEventData(eventSystem);
+            eventSystemGo.AddComponent<StandaloneInputModule>();
+
+            //UiCamera = gameObject.AddEmptyChild("UICamera").AddComponent<Camera>();
+            //UiCamera.transform.localPosition = Vector3.back * 100;
+            //UiCamera.cullingMask = 1 << 5; // Only UI
+            //UiCamera.clearFlags = CameraClearFlags.Nothing;
+            //UiCamera.orthographic = true;
+            //UiCamera.renderingPath = RenderingPath.Forward;
+
+            // Disable postprocessing
+            //var hdrpCameraData = UiCamera.gameObject.AddComponent<HDAdditionalCameraData>();
+            //hdrpCameraData.volumeLayerMask = 0;
+            //hdrpCameraData.clearColorMode = HDAdditionalCameraData.ClearColorMode.None;
+
+            _sleepingViews = AddCanvas("Sleeping").transform;
+            _sleepingViews.gameObject.SetActive(false);
+        }
 
         /// <summary>
         /// 根据名字拿到对应的Canvas
@@ -73,7 +101,7 @@ namespace Instech.Framework
             BaseView ret;
             if (cacheData.CachedViews.Count > 0)
             {
-                ret = cacheData.CachedViews.Dequeue();
+                ret = cacheData.CachedViews[cacheData.CachedViews.Count - 1];
                 cacheData.ActiveViews.Add(ret);
                 ret.transform.SetParent(parent);
                 ret.Activate();
@@ -120,7 +148,8 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// 关闭所有UI，一般用于切换场景
+        /// 关闭所有UI，一般用于切换场景<br/>
+        /// 细节：忽略设置了无视CloseAll的UI，关闭所有ActiveViews且不缓存
         /// </summary>
         public void CloseAllViews()
         {
@@ -128,6 +157,13 @@ namespace Instech.Framework
             {
                 var delList = new List<BaseView>();
                 foreach (var item in cacheData.ActiveViews)
+                {
+                    if (!item.IgnoreCloseAll)
+                    {
+                        delList.Add(item);
+                    }
+                }
+                foreach (var item in cacheData.CachedViews)
                 {
                     if (!item.IgnoreCloseAll)
                     {
@@ -166,8 +202,8 @@ namespace Instech.Framework
             canvasGo.layer = 5; // UI Layer
             var canvas = canvasGo.AddComponent<Canvas>();
             _dictCanvases.Add(canvasName, canvas);
-            canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            canvas.worldCamera = UiCamera;
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            // canvas.worldCamera = UiCamera;
             canvas.sortingOrder = _dictCanvases.Count;
             var scaler = canvasGo.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -177,44 +213,35 @@ namespace Instech.Framework
             return canvas;
         }
 
-        protected override void Init()
-        {
-            transform.position = new Vector3(0, 100, 0);
-            gameObject.layer = 5; // UI Layer
-            var eventSystemGo = gameObject.AddEmptyChild("EventSystem");
-            var eventSystem = eventSystemGo.AddComponent<EventSystem>();
-            _pointerEventData = new PointerEventData(eventSystem);
-            eventSystemGo.AddComponent<StandaloneInputModule>();
-            UiCamera = gameObject.AddEmptyChild("UICamera").AddComponent<Camera>();
-            UiCamera.transform.localPosition = Vector3.back * 100;
-            UiCamera.cullingMask = 1 << 5; // Only UI
-            UiCamera.clearFlags = CameraClearFlags.Nothing;
-            UiCamera.orthographic = true;
-
-            _sleepingViews = AddCanvas("Sleeping").transform;
-            _sleepingViews.gameObject.SetActive(false);
-        }
-
         /// <summary>
         /// 由BaseView调用，执行回收操作
         /// </summary>
         /// <param name="view"></param>
-        internal void RecycleView(BaseView view)
+        internal void RecycleViewFromBaseView(BaseView view)
         {
             var cacheData = GetCacheData(view.GetType());
-            cacheData.CachedViews.Enqueue(view);
+            cacheData.CachedViews.Add(view);
             cacheData.ActiveViews.Remove(view);
             view.transform.SetParent(_sleepingViews);
         }
 
         /// <summary>
-        /// 由BaseView调用，执行关闭操作
+        /// 由BaseView调用，执行关闭操作<br/>
         /// </summary>
         /// <param name="view"></param>
-        internal void CloseView(BaseView view)
+        internal void CloseViewFromBaseView(BaseView view)
         {
             var cacheData = GetCacheData(view.GetType());
-            cacheData.ActiveViews.Remove(view);
+            if (view.IsActive)
+            {
+                cacheData.ActiveViews.Remove(view);
+            }
+            else
+            {
+                cacheData.CachedViews.Remove(view);
+            }
+            AssetBundleManager.Instance.UnloadAsset(view.gameObject);
+            Destroy(view.gameObject);
         }
 
         /// <summary>
@@ -231,9 +258,27 @@ namespace Instech.Framework
             cacheData = new UiCacheData();
             var typeStr = t.ToString();
             var dotPos = typeStr.LastIndexOf('.');
-            cacheData.PrefabPath = "Prefabs/UI/vw" + typeStr.Substring(dotPos + 1, typeStr.Length - dotPos - 5) + ".prefab";
+            cacheData.PrefabPath =
+                "Prefabs/UI/vw" +
+                typeStr.Substring(dotPos + 1, typeStr.Length - dotPos - 5) +
+                ".prefab";
             _cacheData.Add(t, cacheData);
             return cacheData;
+        }
+
+        /// <summary>
+        /// 获得缓存信息的调试字符串
+        /// </summary>
+        /// <returns></returns>
+        public string GetCachedDebugString()
+        {
+            var ret = new StringBuilder();
+            foreach (var item in _cacheData)
+            {
+                var data = item.Value;
+                ret.Append($"{item.Key.Name},{data.ActiveViews.Count},{data.CachedViews.Count}\n");
+            }
+            return ret.ToString();
         }
     }
 }

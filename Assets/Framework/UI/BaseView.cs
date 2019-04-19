@@ -67,17 +67,6 @@ namespace Instech.Framework
         public string CanvasName { get; internal set; }
 
         /// <summary>
-        /// 深灰色UI遮罩
-        /// </summary>
-        [HideInInspector]
-        public GameObject MaskGo;
-
-        /// <summary>
-        /// 是否禁止使用遮罩
-        /// </summary>
-        public bool NoMask;
-
-        /// <summary>
         /// 该UI界面的RectTransform
         /// </summary>
         [HideInInspector]
@@ -143,15 +132,7 @@ namespace Instech.Framework
             }
             IsSleeping = true;
             Presenter.OnViewRecycle(false);
-            UiManager.Instance.RecycleView(this);
-        }
-
-        /// <summary>
-        /// 关闭UI
-        /// </summary>
-        public void Close()
-        {
-            InternalClose(false);
+            UiManager.Instance.RecycleViewFromBaseView(this);
         }
 
         /// <summary>
@@ -183,14 +164,9 @@ namespace Instech.Framework
         }
 
         /// <summary>
-        /// 由UI管理器调用，关闭所有UI
+        /// 关闭UI
         /// </summary>
-        internal void CloseAllUiOperation()
-        {
-            InternalClose(true);
-        }
-
-        private void InternalClose(bool callByUiManager)
+        public void Close()
         {
             if (IsViewRemoved)
             {
@@ -202,9 +178,9 @@ namespace Instech.Framework
             _fixedUpdator = null;
             _lateUpdator = null;
             Presenter.OnViewRecycle(true);
-            if (callByUiManager)
+            if (UiManager.HasSingleton())
             {
-                UiManager.Instance.CloseView(this);
+                UiManager.Instance.CloseViewFromBaseView(this);
             }
             Presenter.OnViewRemoved();
             if (_dispatchers != null)
@@ -214,11 +190,6 @@ namespace Instech.Framework
                     item.RemoveAllEventListeners();
                 }
                 _dispatchers.Clear();
-            }
-            Destroy(gameObject);
-            if (!NoMask)
-            {
-                Destroy(MaskGo);
             }
         }
 
@@ -261,7 +232,6 @@ namespace Instech.Framework
     public class ViewInitException : Exception
     {
         public ViewInitException(BaseView view) : base("Init Ui View Failed: " + view)
-        {
-        }
+        { }
     }
 }

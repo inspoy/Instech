@@ -31,7 +31,7 @@ namespace Instech.Framework.Editor
 
         internal static void ExportUi()
         {
-            var exportPath = EditorPrefs.GetString(PrefWindow.UiPath, string.Empty);
+            var exportPath = Application.dataPath + ProjectSettings.Instance.UiExportPath;
             if (exportPath == string.Empty)
             {
                 EditorUtility.DisplayDialog("错误", "请先在Instech/Preferences中设置UI导出路径", "OK");

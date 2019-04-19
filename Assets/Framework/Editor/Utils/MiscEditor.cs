@@ -133,7 +133,7 @@ namespace Instech.Framework.Editor
             var str = AssetDatabase.GetAssetPath(asset);
             if (!string.IsNullOrWhiteSpace(str))
             {
-                str = str.Replace("Assets" + EditorPrefs.GetString(PrefWindow.AssetPath), "");
+                str = str.Replace("Assets" + ProjectSettings.Instance.ArtworkRootPath, "");
                 var t = new TextEditor { text = str };
                 t.OnFocus();
                 t.Copy();
@@ -155,6 +155,29 @@ namespace Instech.Framework.Editor
         public static void FunctionTest()
         {
             // cool stuff...
+
+        }
+
+        /// <summary>
+        /// 随机数均匀性测试
+        /// </summary>
+        public static void RandomTest()
+        {
+            for (var d = 2; d <= 5; ++d)
+            {
+                var tex = new Texture2D(4096, 4096, TextureFormat.RGBA32, false);
+                for (var i = 1; i <= 5000000; ++i)
+                {
+                    var x = Utility.GetRandom(1, 4096);
+                    for (var j = 0; j < d - 2; ++j)
+                    {
+                        Utility.GetRandom(1, 4096);
+                    }
+                    var y = Utility.GetRandom(1, 4096);
+                    tex.SetPixel(x, y, Color.black);
+                }
+                File.WriteAllBytes($"E:/_tmp/rand{d}.png", tex.EncodeToPNG());
+            }
         }
     }
 

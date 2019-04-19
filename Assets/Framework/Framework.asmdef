@@ -1,7 +1,9 @@
 {
     "name": "Framework",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Utf8Json",
+        "Unity.RenderPipelines.HighDefinition.Runtime"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -10,5 +12,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

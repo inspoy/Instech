@@ -100,7 +100,7 @@ namespace Instech.Framework
     /// 通用对象池，线程安全
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObjectPool<T> : Singleton<ObjectPool<T>>, IObjectPool where T : class, IPoolable, new()
+    public class ObjectPool<T> : AutoCreateSingleton<ObjectPool<T>>, IObjectPool where T : class, IPoolable, new()
     {
         private const uint DefualtMaxCount = 64;
         private readonly Queue<T> _pooledQueue = new Queue<T>((int)DefualtMaxCount);

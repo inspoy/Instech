@@ -18,6 +18,7 @@ namespace Instech.Framework
     /// <summary>
     /// 输出日志等级
     /// </summary>
+    [Flags]
     public enum LogLevel
     {
         /// <summary>
@@ -28,37 +29,37 @@ namespace Instech.Framework
         /// <summary>
         ///     异常
         /// </summary>
-        Exception = 50,
+        Exception = 0x1,
 
         /// <summary>
         ///     断言
         /// </summary>
-        Assert = 100,
+        Assert = 0x2,
 
         /// <summary>
         ///     错误
         /// </summary>
-        Error = 200,
+        Error = 0x4,
 
         /// <summary>
         ///     警告
         /// </summary>
-        Warning = 300,
+        Warning = 0x8,
 
         /// <summary>
         ///     信息类日志
         /// </summary>
-        Info = 400,
+        Info = 0x10,
 
         /// <summary>
         ///     调试信息
         /// </summary>
-        Debug = 500,
+        Debug = 0x20,
 
         /// <summary>
         ///     输出所有日志
         /// </summary>
-        All = 999
+        All = 0x40 - 1
     }
 
     /// <summary>
@@ -76,9 +77,15 @@ namespace Instech.Framework
         public delegate void LogCallback(string module, string content, LogLevel level, StackTrace stackTrace);
 
         /// <summary>
-        ///     输出的日志等级，高于或等于该等级的日志将会被记录
+        /// 输出的日志等级，包含等级的日志将会被记录
         /// </summary>
         public static LogLevel LogLevel { get; set; } = LogLevel.All;
+
+        /// <summary>
+        /// 关闭调用栈信息，为了输出Log时尽量少一些消耗；
+        /// 异常中带的StrackTrace不受影响
+        /// </summary>
+        public static bool DisableStackTrace { get; set; } = false;
 
         /// <summary>
         /// 屏蔽Unity的Debug.Log
@@ -86,7 +93,7 @@ namespace Instech.Framework
         public static bool DisableUnityLog { get; set; } = false;
 
         /// <summary>
-        ///     当日志发生时触发
+        /// 当日志发生时触发
         /// </summary>
         public static event LogCallback OnLog;
 
@@ -174,7 +181,7 @@ namespace Instech.Framework
         /// <param name="ex">异常信息</param>
         private static void Log(string module, LogLevel level, string message, Object context, Exception ex = null)
         {
-            if (level > LogLevel)
+            if ((level & LogLevel) == 0)
             {
                 return;
             }
@@ -186,7 +193,7 @@ namespace Instech.Framework
             {
                 module = "Default";
             }
-            var stackTrace = new StackTrace(true);
+            var stackTrace = DisableStackTrace ? null : new StackTrace(true);
             if (level == LogLevel.Exception && ex != null)
             {
                 var exMessage = new StringBuilder();

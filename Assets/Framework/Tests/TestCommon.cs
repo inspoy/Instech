@@ -39,7 +39,7 @@ namespace FrameworkTests
             }
 
             #region IDisposable Support
-            private bool _disposedValue; // Òª¼ì²âÈßÓàµ÷ÓÃ
+            private bool _disposedValue; // è¦æ£€æµ‹å†—ä½™è°ƒç”¨
 
             private void Dispose(bool disposing)
             {
@@ -81,7 +81,7 @@ namespace FrameworkTests
         }
 
         [Test]
-        [Description("ÓÎÏ·×´Ì¬ÇĞ»»")]
+        [Description("æ¸¸æˆçŠ¶æ€åˆ‡æ¢")]
         public void GameState()
         {
             GameStateMachine.CreateSingleton();
@@ -89,43 +89,53 @@ namespace FrameworkTests
             GameStateMachine.Instance.RegisterGameState(state);
             Assert.AreEqual(false, state.Entered);
             GameStateMachine.Instance.ChangeState(typeof(TestForGameState));
-            Assert.AreEqual(true, state.Entered, "×´Ì¬Ã»ÓĞÕıÈ·½øÈë");
+            Assert.AreEqual(true, state.Entered, "çŠ¶æ€æ²¡æœ‰æ­£ç¡®è¿›å…¥");
             Assert.AreEqual(0, state.Counter);
             GameStateMachine.Instance.UpdateLogic(0);
-            Assert.AreEqual(1, state.Counter, "Ã»ÓĞÕıÈ·Ö´ĞĞUpdateLogic");
+            Assert.AreEqual(1, state.Counter, "æ²¡æœ‰æ­£ç¡®æ‰§è¡ŒUpdateLogic");
             GameStateMachine.Instance.UpdateFrame(0);
-            Assert.AreEqual(3, state.Counter, "Ã»ÓĞÕıÈ·Ö´ĞĞUpdateFrame");
+            Assert.AreEqual(3, state.Counter, "æ²¡æœ‰æ­£ç¡®æ‰§è¡ŒUpdateFrame");
             GameStateMachine.DestroySingleton();
-            Assert.AreEqual(false, state.Entered, "×´Ì¬Ã»ÓĞÕıÈ·ÍË³ö");
+            Assert.AreEqual(false, state.Entered, "çŠ¶æ€æ²¡æœ‰æ­£ç¡®é€€å‡º");
         }
 
         [Test]
-        [Description("¶ÔÏó³Ø")]
+        [Description("å¯¹è±¡æ± ")]
         public void ObjectPool()
         {
-            ObjectPool<TestForObjectPool>.CreateSingleton();
-            Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+            ObjectPoolManager.DestroySingleton();
 
-            var obj1 = ObjectPool<TestForObjectPool>.Instance.Get();
-            obj1.SomeProperty = 456;
-            ObjectPool<TestForObjectPool>.Instance.Recycle(obj1);
-            Assert.AreEqual(1, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+            ObjectPoolManager.CreateSingleton();
+            try
+            {
+                ObjectPool<TestForObjectPool>.CreateSingleton();
+                Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
 
-            var obj2 = ObjectPool<TestForObjectPool>.Instance.Get();
-            Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
-            Assert.AreEqual(123, obj2.SomeProperty);
-            obj2.Dispose();
+                var obj1 = ObjectPool<TestForObjectPool>.Instance.Get();
+                obj1.SomeProperty = 456;
+                ObjectPool<TestForObjectPool>.Instance.Recycle(obj1);
+                Assert.AreEqual(1, ObjectPool<TestForObjectPool>.Instance.PooledCount);
 
-            ObjectPool<TestForObjectPool>.Instance.Alloc(5);
-            Assert.AreEqual(5, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+                var obj2 = ObjectPool<TestForObjectPool>.Instance.Get();
+                Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+                Assert.AreEqual(123, obj2.SomeProperty);
+                obj2.Dispose();
 
-            ObjectPool<TestForObjectPool>.Instance.Clear();
-            Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
-            ObjectPool<TestForObjectPool>.DestroySingleton();
+                ObjectPool<TestForObjectPool>.Instance.Alloc(5);
+                Assert.AreEqual(5, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+
+                ObjectPool<TestForObjectPool>.Instance.Clear();
+                Assert.AreEqual(0, ObjectPool<TestForObjectPool>.Instance.PooledCount);
+                ObjectPool<TestForObjectPool>.DestroySingleton();
+            }
+            finally
+            {
+                ObjectPoolManager.DestroySingleton();
+            }
         }
 
         [Test]
-        [Description("µ¥Àı")]
+        [Description("å•ä¾‹")]
         public void Singleton()
         {
             TestForSingleton.CreateSingleton();
@@ -143,11 +153,11 @@ namespace FrameworkTests
             }
             catch (Exception e)
             {
-                Assert.Fail("µ¥ÀıÖØ¸´´´½¨³öÏÖÆäËûÒì³£" + e);
+                Assert.Fail("å•ä¾‹é‡å¤åˆ›å»ºå‡ºç°å…¶ä»–å¼‚å¸¸" + e);
             }
-            Assert.AreEqual(true, ok, "µ¥Àı¿ÉÖØ¸´´´½¨");
+            Assert.AreEqual(true, ok, "å•ä¾‹å¯é‡å¤åˆ›å»º");
             TestForSingleton.DestroySingleton();
-            Assert.AreEqual(123, TestForSingleton.Instance.SomeProperty, "µ¥ÀıÃ»ÓĞ±»Ïú»Ù");
+            Assert.AreEqual(false, TestForSingleton.HasSingleton(), "å•ä¾‹æ²¡æœ‰è¢«é”€æ¯");
             TestForSingleton.DestroySingleton();
         }
     }
@@ -157,54 +167,76 @@ namespace FrameworkTests
     public class TestCommonEvent
     {
         [Test]
-        [Description("ÊÂ¼şÅÉ·¢")]
+        [Description("äº‹ä»¶æ´¾å‘")]
         public void DispatchEvent()
         {
-            var dispatcher = new EventDispatcher(this);
-            var triggered = false;
-            dispatcher.AddEventListener("TestEvent", e => triggered = true);
-            dispatcher.DispatchEvent("TestEvent");
-            Assert.AreEqual(true, triggered, "ÊÂ¼ş»Øµ÷Ã»ÓĞ±»´¥·¢");
-            triggered = false;
-            dispatcher.DispatchEvent("AnotherEvent");
-            Assert.AreEqual(false, triggered, "»Øµ÷±»ÆäËûÊÂ¼ş´¥·¢ÁË");
-            triggered = false;
-            dispatcher.RemoveAllEventListeners("TestEvent");
-            dispatcher.DispatchEvent("TestEvent");
-            Assert.AreEqual(false, triggered, "»Øµ÷±»×¢Ïúºó»¹ÄÜ±»´¥·¢");
+            ObjectPoolManager.DestroySingleton();
+
+
+            ObjectPoolManager.CreateSingleton();
+            try
+            {
+                var dispatcher = new EventDispatcher(this);
+                var triggered = false;
+                dispatcher.AddEventListener("TestEvent", e => triggered = true);
+                dispatcher.DispatchEvent("TestEvent");
+                Assert.AreEqual(true, triggered, "äº‹ä»¶å›è°ƒæ²¡æœ‰è¢«è§¦å‘");
+                triggered = false;
+                dispatcher.DispatchEvent("AnotherEvent");
+                Assert.AreEqual(false, triggered, "å›è°ƒè¢«å…¶ä»–äº‹ä»¶è§¦å‘äº†");
+                triggered = false;
+                dispatcher.RemoveAllEventListeners("TestEvent");
+                dispatcher.DispatchEvent("TestEvent");
+                Assert.AreEqual(false, triggered, "å›è°ƒè¢«æ³¨é”€åè¿˜èƒ½è¢«è§¦å‘");
+            }
+            finally
+            {
+                ObjectPoolManager.DestroySingleton();
+            }
         }
 
         [Test]
-        [Description("ÏìÓ¦Ê½ÊôĞÔ")]
+        [Description("å“åº”å¼å±æ€§")]
         public void ReactiveProperty()
         {
-            var rp = new ReactiveProperty<int> { Value = 123 };
-            var triggered = false;
-            rp.AddEventListener(val => triggered = true);
-            rp.Value = 456;
-            Assert.AreEqual(true, triggered, "Öµ¸ÄÎª²»Í¬ÖµÃ»ÓĞ´¥·¢»Øµ÷");
+            ObjectPoolManager.DestroySingleton();
+
+
+            ObjectPoolManager.CreateSingleton();
+            try
+            {
+                var rp = new ReactiveProperty<int> { Value = 123 };
+                var triggered = false;
+                rp.AddEventListener(val => triggered = true);
+                rp.Value = 456;
+                Assert.AreEqual(true, triggered, "å€¼æ”¹ä¸ºä¸åŒå€¼æ²¡æœ‰è§¦å‘å›è°ƒ");
+            }
+            finally
+            {
+                ObjectPoolManager.DestroySingleton();
+            }
         }
 
         [Test]
-        [Description("ÏìÓ¦Ê½ÊôĞÔ¸ÄÎªÏàÍ¬Öµ")]
+        [Description("å“åº”å¼å±æ€§æ”¹ä¸ºç›¸åŒå€¼")]
         public void ReactivePropertySameValue()
         {
             var rp = new ReactiveProperty<int> { Value = 123 };
             var triggered = false;
             rp.AddEventListener(val => triggered = true);
             rp.Value = 123;
-            Assert.AreEqual(true, triggered, "Öµ¸ÄÎªÏàÍ¬ÖµÃ»ÓĞ´¥·¢»Øµ÷");
+            Assert.AreEqual(true, triggered, "å€¼æ”¹ä¸ºç›¸åŒå€¼æ²¡æœ‰è§¦å‘å›è°ƒ");
         }
 
         [Test]
-        [Description("ÏìÓ¦Ê½ÊôĞÔ(¹ıÂËÏàÍ¬Öµ)")]
+        [Description("å“åº”å¼å±æ€§(è¿‡æ»¤ç›¸åŒå€¼)")]
         public void ReactivePropertyAlwaysTrigger()
         {
             var rp = new ReactiveProperty<int> { Value = 123, AlwaysTrigger = false };
             var triggered = false;
             rp.AddEventListener(val => triggered = true);
             rp.Value = 123;
-            Assert.AreEqual(false, triggered, "Öµ¸ÄÎªÏàÍ¬Öµ´¥·¢ÁË»Øµ÷");
+            Assert.AreEqual(false, triggered, "å€¼æ”¹ä¸ºç›¸åŒå€¼è§¦å‘äº†å›è°ƒ");
         }
     }
 }

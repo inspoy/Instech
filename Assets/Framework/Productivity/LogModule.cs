@@ -22,5 +22,6 @@ namespace Instech.Framework
         public const string System = "System";
         public const string Resource = "Resource";
         public const string Render = "Render";
+        public const string Localization = "L10N";
     }
 }

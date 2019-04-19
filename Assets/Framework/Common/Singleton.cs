@@ -11,10 +11,31 @@ using System;
 namespace Instech.Framework
 {
     /// <summary>
-    /// 单例模式
+    /// 用于标识是否是自动创建的单例
+    /// </summary>
+    public sealed class AutoCreateSingletonTag { }
+
+    /// <summary>
+    /// 自动创建，无需手动调用CreateSingleton方法的单例
+    /// </summary>
+    public abstract class AutoCreateSingleton<T> : BaseSingleton<T, AutoCreateSingletonTag> where T : BaseSingleton<T, AutoCreateSingletonTag>, new()
+    {
+
+    }
+
+    /// <summary>
+    /// 普通单例，需要手动调用CreateSingleton方法来创建
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class Singleton<T> where T : Singleton<T>, new()
+    public abstract class Singleton<T> : BaseSingleton<T, object> where T : BaseSingleton<T, object>, new()
+    {
+
+    }
+
+    /// <summary>
+    /// 单例模式
+    /// </summary>
+    public abstract class BaseSingleton<T, TAuto> where T : BaseSingleton<T, TAuto>, new() where TAuto : class
     {
         private static T _instance;
 
@@ -25,9 +46,20 @@ namespace Instech.Framework
         {
             get
             {
-                if (_instance == null)
+                if (_instance != null)
                 {
+                    return _instance;
+                }
+
+                if (typeof(AutoCreateSingletonTag).IsAssignableFrom(typeof(TAuto)))
+                {
+                    // 可自动创建
                     CreateSingleton();
+                }
+                else
+                {
+                    // 必须手动调用CreateSingleton()创建实例，避免在不恰当的时刻再次初始化本已被销毁的单例
+                    throw new InvalidOperationException($"{typeof(T)} is not instantiated, please use CreateSingleton() to create.");
                 }
                 return _instance;
             }

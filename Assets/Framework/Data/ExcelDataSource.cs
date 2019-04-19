@@ -20,7 +20,7 @@ namespace Instech.Framework
         private string _basePath;
         public void Init(string src = null)
         {
-            _basePath = src ?? $"{Application.dataPath}/../GameConfig/";
+            _basePath = src ?? $"{Application.dataPath}/../../Documents/GameConfig/";
         }
 
         public void Uninit()

@@ -164,7 +164,14 @@ namespace Instech.Framework
             var logStr = $"{timeNow:yyyy/MM/dd HH:mm:ss}-[{item.Level.ToString().ToUpper().PadLeft(7)}][{item.Module.PadLeft(10)}]-{item.Content}";
             if (item.Level == LogLevel.Exception || item.Level == LogLevel.Assert || item.Level == LogLevel.Error)
             {
-                logStr += "\n" + item.StackTrace;
+                if (item.StackTrace != null)
+                {
+                    logStr += "\n" + item.StackTrace;
+                }
+                else
+                {
+                    logStr += "\nStackTraceDisabled\n";
+                }
             }
             logStr += "\n";
             sw.Write(logStr);

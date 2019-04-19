@@ -13,7 +13,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Instech.Framework
 {
@@ -23,7 +22,38 @@ namespace Instech.Framework
     public static class Utility
     {
         private static long _uidCount = 100000;
-        private static readonly DateTime _timeStamp1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        private static readonly DateTime TimeStamp1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        private static ulong _randomCurrent;
+
+        static Utility()
+        {
+            ResetRandom();
+        }
+
+        public static void ResetRandom()
+        {
+            _randomCurrent = (uint)Environment.TickCount % 233280;
+        }
+
+        /// <summary>
+        /// 获得一个随机数（使用线性同余法）
+        /// </summary>
+        /// <param name="min">下限</param>
+        /// <param name="max">上限（不含）</param>
+        /// <returns></returns>
+        public static int GetRandom(int min, int max)
+        {
+            if (min == max || min == max - 1) return min;
+            if (min > max)
+            {
+                var t = min;
+                min = max;
+                max = t;
+            }
+            var m = (ulong)(max - min);
+            _randomCurrent = (_randomCurrent * 16807 + 49297) % int.MaxValue;
+            return (int)(_randomCurrent % m) + min;
+        }
 
         /// <summary>
         /// 获取当前时间的Unix时间戳
@@ -31,7 +61,7 @@ namespace Instech.Framework
         /// <returns>时间戳</returns>
         public static uint GetTimeStampNow()
         {
-            var ts = DateTime.UtcNow - _timeStamp1970;
+            var ts = DateTime.UtcNow - TimeStamp1970;
             return Convert.ToUInt32(ts.TotalSeconds);
         }
 
@@ -41,7 +71,7 @@ namespace Instech.Framework
         /// <returns>时间戳</returns>
         public static ulong GetMiliTimeStampNow()
         {
-            var ts = DateTime.UtcNow - _timeStamp1970;
+            var ts = DateTime.UtcNow - TimeStamp1970;
             return Convert.ToUInt64(ts.TotalMilliseconds);
         }
 
@@ -102,7 +132,7 @@ namespace Instech.Framework
             {
                 return default(T);
             }
-            return arr[Random.Range(0, arr.Length)];
+            return arr[GetRandom(0, arr.Length)];
         }
 
         /// <summary>
@@ -117,7 +147,7 @@ namespace Instech.Framework
             {
                 return default(T);
             }
-            return list[Random.Range(0, list.Count)];
+            return list[GetRandom(0, list.Count)];
         }
 
         /// <summary>
@@ -134,7 +164,7 @@ namespace Instech.Framework
             {
                 totalWeight += funcWeight(item);
             }
-            var rand = Random.Range(0, totalWeight);
+            var rand = GetRandom(0, totalWeight);
             T fallback = null;
             foreach (var item in all)
             {
@@ -163,7 +193,7 @@ namespace Instech.Framework
             {
                 return false;
             }
-            return (int)(p * 1000000) > Random.Range(0, 1000000);
+            return (int)(p * 1000000) > GetRandom(0, 1000000);
         }
 
         /// <summary>

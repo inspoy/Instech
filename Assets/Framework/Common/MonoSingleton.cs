@@ -36,6 +36,15 @@ namespace Instech.Framework
         }
 
         /// <summary>
+        /// 单例是否已经被创建
+        /// </summary>
+        /// <returns></returns>
+        public static bool HasSingleton()
+        {
+            return _instance != null;
+        }
+
+        /// <summary>
         /// 创建唯一实例
         /// </summary>
         public static void CreateSingleton()

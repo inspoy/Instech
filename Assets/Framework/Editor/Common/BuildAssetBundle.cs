@@ -34,10 +34,10 @@ namespace Instech.Framework.Editor
             _silentMode = true;
             if (string.IsNullOrEmpty(abRoot))
             {
-                abRoot = EditorPrefs.GetString(PrefWindow.AssetPath, string.Empty);
+                abRoot = ProjectSettings.Instance.ArtworkRootPath;
                 if (string.IsNullOrWhiteSpace(abRoot))
                 {
-                    Logger.LogError(LogModule.Resource,"AssetPath配置无效");
+                    Logger.LogError(LogModule.Resource, "AssetPath配置无效");
                     return;
                 }
                 _silentMode = false;

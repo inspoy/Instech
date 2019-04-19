@@ -29,7 +29,7 @@ namespace Instech.Framework.Editor
         /// <param name="silent">安静模式，不弹出对话框</param>
         public static void ImportFromExcelToBinary(bool genCode, bool genBin, bool silent = false)
         {
-            var src = EditorPrefs.GetString(PrefWindow.XlsPath, string.Empty);
+            var src = Application.dataPath + ProjectSettings.Instance.ExcelDataPath;
             var dst = Application.streamingAssetsPath + "/conf.bin";
             if (string.IsNullOrEmpty(src))
             {

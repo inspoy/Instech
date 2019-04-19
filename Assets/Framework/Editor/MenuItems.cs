@@ -119,13 +119,16 @@ namespace Instech.Framework.Editor
             MiscEditor.FunctionTest();
         }
 
-        /// <summary>
-        /// 偏好设置
-        /// </summary>
-        [MenuItem("Instech/Preferences")]
-        private static void OpenPreferencesWindow()
+        [MenuItem("Instech/创建新的ProjectSettings")]
+        private static void CreateNewProjectSettings()
         {
-            PrefWindow.OnShow();
+            ProjectSettings.CreateNewAsset();
+        }
+
+        [MenuItem("Instech/生成Utf8Json的解析代码")]
+        private static void GenerateUtf8JsonCode()
+        {
+            GenUtf8JsonCode.GenCode();
         }
     }
 }

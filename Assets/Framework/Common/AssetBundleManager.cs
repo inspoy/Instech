@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Instech.Framework
 {
@@ -87,7 +88,7 @@ namespace Instech.Framework
         private readonly Dictionary<int, string> _cachedAssetPath = new Dictionary<int, string>();
         private readonly Dictionary<int, int> _cachedAssetCount = new Dictionary<int, int>();
 
-        public void AddRecord(Object asset, string assetPath)
+        internal void AddRecord(Object asset, string assetPath)
         {
             var objId = asset.GetInstanceID();
             if (_cachedAssetPath.ContainsKey(objId))
@@ -114,6 +115,23 @@ namespace Instech.Framework
                 _cachedAssetPath.Remove(objId);
             }
             return true;
+        }
+
+        /// <summary>
+        /// 获取调试信息，包含每个资产引用了多少次<br/>
+        /// 应当仅用于调试
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, int> GetDebugInfo()
+        {
+            var ret = new Dictionary<string, int>();
+            foreach (var item in _cachedAssetPath)
+            {
+                _cachedAssetCount.TryGetValue(item.Key, out var count);
+                ret.Add(item.Value, count);
+            }
+
+            return ret;
         }
     }
 
@@ -142,6 +160,7 @@ namespace Instech.Framework
         private const float UnloadThreshold = 30.0f; // 清理超过30秒未使用的AssetBundle
         public static string AssetBundleRootPath { get; private set; }
         public static AssetBundleManifest MainManifest { get; private set; }
+        public LoadedBundleHelper BundleHelper { get; private set; }
 #if UNITY_EDITOR
         /// <summary>
         /// 编辑器中用的缓存
@@ -151,7 +170,6 @@ namespace Instech.Framework
         private readonly Dictionary<string, LoadedAssetBundle> _dictLoadedBundles = new Dictionary<string, LoadedAssetBundle>();
         private readonly Dictionary<string, PathMapItem> _pathMap = new Dictionary<string, PathMapItem>();
         private float _updateTimer;
-        private LoadedBundleHelper _bundleHelper;
         private bool _useBundle;
 
         /// <summary>
@@ -165,12 +183,18 @@ namespace Instech.Framework
             // 编辑器下不加载AB，用AssetDataBase加载
             // 非编辑器下根据BuildAB时生成的PathMap来找到AB路径，加载之
             T ret;
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (_useBundle)
             {
                 ret = LoadAssetFromAssetBundle<T>(path);
             }
-            else {
-            ret = LoadAssetInEditor<T>("Assets" + EditorPrefs.GetString("Instech_EditorPrefs_AssetsRootPath", "/Artwork/") + path);
+            else
+            {
+#if UNITY_EDITOR
+                ret = LoadAssetInEditor<T>(path);
+#else
+                throw new System.NotSupportedException("非编辑器下必须使用AssetBundle");
+#endif
             }
             if (ret == null)
             {
@@ -187,7 +211,7 @@ namespace Instech.Framework
         public void AddRecord(Object asset, string assetPath)
         {
             // TODO: 之后看能不能搞成自动的
-            _bundleHelper.AddRecord(asset, assetPath);
+            BundleHelper.AddRecord(asset, assetPath);
         }
 
         /// <summary>
@@ -209,7 +233,7 @@ namespace Instech.Framework
         /// <param name="asset">要回收的Object</param>
         public void UnloadAsset<T>(T asset) where T : Object
         {
-            if (!_bundleHelper.RemoveRecord(asset.GetInstanceID(), out var assetPath))
+            if (!BundleHelper.RemoveRecord(asset.GetInstanceID(), out var assetPath))
             {
                 Logger.LogError(LogModule.Resource, $"找不到记录:{asset.name}({asset.GetInstanceID()})");
                 return;
@@ -271,7 +295,7 @@ namespace Instech.Framework
 
                 Logger.LogInfo(LogModule.Resource, $"PathMap中有{assets.Length}条记录");
             }
-            _bundleHelper = new LoadedBundleHelper();
+            BundleHelper = new LoadedBundleHelper();
         }
 
 #if UNITY_EDITOR
@@ -283,6 +307,7 @@ namespace Instech.Framework
         /// <returns></returns>
         private T LoadAssetInEditor<T>(string path) where T : Object
         {
+            path = "Assets/Artwork/" + path;
             if (_dictCache.TryGetValue(path, out var asset))
             {
                 return asset as T;
@@ -338,7 +363,7 @@ namespace Instech.Framework
             }
             loadedBundle.ReferenceCount += 1;
         }
-        
+
         /// <summary>
         /// 清理回收指定AB包，包括所有依赖在内的引用计数减1，并不会马上卸载
         /// </summary>
