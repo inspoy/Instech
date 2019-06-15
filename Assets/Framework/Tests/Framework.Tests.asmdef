@@ -1,7 +1,8 @@
 {
     "name": "Framework.Tests",
     "references": [
-        "Framework"
+        "Framework",
+        "Utf8Json"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
@@ -14,5 +15,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

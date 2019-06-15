@@ -23,5 +23,6 @@ namespace Instech.Framework
         public const string Resource = "Resource";
         public const string Render = "Render";
         public const string Localization = "L10N";
+        public const string Physics = "Physics";
     }
 }

@@ -88,14 +88,14 @@ namespace FrameworkTests
             gotDebug = gotInfo = gotWarning = gotError = gotExcepion = gotAssert = false;
 
             // Error等级
-            Logger.LogLevel = LogLevel.Error;
+            Logger.LogLevel = LogLevel.Error | LogLevel.Exception | LogLevel.Assert;
             EmitSomeLogs();
             Assert.IsTrue(gotError && gotExcepion && gotAssert);
             Assert.IsFalse(gotDebug || gotInfo || gotWarning);
             gotDebug = gotInfo = gotWarning = gotError = gotExcepion = gotAssert = false;
 
             // Info等级
-            Logger.LogLevel = LogLevel.Info;
+            Logger.LogLevel = LogLevel.Info | LogLevel.Warning | LogLevel.Error | LogLevel.Exception | LogLevel.Assert;
             EmitSomeLogs();
             Assert.IsTrue(gotInfo && gotWarning && gotError && gotExcepion && gotAssert);
             Assert.IsFalse(gotDebug);

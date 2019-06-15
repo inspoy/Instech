@@ -8,6 +8,7 @@
 
 using Instech.Framework;
 using NUnit.Framework;
+using Utf8Json.Resolvers;
 
 namespace FrameworkTests
 {
@@ -21,6 +22,8 @@ namespace FrameworkTests
         {
             ObjectPoolManager.DestroySingleton();
             LocalizationManager.DestroySingleton();
+
+            JsonUtils.InitJsonResolver(StandardResolver.Default);
 
             ObjectPoolManager.CreateSingleton();
             LocalizationManager.CreateSingleton();
