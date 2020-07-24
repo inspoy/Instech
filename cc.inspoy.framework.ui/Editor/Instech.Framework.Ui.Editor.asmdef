@@ -1,0 +1,21 @@
+{
+    "name": "Instech.Framework.Ui.Editor",
+    "references": [
+        "Instech.Framework.Ui",
+        "Instech.Framework.Common.Editor",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

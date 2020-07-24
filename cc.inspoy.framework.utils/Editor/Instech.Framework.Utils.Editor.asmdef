@@ -1,0 +1,19 @@
+{
+    "name": "Instech.Framework.Utils.Editor",
+    "references": [
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Instech.Framework.Common.Editor"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

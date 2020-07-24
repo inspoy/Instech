@@ -1,0 +1,21 @@
+{
+    "name": "Instech.Framework.Data",
+    "references": [
+        "Instech.Framework.Core",
+        "Instech.Framework.Common",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Instech.Framework.MyJson",
+        "Instech.EncryptHelper",
+        "Unity.TextMeshPro"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

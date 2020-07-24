@@ -1,0 +1,16 @@
+{
+    "name": "Instech.Framework.Common",
+    "references": [
+        "Instech.Framework.Core",
+        "Instech.Framework.Logging"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

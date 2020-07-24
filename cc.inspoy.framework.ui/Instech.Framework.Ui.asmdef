@@ -1,0 +1,20 @@
+{
+    "name": "Instech.Framework.Ui",
+    "references": [
+        "Instech.Framework.Core",
+        "Instech.Framework.Common",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Instech.Framework.AssetHelper",
+        "Unity.TextMeshPro"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

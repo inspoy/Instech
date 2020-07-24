@@ -1,0 +1,18 @@
+{
+    "name": "Instech.Framework.MyJson.Editor",
+    "references": [
+        "Instech.Framework.MyJson",
+        "Instech.Framework.Logging"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

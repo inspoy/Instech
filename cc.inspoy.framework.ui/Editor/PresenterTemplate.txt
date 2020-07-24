@@ -1,0 +1,37 @@
+namespace Game.Ui
+{
+    public class $VIEWNAME$Presenter : IBasePresenter
+    {
+        private $VIEWNAME$View _view;
+
+        /// <inheritdoc />
+        public void InitWithView(BaseView view)
+        {
+            _view = view as $VIEWNAME$View;
+            if (_view == null)
+            {
+                throw new ViewInitException(view);
+            }
+
+$ADD_LISTENERS$            // Called when view is initialized
+        }
+
+        /// <inheritdoc />
+        public void OnViewActivate()
+        {
+            // Called when view will be activated
+        }
+
+        /// <inheritdoc />
+        public void OnViewRecycle(bool isClosing)
+        {
+            // Called when view will be recycled
+        }
+
+        /// <inheritdoc />
+        public void OnViewRemoved()
+        {
+            // Called when view will be destroyed
+        }$EVENT_HANDLERS$
+    }
+}

@@ -1,0 +1,35 @@
+using System;
+using Instech.Framework.Ui;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Logger = Instech.Framework.Logging.Logger;
+
+namespace Game.Ui
+{
+    public class $VIEWNAME$View : BaseView
+    {$MEMBER_DECLARE$
+        public $VIEWNAME$Presenter GetPresenter()
+        {
+            return Presenter as $VIEWNAME$Presenter;
+        }
+
+        protected override void Awake()
+        {
+#if UNITY_EDITOR
+            var time1 = DateTime.Now;
+#endif
+$MEMBER_CHECK$
+            Presenter = new $VIEWNAME$Presenter();
+            OnAwakeFinish();
+
+#if UNITY_EDITOR
+            var time2 = DateTime.Now;
+            var diff = time2 - time1;
+            Logger.LogInfo("UI", $"View Created: vw$VIEWNAME$, cost {diff.TotalMilliseconds}ms");
+#else
+            Logger.LogInfo("UI", "View Created: vw$VIEWNAME$");
+#endif
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "Instech.Framework.AssetHelper.Editor",
+    "references": [
+        "Instech.Framework.AssetHelper",
+        "Instech.Framework.Common.Editor",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Unity.ScriptableBuildPipeline",
+        "Unity.ScriptableBuildPipeline.Editor",
+        "Instech.FilePacker",
+        "Instech.EncryptHelper"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

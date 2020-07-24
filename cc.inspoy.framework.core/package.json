@@ -1,0 +1,11 @@
+{
+  "name": "cc.inspoy.framework.core",
+  "displayName": "Instech.Framework.Core",
+  "version": "0.0.1",
+  "unity": "2019.1",
+  "description": "Unity框架核心功能，包含单例，对象池",
+  "keywords": [
+    "instech",
+    "framework"
+  ]
+}

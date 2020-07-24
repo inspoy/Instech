@@ -1,0 +1,41 @@
+using Instech.Framework.Data;
+using Instech.Framework.Logging;
+using Instech.Framework.Utils;
+using JetBrains.Annotations;
+
+#region ----- 自定义Using
+#CustomUsing#
+#endregion ----- 自定义Using
+
+namespace Game.Config
+{
+    /// <summary>
+    /// 自动生成于:#GenTime#
+    /// Hash:#Hash#
+    /// </summary>
+    [GameConfig("#TableName#")]
+    [UsedImplicitly]
+    public sealed class #TableName#Config : BaseConfig
+    {
+#FieldDeclare#
+        public static #TableName#Config Get(int id)
+        {
+            return ConfigManager.Instance.GetSingle<#TableName#Config>(id);
+        }
+
+        public override void InitWithData(IConfigData data)
+        {
+            if (Id != 0)
+            {
+                Logger.LogError(LogModule.Data, "已经初始化过了！");
+                return;
+            }
+            Id = data.GetInt("Id");
+#FieldInit#
+        }
+
+        #region ===== 自定义的代码
+#CustomCode#
+        #endregion ===== 自定义的代码
+    }
+}

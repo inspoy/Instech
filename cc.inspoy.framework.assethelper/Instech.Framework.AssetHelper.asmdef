@@ -1,0 +1,20 @@
+{
+    "name": "Instech.Framework.AssetHelper",
+    "references": [
+        "Instech.Framework.Core",
+        "Instech.Framework.Common",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Utils",
+        "Instech.FilePacker",
+        "Instech.EncryptHelper"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
