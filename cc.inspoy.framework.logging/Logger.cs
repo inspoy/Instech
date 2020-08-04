@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using UnityEngine;
@@ -89,7 +88,7 @@ namespace Instech.Framework.Logging
         /// <param name="stackTrace">堆栈信息</param>
         public delegate void LogCallback(string module, string content, LogLevels level, StackTrace stackTrace);
 
-        public static readonly HashSet<int> DebugFlags = new HashSet<int> { 0 };
+        public static ulong CurDebugFlags = 0;
 
         /// <summary>
         /// 输出的日志等级，包含等级的日志将会被记录
@@ -129,7 +128,7 @@ namespace Instech.Framework.Logging
 #if UNITY_EDITOR
             lock (_printLocker)
             {
-                LogDebug(null, 0, msg);
+                LogDebug(null, 1, msg);
             }
 #else
             throw new NotSupportedException("Print() is only for dev, it can only be used in editor");
@@ -143,9 +142,9 @@ namespace Instech.Framework.Logging
         /// <param name="flag"></param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
-        public static void LogDebug(string module, int flag, string message, Object context = null)
+        public static void LogDebug(string module, ulong flag, string message, Object context = null)
         {
-            if (DebugFlags.Contains(flag))
+            if ((CurDebugFlags & flag) > 0)
             {
                 Log(module, LogLevels.Debug, message, context);
             }

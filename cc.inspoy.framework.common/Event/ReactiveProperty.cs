@@ -7,7 +7,6 @@
  */
 
 using System;
-using Instech.Framework.Core;
 
 namespace Instech.Framework.Common
 {

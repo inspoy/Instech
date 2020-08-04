@@ -64,7 +64,7 @@ namespace Instech.Framework.Common
             // do nothing
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }

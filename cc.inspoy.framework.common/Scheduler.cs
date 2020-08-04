@@ -8,7 +8,6 @@
 
 using System;
 using Instech.Framework.Core;
-using Instech.Framework.Logging;
 
 namespace Instech.Framework.Common
 {

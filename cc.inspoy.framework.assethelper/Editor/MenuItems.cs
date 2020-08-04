@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace Instech.Framework.AssetHelper.Editor
 {
-    public class MenuItems
+    public static class MenuItems
     {
         [MenuItem("Instech/AssetHelper/生成 AssetBundle", false, 2101)]
         private static void BuildAssetBundles()

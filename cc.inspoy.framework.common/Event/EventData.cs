@@ -46,7 +46,7 @@ namespace Instech.Framework.Common
             return ret;
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }
@@ -121,7 +121,7 @@ namespace Instech.Framework.Common
             // do nothing
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }

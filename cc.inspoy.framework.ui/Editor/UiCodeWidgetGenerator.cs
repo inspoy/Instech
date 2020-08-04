@@ -28,24 +28,19 @@ namespace Instech.Framework.Ui.Editor
 
     public static class UiCodeWidgetGenerator
     {
-        private static readonly Dictionary<string, IWidgetGenerator> Generators;
-
-        static UiCodeWidgetGenerator()
+        private static readonly Dictionary<string, IWidgetGenerator> Generators = new Dictionary<string, IWidgetGenerator>
         {
-            Generators = new Dictionary<string, IWidgetGenerator>
-            {
-                ["btn"] = new ButtonGenerator(),
-                ["tgg"] = new ToggleGroupGenerator(),
-                ["tgb"] = new ToggleGenerator(),
-                ["sli"] = new SliderGenerator(),
-                ["txt"] = new TextGenerator(),
-                ["img"] = new ImageGenerator(),
-                ["inp"] = new InputGenerator(),
-                ["scr"] = new ScrollRectGenerator(),
-                ["lay"] = new LayerGenerator(),
-                ["pro"] = new ProgressBarGenerator()
-            };
-        }
+            ["btn"] = new ButtonGenerator(),
+            ["tgg"] = new ToggleGroupGenerator(),
+            ["tgb"] = new ToggleGenerator(),
+            ["sli"] = new SliderGenerator(),
+            ["txt"] = new TextGenerator(),
+            ["img"] = new ImageGenerator(),
+            ["inp"] = new InputGenerator(),
+            ["scr"] = new ScrollRectGenerator(),
+            ["lay"] = new LayerGenerator(),
+            ["pro"] = new ProgressBarGenerator()
+        };
 
         /// <summary>
         /// 根据控件前缀获取对应的代码生成器

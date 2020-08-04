@@ -12,6 +12,8 @@
 
 # 模块列表
 
+详细说明请见每个子目录中的README文档（施工中）
+
 ## Instech.Framework.Core
 
 框架核心功能，包含单例，对象池
@@ -50,3 +52,19 @@ UI框架
 ## Instech.Framework.Data
 
 配置数据相关，包含配置表和本地化
+
+# 其他模块
+
+除了本仓库，还有其他一些不依赖Unity的模块，如下
+
+## Instech.FilePacker
+
+将多个文件打包成一个文件，支持选择性部分加载，用于资源打包
+
+地址：[FilePacker on Github](https://github.com/inspoy/FilePacker)
+
+## Instech.EncryptHelper
+
+加密相关的使用工具类
+
+地址：[EncryptHelper on Github](https://github.com/inspoy/EncryptHelper)

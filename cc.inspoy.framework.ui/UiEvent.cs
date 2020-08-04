@@ -35,7 +35,7 @@ namespace Instech.Framework.Ui
             // do nothing
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }

@@ -6,7 +6,6 @@
  * All rights reserved.
  */
 
-using System;
 using Instech.Framework.Logging;
 
 namespace Instech.Framework.Data

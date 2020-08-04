@@ -6,6 +6,7 @@
  * All rights reserved.
  */
 
+using Unity.CodeEditor;
 using UnityEditor;
 
 namespace Instech.Framework.Utils.Editor
@@ -67,10 +68,16 @@ namespace Instech.Framework.Utils.Editor
             MiscEditor.ToggleGameObjectActive();
         }
 
-        [MenuItem("Instech/Utils/检查所有脚本的头部注释")]
+        [MenuItem("Instech/Utils/检查所有脚本的头部注释", false, 5104)]
         private static void CheckScriptHeader()
         {
             MiscEditor.CheckScriptHeader();
+        }
+
+        [MenuItem("Instech/Utils/生成cs工程文件", false, 5105)]
+        private static void SyncSolution()
+        {
+            CodeEditor.CurrentEditor.SyncAll();
         }
 
         /// <summary>

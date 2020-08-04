@@ -30,7 +30,7 @@ namespace Instech.Framework.Core
         /// <summary>
         /// 销毁时调用
         /// </summary>
-        void Dispose();
+        void OnDestroy();
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ namespace Instech.Framework.Core
                 if (PooledCount >= MaxCount)
                 {
                     // 已经满了
-                    obj.Dispose();
+                    obj.OnDestroy();
                     return;
                 }
                 _pooledQueue.Enqueue(obj);
@@ -216,7 +216,7 @@ namespace Instech.Framework.Core
                 foreach (var item in _pooledQueue)
                 {
                     item.OnRecycle();
-                    item.Dispose();
+                    item.OnDestroy();
                 }
                 PooledCount = 0;
             }

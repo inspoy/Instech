@@ -9,7 +9,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using UnityEngine;
 
 namespace Instech.Framework.Utils
@@ -261,7 +260,7 @@ namespace Instech.Framework.Utils
         {
             if (_userNameProvider != null)
             {
-                var userId = "";
+                var userId = _userNameProvider();
                 if (string.IsNullOrEmpty(userId))
                 {
                     return userId;

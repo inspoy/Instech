@@ -314,7 +314,7 @@ namespace Instech.Framework.Data
                 var hash = int.MaxValue;
                 for (var j = 0; j < loops; ++j)
                 {
-                    hash = hash * 121321 % int.MaxValue;
+                    hash = (int)(hash * 121321L % int.MaxValue);
                 }
                 ret[i] = (byte)hash;
             }

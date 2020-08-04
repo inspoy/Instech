@@ -40,7 +40,7 @@ namespace Instech.Framework.Logging
             StackTrace = null;
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }

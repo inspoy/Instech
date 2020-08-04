@@ -96,7 +96,7 @@ namespace Instech.Framework.AssetHelper
                 _thread = null;
             }
 
-            public void Dispose()
+            public void OnDestroy()
             {
                 // do nothing
             }
@@ -366,7 +366,7 @@ namespace Instech.Framework.AssetHelper
             // do nothing
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             // do nothing
         }
@@ -415,61 +415,59 @@ namespace Instech.Framework.AssetHelper
             aes.Init(aesKey);
             var resMetaReal = aes.Decrypt(resMetaRaw);
             aes.UnInit();
-            using (var ms = new MemoryStream(resMetaReal))
+            var ms = new MemoryStream(resMetaReal);
+            using (var sr = new StreamReader(ms, Encoding.UTF8))
             {
-                using (var sr = new StreamReader(ms, Encoding.UTF8))
+                // 1. Dependency Map
+                _dependencyMap = new Dictionary<string, List<string>>();
+                while (true)
                 {
-                    // 1. Dependency Map
-                    _dependencyMap = new Dictionary<string, List<string>>();
-                    while (true)
+                    var line = sr.ReadLine();
+                    if (line == null || line.StartsWith("#"))
                     {
-                        var line = sr.ReadLine();
-                        if (line == null || line.StartsWith("#"))
-                        {
-                            break;
-                        }
-
-                        var items = line.Split(',');
-                        var abName = items[0];
-                        _dependencyMap[abName] = new List<string>(items.Length - 1);
-                        for (var i = 1; i < items.Length; ++i)
-                        {
-                            _dependencyMap[abName].Add(items[i]);
-                        }
+                        break;
                     }
 
-                    // 2. Address Map
-                    _addressMap = new Dictionary<string, ValueTuple<string, string>>();
-                    while (true)
+                    var items = line.Split(',');
+                    var abName = items[0];
+                    _dependencyMap[abName] = new List<string>(items.Length - 1);
+                    for (var i = 1; i < items.Length; ++i)
                     {
-                        var line = sr.ReadLine();
-                        if (line == null || line.StartsWith("#"))
-                        {
-                            break;
-                        }
+                        _dependencyMap[abName].Add(items[i]);
+                    }
+                }
 
-                        var items = line.Split('|');
-                        var addr = items[0];
-                        var assetName = items[1];
-                        var abName = items[2];
-                        _addressMap.Add(addr, (abName, assetName));
+                // 2. Address Map
+                _addressMap = new Dictionary<string, ValueTuple<string, string>>();
+                while (true)
+                {
+                    var line = sr.ReadLine();
+                    if (line == null || line.StartsWith("#"))
+                    {
+                        break;
                     }
 
-                    // 3. AssetPack Map
-                    _packMap = new Dictionary<string, string>();
-                    while (true)
-                    {
-                        var line = sr.ReadLine();
-                        if (line == null || line.StartsWith("#"))
-                        {
-                            break;
-                        }
+                    var items = line.Split('|');
+                    var addr = items[0];
+                    var assetName = items[1];
+                    var abName = items[2];
+                    _addressMap.Add(addr, (abName, assetName));
+                }
 
-                        var items = line.Split('|');
-                        var abName = items[0];
-                        var packName = items[1];
-                        _packMap.Add(abName, packName);
+                // 3. AssetPack Map
+                _packMap = new Dictionary<string, string>();
+                while (true)
+                {
+                    var line = sr.ReadLine();
+                    if (line == null || line.StartsWith("#"))
+                    {
+                        break;
                     }
+
+                    var items = line.Split('|');
+                    var abName = items[0];
+                    var packName = items[1];
+                    _packMap.Add(abName, packName);
                 }
             }
 
@@ -663,25 +661,8 @@ namespace Instech.Framework.AssetHelper
         public void UpdateFrame()
         {
             Profiler.BeginSample("BundleManager");
-            // Update Loading Assets
-            foreach (var task in _pendingAssets)
-            {
-                if (task.Value.Update())
-                {
-                    _loadingTaskRemoveList.Add(task.Key);
-                }
-            }
-
-            if (_loadingTaskRemoveList.Count > 0)
-            {
-                foreach (var item in _loadingTaskRemoveList)
-                {
-                    _pendingAssets.Remove(item);
-                }
-
-                _loadingTaskRemoveList.Clear();
-            }
-
+            UpdateLoadingAssets();
+            
             // Update Bundles whether should be unloaded
             var now = Time.realtimeSinceStartup;
             foreach (var pair in _cachedBundles)
@@ -697,29 +678,55 @@ namespace Instech.Framework.AssetHelper
             {
                 foreach (var pair in _loadedBundleRemoveList)
                 {
-                    pair.Value.Bundle.Unload(true);
-                    if (_dependencyMap.TryGetValue(pair.Key, out var deps))
-                    {
-                        foreach (var dep in deps)
-                        {
-                            if (_cachedBundles.TryGetValue(dep, out var cachedBundle))
-                            {
-                                cachedBundle.ReferenceCount -= 1;
-                            }
-                        }
-                    }
-
-                    _cachedBundles.Remove(pair.Key);
-                    if (VerboseLog)
-                    {
-                        Logger.LogInfo(LogModule.Resource, "Unload Bundle: " + pair.Key);
-                    }
+                    UnloadBundle(pair);
                 }
 
                 _loadedBundleRemoveList.Clear();
             }
 
             Profiler.EndSample();
+        }
+
+        private void UpdateLoadingAssets()
+        {
+            foreach (var task in _pendingAssets)
+            {
+                if (task.Value.Update())
+                {
+                    _loadingTaskRemoveList.Add(task.Key);
+                }
+            }
+            if (_loadingTaskRemoveList.Count <= 0)
+            {
+                return;
+            }
+            foreach (var item in _loadingTaskRemoveList)
+            {
+                _pendingAssets.Remove(item);
+            }
+
+            _loadingTaskRemoveList.Clear();
+        }
+
+        private void UnloadBundle(KeyValuePair<string, LoadedBundle> pair)
+        {
+            pair.Value.Bundle.Unload(true);
+            if (_dependencyMap.TryGetValue(pair.Key, out var deps))
+            {
+                foreach (var dep in deps)
+                {
+                    if (_cachedBundles.TryGetValue(dep, out var cachedBundle))
+                    {
+                        cachedBundle.ReferenceCount -= 1;
+                    }
+                }
+            }
+
+            _cachedBundles.Remove(pair.Key);
+            if (VerboseLog)
+            {
+                Logger.LogInfo(LogModule.Resource, "Unload Bundle: " + pair.Key);
+            }
         }
 
         /// <summary>

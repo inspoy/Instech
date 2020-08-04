@@ -18,7 +18,6 @@ using Instech.Framework.Core;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
 using JetBrains.Annotations;
-using UnityEngine;
 using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.Data

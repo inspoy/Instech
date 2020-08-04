@@ -177,41 +177,19 @@ namespace Instech.Framework.Common
             return "Unknown";
         }
 
-        private bool ValidateUpdateLock(bool isLocked, Dictionary<object, UpdateHandler> container, Dictionary<object, UpdateHandler> lateAdd,
-            object listener, UpdateHandler handler)
-        {
-            if (isLocked)
-            {
-                if (lateAdd.ContainsKey(listener))
-                {
-                    throw new DuplicateListenerException(GetUpdateTypeNameWithContainer(lateAdd));
-                }
-
-                lateAdd.Add(listener, handler);
-            }
-
-            return !isLocked;
-        }
-
-        private bool ValidateUpdateLock(bool isLocked, List<object> lateRemove, object listener)
-        {
-            if (isLocked && !lateRemove.Contains(listener))
-            {
-                lateRemove.Add(listener);
-            }
-
-            return !isLocked;
-        }
-
         private void AddHandler(
             bool isLocked,
             Dictionary<object, UpdateHandler> container,
             Dictionary<object, UpdateHandler> lateAdd,
             object listener, UpdateHandler handler)
         {
-            if (listener == null || handler == null)
+            if (listener == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(listener));
+            }
+            if (handler == null)
+            {
+                throw new ArgumentNullException(nameof(handler));
             }
 
             if (container.ContainsKey(listener))
@@ -242,7 +220,7 @@ namespace Instech.Framework.Common
         {
             if (listener == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(listener));
             }
 
             if (isLocked)

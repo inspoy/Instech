@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Instech.Framework.Common.Editor;
@@ -34,6 +33,8 @@ namespace Instech.Framework.Utils.Editor
             " * Created on ##CreateDate## by ##Author##\n" +
             " * All rights reserved.\n" +
             " */\n\n";
+
+        private static string _userName;
 
         /// <summary>
         /// 当创建资产时由Unity调用
@@ -85,6 +86,10 @@ namespace Instech.Framework.Utils.Editor
         /// <returns></returns>
         public static string GetUserName()
         {
+            if (!string.IsNullOrEmpty(_userName))
+            {
+                return _userName;
+            }
             var psi = new ProcessStartInfo("git", "config user.name")
             {
                 RedirectStandardOutput = true,
@@ -99,21 +104,13 @@ namespace Instech.Framework.Utils.Editor
                 p.Dispose();
                 if (!string.IsNullOrWhiteSpace(ret))
                 {
-                    return ret;
+                    _userName = ret;
+                    return _userName;
                 }
             }
 
-            return Environment.UserName;
-        }
-    }
-
-    public static class SyncSolution
-    {
-        public static void Sync()
-        {
-            var syncVsType = Type.GetType("UnityEditor.SyncVS,UnityEditor");
-            var syncVsMethod = syncVsType?.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static);
-            syncVsMethod?.Invoke(null, null);
+            _userName = Environment.UserName;
+            return _userName;
         }
     }
 

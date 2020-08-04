@@ -180,7 +180,7 @@ namespace Instech.Framework.Common
                 Id = ++_idCounter;
             }
 
-            public void Dispose()
+            public void OnDestroy()
             {
                 // do nothing
             }

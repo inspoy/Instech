@@ -17,7 +17,7 @@ namespace Instech.Framework.Utils
     public class CommandArguments
     {
         private static CommandArguments _current;
-        private Dictionary<string, string> _args;
+        private readonly Dictionary<string, string> _args;
 
         public static CommandArguments Get()
         {

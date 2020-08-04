@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using Instech.EncryptHelper;
 using Instech.Framework.Utils;
-using UnityEngine;
 
 namespace Instech.Framework.Data
 {

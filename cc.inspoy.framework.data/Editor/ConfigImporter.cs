@@ -69,26 +69,8 @@ namespace Instech.Framework.Data.Editor
                     continue;
                 }
                 Logger.LogInfo(LogModule.Data, $"找到配置文件{tableName}");
-                try
+                if (!GenSingleTable(genCode, genBin, silent, data, filePath, i, tableName))
                 {
-                    if (genBin)
-                    {
-                        ReadSingleFile(data, filePath, (ushort)i);
-                    }
-                    if (genCode)
-                    {
-                        GenSingleFile(filePath);
-                    }
-                }
-                catch (Exception e)
-                {
-                    var errMsg = $"导出{tableName}失败，原因{e.Message}，操作已取消";
-                    ShowInfo(errMsg, true, silent);
-                    Logger.LogInfo(LogModule.Data, e.ToString());
-                    if (!silent)
-                    {
-                        EditorUtility.ClearProgressBar();
-                    }
                     return false;
                 }
             }
@@ -119,6 +101,33 @@ namespace Instech.Framework.Data.Editor
                 }
             }
             ShowInfo("操作成功完成", false, silent);
+            return true;
+        }
+
+        private static bool GenSingleTable(bool genCode, bool genBin, bool silent, ConfigStructure data, string filePath, int tableIdx, string tableName)
+        {
+            try
+            {
+                if (genBin)
+                {
+                    ReadSingleFile(data, filePath, (ushort)tableIdx);
+                }
+                if (genCode)
+                {
+                    GenSingleFile(filePath);
+                }
+            }
+            catch (Exception e)
+            {
+                var errMsg = $"导出{tableName}失败，原因{e.Message}，操作已取消";
+                ShowInfo(errMsg, true, silent);
+                Logger.LogInfo(LogModule.Data, e.ToString());
+                if (!silent)
+                {
+                    EditorUtility.ClearProgressBar();
+                }
+                return false;
+            }
             return true;
         }
 

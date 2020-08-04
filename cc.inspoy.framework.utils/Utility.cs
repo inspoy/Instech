@@ -295,14 +295,15 @@ namespace Instech.Framework.Utils
         public static string CombineToString<T>(IEnumerable<T> source, string separator)
         {
             var sep = string.Empty;
-            var ret = string.Empty;
+            var ret = StringBuilderPool.Acquire();
             foreach (var item in source)
             {
-                ret = ret + sep + item;
+                ret.Append(sep);
+                ret.Append(item);
                 sep = separator;
             }
 
-            return ret;
+            return ret.ToString();
         }
 
         /// <summary>
@@ -408,18 +409,6 @@ namespace Instech.Framework.Utils
             }
 
             return parent.GetHierarchyPath(root) + "/" + self.name;
-        }
-
-        /// <summary>
-        /// 获取配置表里配置的浮点数
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obsolete]
-        public static float ConfigFloat(int val)
-        {
-            return val * 0.0001f;
         }
 
         /// <summary>

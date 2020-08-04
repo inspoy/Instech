@@ -6,10 +6,7 @@
  * All rights reserved.
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 
 namespace Instech.Framework.MyJson.Editor
 {

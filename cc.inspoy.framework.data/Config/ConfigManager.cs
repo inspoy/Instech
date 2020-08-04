@@ -36,6 +36,11 @@ namespace Instech.Framework.Data
         /// </summary>
         private Dictionary<Type, BaseConfig> _dictEmptyConfig;
 
+        /// <summary>
+        /// 线程锁，用于<see cref="GetSingleSafe{T}"/>
+        /// </summary>
+        private readonly object _locker = new object();
+
         protected override void Init()
         {
             _dictConfigData = new Dictionary<Type, object>();
@@ -110,7 +115,7 @@ namespace Instech.Framework.Data
             if (_dictConfigData.ContainsKey(typeof(T)))
             {
                 Logger.LogError(LogModule.Data, $"已经初始化过{typeof(T)}的数据了！");
-                return null;
+                return new Dictionary<int, T>();
             }
             var data = GetData(tableName);
             if (data == null)
@@ -183,6 +188,20 @@ namespace Instech.Framework.Data
         }
 
         /// <summary>
+        /// 线程安全地获取单个Config对象
+        /// </summary>
+        /// <param name="nId"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetSingleSafe<T>(int nId) where T : BaseConfig
+        {
+            lock (_locker)
+            {
+                return GetSingle<T>(nId);
+            }
+        }
+        
+        /// <summary>
         /// 获取某个表的全部数据（含Key）
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -192,7 +211,7 @@ namespace Instech.Framework.Data
         {
             if (!_dictConfigData.ContainsKey(typeof(T)))
             {
-                return null;
+                return new Dictionary<int, T>();
             }
             return _dictConfigData[typeof(T)] as Dictionary<int, T>;
         }

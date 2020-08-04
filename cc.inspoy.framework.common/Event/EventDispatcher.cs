@@ -100,8 +100,7 @@ namespace Instech.Framework.Common
                 return false;
             }
             var selectors = _dictListeners[eventType];
-            var target = selectors.Find(src => sel == src);
-            return target != null;
+            return selectors.Contains(sel);
         }
 
         /// <summary>
