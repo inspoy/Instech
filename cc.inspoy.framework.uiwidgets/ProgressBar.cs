@@ -6,6 +6,8 @@
  * All rights reserved.
  */
 
+using UnityEngine;
+
 namespace Instech.Framework.UiWidgets
 {
     public class ProgressBar : MonoBehaviour

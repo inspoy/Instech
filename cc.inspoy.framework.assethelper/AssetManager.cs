@@ -84,7 +84,7 @@ namespace Instech.Framework.AssetHelper
         /// <summary>
         /// 编辑器中也使用AssetBundle方式加载，用于测试
         /// </summary>
-        [UsedImplicitly] public static bool UseBundleInEditor;
+        public static bool UseBundleInEditor;
 
         private EditorAssetManager _editorManager;
 #endif
