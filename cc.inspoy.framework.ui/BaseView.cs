@@ -82,6 +82,7 @@ namespace Instech.Framework.Ui
         protected IBasePresenter Presenter;
 
         private readonly HashSet<EventDispatcher> _dispatchers = new HashSet<EventDispatcher>();
+        protected IUiInitData _initData;
 
         /// <summary>
         /// 添加UI事件监听
@@ -174,6 +175,7 @@ namespace Instech.Framework.Ui
 
             IsSleeping = true;
             Presenter.OnViewRecycle(false);
+            _initData = null;
             if (UiManager.HasSingleton())
             {
                 UiManager.Instance.RecycleViewFromBaseView(this);
@@ -203,8 +205,7 @@ namespace Instech.Framework.Ui
             IgnoreCloseAll = false;
             RectTransform = transform as RectTransform;
             Presenter.InitWithView(this);
-            IsSleeping = false;
-            Presenter.OnViewActivate();
+            IsSleeping = true;
         }
 
         protected abstract void Awake();
@@ -212,7 +213,7 @@ namespace Instech.Framework.Ui
         /// <summary>
         /// 重新激活UI，UiManager调用
         /// </summary>
-        internal void Activate()
+        internal void Activate(IUiInitData initData)
         {
             if (!IsSleeping)
             {
@@ -220,6 +221,7 @@ namespace Instech.Framework.Ui
             }
 
             IsSleeping = false;
+            _initData = initData;
             Presenter.OnViewActivate();
         }
 

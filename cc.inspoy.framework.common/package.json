@@ -1,8 +1,8 @@
 {
   "name": "cc.inspoy.framework.common",
   "displayName": "Instech.Framework.Common",
-  "version": "0.0.1",
-  "unity": "2019.1",
+  "version": "1.0.0",
+  "unity": "2020.1",
   "description": "Unity\u6846\u67b6\u57fa\u672c\u529f\u80fd",
   "keywords": [
     "instech",

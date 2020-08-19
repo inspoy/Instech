@@ -50,9 +50,7 @@ namespace Instech.Framework.Utils.Editor
 
             path = path.Replace(".meta", "");
             var fullText = Header;
-            var assemblyName = CompilationPipeline
-                .GetAssemblyNameFromScriptPath(path)
-                .Replace(".dll", "");
+            var assemblyName = GetAssemblyName(path);
             var productName = Application.productName;
             if (assemblyName.StartsWith("Instech."))
             {
@@ -111,6 +109,31 @@ namespace Instech.Framework.Utils.Editor
 
             _userName = Environment.UserName;
             return _userName;
+        }
+
+        private static string GetAssemblyName(string srcPath)
+        {
+            if (!File.Exists(srcPath))
+            {
+                return "Unknown";
+            }
+            var root = Path.GetPathRoot(srcPath);
+            if (root == null)
+            {
+                root = string.Empty;
+            }
+            root = root.Replace("\\", "/");
+            var curPath = Path.GetDirectoryName(Path.GetFullPath(srcPath));
+            while (curPath != null && root != curPath.Replace("\\", "/"))
+            {
+                var files = Directory.GetFiles(curPath, "*.asmdef", SearchOption.TopDirectoryOnly);
+                if (files.Length > 0)
+                {
+                    return Path.GetFileNameWithoutExtension(files[0]);
+                }
+                curPath = Path.GetFullPath(Path.Combine(curPath, ".."));
+            }
+            return "Unknown";
         }
     }
 

@@ -35,6 +35,13 @@ namespace Instech.Framework.Ui
     }
 
     /// <summary>
+    /// UI激活时可以传入的一些初始化数据
+    /// </summary>
+    public interface IUiInitData
+    {
+    }
+
+    /// <summary>
     /// UI管理器，提供UI增删改查功能
     /// </summary>
     public class UiManager : MonoSingleton<UiManager>
@@ -99,13 +106,19 @@ namespace Instech.Framework.Ui
         /// <typeparam name="T"></typeparam>
         /// <param name="canvasName">Canvas名称（可选）</param>
         /// <param name="parent">父节点（可选）</param>
+        /// <param name="initData">初始化数据（可选）</param>
         /// <returns></returns>
-        public T AddView<T>(string canvasName = "Normal", Transform parent = null) where T : BaseView
+        public T AddView<T>(string canvasName = "Normal", Transform parent = null, IUiInitData initData = null) where T : BaseView
         {
             var cacheData = GetCacheData(typeof(T));
             if (parent == null)
             {
-                parent = GetCanvas(canvasName).transform;
+                parent = GetCanvas(canvasName)?.transform;
+            }
+            if (parent == null)
+            {
+                Logger.LogError(LogModule.Ui, "Cannot resolve canvas: " + canvasName);
+                return null;
             }
 
             BaseView ret;
@@ -115,7 +128,7 @@ namespace Instech.Framework.Ui
                 cacheData.CachedViews.Remove(ret);
                 cacheData.ActiveViews.Add(ret);
                 ret.transform.SetParent(parent);
-                ret.Activate();
+                ret.Activate(initData);
             }
             else
             {
@@ -127,6 +140,7 @@ namespace Instech.Framework.Ui
                     Logger.LogError(LogModule.Ui, "Prefab未挂载View组件: " + typeof(T));
                     return null;
                 }
+                ret.Activate(initData);
 
                 cacheData.ActiveViews.Add(ret);
             }
@@ -160,12 +174,12 @@ namespace Instech.Framework.Ui
             return cacheData.ActiveViews[0] as T;
         }
 
-        public T AddItemToView<T>(RectTransform parent, BaseView parentView) where T : BaseView
+        public T AddItemToView<T>(RectTransform parent, BaseView parentView, IUiInitData initData = null) where T : BaseView
         {
             Logger.Assert(LogModule.Ui, parent != null, "parent不可为空");
             Logger.Assert(LogModule.Ui, parentView != null, "parentView不可为空");
             // 在父UI上添加子UI的记录，回收或关闭时需要一起处理
-            var ret = AddView<T>(null, parent);
+            var ret = AddView<T>(null, parent, initData);
             parentView.SubViews.Add(ret);
             ret.ParentView = parentView;
             return ret;

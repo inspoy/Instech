@@ -1,8 +1,8 @@
 {
   "name": "cc.inspoy.framework.assethelper",
   "displayName": "Instech.Framework.AssetHelper",
-  "version": "0.0.1",
-  "unity": "2019.1",
+  "version": "1.0.0",
+  "unity": "2020.1",
   "description": "资产管理模块",
   "keywords": [
     "instech",

@@ -143,10 +143,11 @@ namespace Instech.Framework.Data
         }
 
         /// <summary>
-        /// 注册配置项，必须在<code>ConfigManager.CreateSingleton()</code>之后调用
+        /// 注册配置项，必须在<code>ConfigManager.CreateSingleton()</code>之后调用，通常使用反射统一调用
         /// <para>而且在全部注册完之后必须调用<code>FinishInit()</code>方法</para>
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        [UsedImplicitly]
         public void RegisterConfigType<T>(string tableName) where T : BaseConfig, new()
         {
             _dictEmptyConfig[typeof(T)] = new T();

@@ -240,7 +240,7 @@ namespace Instech.Framework.AssetHelper.Editor
             {
                 for (var i = 0; i < bundleInfo.assetNames.Length; ++i)
                 {
-                    sb.Append($"{bundleInfo.assetNames[i].Replace("Assets/" + ProjectSettings.Instance.ArtworkRootPath.TrimStart('/'), "")}|{bundleInfo.addressableNames[i]}|{bundleInfo.assetBundleName}\n");
+                    sb.Append($"{bundleInfo.assetNames[i]}|{bundleInfo.addressableNames[i]}|{bundleInfo.assetBundleName}\n");
                 }
             }
             sb.Append("#\n");

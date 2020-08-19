@@ -80,7 +80,7 @@ namespace Instech.Framework.Ui.Editor
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Button", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiPointerClick, On{pascalGoName.Substring(3)}Clicked);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiPointerClick, On{pascalGoName.Substring(3)}Clicked);\n");
             eventHandlerPart.Append(
                 "\n\n" +
                 $"        private void On{pascalGoName.Substring(3)}Clicked(Event e)\n" +
@@ -98,7 +98,7 @@ namespace Instech.Framework.Ui.Editor
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ToggleGroup", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}ToggleValueChange);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}ToggleValueChange);\n");
             eventHandlerPart.Append(
                 "\n\n" +
                 $"        private void On{pascalGoName.Substring(3)}ToggleValueChange(Event e)\n" +
@@ -116,7 +116,7 @@ namespace Instech.Framework.Ui.Editor
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Toggle", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiToggleChange, On{pascalGoName.Substring(3)}ToggleChange);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiToggleChange, On{pascalGoName.Substring(3)}ToggleChange);\n");
             eventHandlerPart.Append(
                 "\n\n" +
                 $"        private void On{pascalGoName.Substring(3)}ToggleChange(Event e)\n" +
@@ -134,7 +134,7 @@ namespace Instech.Framework.Ui.Editor
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Slider", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}SliderChange);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}SliderChange);\n");
             eventHandlerPart.Append(
                 "\n\n" +
                 $"        private void On{pascalGoName.Substring(3)}SliderChange(Event e)\n" +
@@ -170,10 +170,10 @@ namespace Instech.Framework.Ui.Editor
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "TMP_InputField", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}InputChange);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiValueChange, On{pascalGoName.Substring(3)}InputChange);\n");
             addListenerPart.Append(
                 "            " +
-                $"_view.AddListener(_view.{pascalGoName}, EventEnum.UiSubmit, On{pascalGoName.Substring(3)}Submit);\n");
+                $"_view.AddEventListener(_view.{pascalGoName}, EventEnum.UiSubmit, On{pascalGoName.Substring(3)}Submit);\n");
             eventHandlerPart.Append(
                 "\n\n" +
                 $"        private void On{pascalGoName.Substring(3)}InputChange(Event e)\n" +

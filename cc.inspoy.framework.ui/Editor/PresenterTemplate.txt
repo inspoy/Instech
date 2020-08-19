@@ -1,3 +1,7 @@
+using System;
+using Instech.Framework.Common;
+using Instech.Framework.Ui;
+
 namespace Game.Ui
 {
     public class $VIEWNAME$Presenter : IBasePresenter

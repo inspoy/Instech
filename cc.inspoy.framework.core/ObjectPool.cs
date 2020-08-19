@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine.TestTools;
 
 namespace Instech.Framework.Core
 {
@@ -83,6 +84,7 @@ namespace Instech.Framework.Core
         /// 获取调试用的字符串
         /// </summary>
         /// <returns></returns>
+        [ExcludeFromCoverage]
         public string GetDebugInformation()
         {
             var sb = new StringBuilder();

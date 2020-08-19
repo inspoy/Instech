@@ -1,8 +1,8 @@
 {
   "name": "cc.inspoy.framework.utils",
   "displayName": "Instech.Framework.Utils",
-  "version": "0.0.1",
-  "unity": "2019.1",
+  "version": "1.0.0",
+  "unity": "2020.1",
   "description": "Unity框架公共实用工具类",
   "keywords": [
     "instech",

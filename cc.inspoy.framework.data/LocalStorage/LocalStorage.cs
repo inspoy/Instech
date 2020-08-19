@@ -235,6 +235,10 @@ namespace Instech.Framework.Data
             aes.Init(_key);
             var encrypt = aes.Encrypt(json);
             File.WriteAllBytes(_savePath, encrypt);
+#if UNITY_EDITOR
+            // 编辑器下，同时写入未加密的版本
+            File.WriteAllText(_savePath + ".json", MyJson.MyJson.ToJson(CachedSetting));
+#endif
             Logger.LogInfo(LogModule.Data, "LocalStorage Saved");
         }
     }

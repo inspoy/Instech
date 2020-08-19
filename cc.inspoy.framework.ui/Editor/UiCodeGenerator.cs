@@ -142,7 +142,7 @@ namespace Instech.Framework.Ui.Editor
             presenterContentBuilder.Replace("$VIEWNAME$", viewName);
             var addListenerPart = new StringBuilder();
             var eventHandlerPart = new StringBuilder();
-            foreach (var transform in prefab.GetComponentsInChildren<RectTransform>())
+            foreach (var transform in prefab.GetComponentsInChildren<RectTransform>(true))
             {
                 var go = transform.gameObject;
                 if (go.name.Length > 3)
@@ -157,8 +157,8 @@ namespace Instech.Framework.Ui.Editor
             }
             viewContentBuilder.Replace("$MEMBER_DECLARE$", memberDeclarePart.ToString());
             viewContentBuilder.Replace("$MEMBER_CHECK$", memberCheckPart.ToString());
-            presenterContentBuilder.Replace("$ADD_LISTENER$", addListenerPart.ToString());
-            presenterContentBuilder.Replace("$EVENT_HANDLER$", eventHandlerPart.ToString());
+            presenterContentBuilder.Replace("$ADD_LISTENERS$", addListenerPart.ToString());
+            presenterContentBuilder.Replace("$EVENT_HANDLERS$", eventHandlerPart.ToString());
         }
 
         private static void GenerateWidgetItem(

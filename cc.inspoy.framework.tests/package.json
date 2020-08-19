@@ -1,0 +1,13 @@
+{
+  "name": "cc.inspoy.framework.tests",
+  "displayName": "Instech.Framework.Tests",
+  "version": "1.0.0",
+  "unity": "2020.1",
+  "description": "\u6846\u67b6\u7edf\u4e00\u6d4b\u8bd5\u7528\u4f8b",
+  "keywords": [
+    "instech",
+    "framework",
+    "tests"
+  ],
+  "type": "tests"
+}

@@ -108,17 +108,27 @@ namespace Instech.Framework.Utils
         /// <summary>
         /// 获取字符串的MD5值
         /// </summary>
-        /// <returns>The Md5.</returns>
+        /// <returns>The Md5(32 bytes array).</returns>
         /// <param name="src">Source String.</param>
-        public static string GetMd5(string src)
+        public static byte[] GetMd5(string src)
         {
             var md5 = new MD5CryptoServiceProvider();
             var data = Encoding.UTF8.GetBytes(src);
-            var md5Data = md5.ComputeHash(data, 0, data.Length);
+            var ret = md5.ComputeHash(data, 0, data.Length);
             md5.Clear();
+            return ret;
+        }
 
+        /// <summary>
+        /// 获取字符串的MD5值(字符串形式)
+        /// </summary>
+        /// <param name="src">Source String.</param>
+        /// <returns>The Md5(32 bytes string).</returns>
+        public static string GetMd5String(string src)
+        {
+            var rawMd5 = GetMd5(src);
             var destString = new StringBuilder();
-            foreach (var item in md5Data)
+            foreach (var item in rawMd5)
             {
                 destString.Append(Convert.ToString(item, 16).PadLeft(2, '0'));
             }
