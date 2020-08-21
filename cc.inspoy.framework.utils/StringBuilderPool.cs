@@ -13,26 +13,26 @@ using Instech.Framework.Core;
 
 namespace Instech.Framework.Utils
 {
-    public class StringBuilderPool : AutoCreateSingleton<StringBuilderPool>
+    public static class StringBuilderPool
     {
-        private Stack<StringBuilder> _pool;
-
-        protected override void Init()
-        {
-            _pool = new Stack<StringBuilder>();
-        }
-
         public static StringBuilder Acquire()
         {
-            if (Instance._pool.Count > 0)
-            {
-                return Instance._pool.Pop();
-            }
-
-            return new StringBuilder();
+            return ObjectPool<StringBuilder>.GetNew();
         }
 
-        public static void Release(StringBuilder sb)
+        public static void ReleaseToPool(this StringBuilder sb)
+        {
+            ObjectPool<StringBuilder>.Instance.Recycle(sb);
+        }
+        
+        static StringBuilderPool()
+        {
+            ObjectPool<StringBuilder>.Instance.RecycleCallback = OnRecycle;
+            ObjectPool<StringBuilder>.Instance.ActivateCallback = ObjectPool<StringBuilder>.Instance.EmptyCallback;
+            ObjectPool<StringBuilder>.Instance.DestroyCallback = ObjectPool<StringBuilder>.Instance.EmptyCallback;
+        }
+
+        private static void OnRecycle(StringBuilder sb)
         {
             if (sb == null)
             {
@@ -40,15 +40,6 @@ namespace Instech.Framework.Utils
             }
 
             sb.Clear();
-            Instance._pool.Push(sb);
-        }
-    }
-
-    public static class StringBuilderPoolExtension
-    {
-        public static void ReleaseToPool(this StringBuilder sb)
-        {
-            StringBuilderPool.Release(sb);
         }
     }
 }

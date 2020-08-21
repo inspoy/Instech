@@ -29,7 +29,7 @@ namespace Instech.FrameworkTest
             var mode = testResults.Children.First().Test.Properties.Get("platform").ToString();
             var resultPath = Path.Combine(Application.persistentDataPath, "TestResults.xml");
             var targetPath = Path.GetFullPath(Application.dataPath + $"/../TestResults_{mode}.xml");
-            File.Copy(resultPath, targetPath);
+            File.Copy(resultPath, targetPath, true);
             Debug.Log("[FrameworkTest]Tests completed, result copied to:\n"+targetPath);
         }
 

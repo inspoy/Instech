@@ -84,7 +84,6 @@ namespace Instech.Framework.Core
         /// 获取调试用的字符串
         /// </summary>
         /// <returns></returns>
-        [ExcludeFromCoverage]
         public string GetDebugInformation()
         {
             var sb = new StringBuilder();
@@ -92,9 +91,22 @@ namespace Instech.Framework.Core
             sb.Append("Name,Created,Pooled,Active,Saved,Max\n");
             foreach (var item in _dictPool)
             {
-                sb.Append($"{item.Key},{item.Value.CreatedCount},{item.Value.PooledCount},{item.Value.ActiveCount},{item.Value.SavedCount},{item.Value.MaxCount}\n");
+                sb.Append(
+                    $"{item.Key},{item.Value.CreatedCount},{item.Value.PooledCount},{item.Value.ActiveCount},{item.Value.SavedCount},{item.Value.MaxCount}\n");
             }
             return sb.ToString();
+        }
+    }
+
+    public class PoolingCallbackNotSetException : Exception
+    {
+        private static string MakeMessage(Type t)
+        {
+            return $"Type {t.FullName} cannot be used in a ObjectPool since not all callbacks are set";
+        }
+
+        public PoolingCallbackNotSetException(Type t) : base(MakeMessage(t))
+        {
         }
     }
 
@@ -102,7 +114,7 @@ namespace Instech.Framework.Core
     /// 通用对象池，线程安全
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObjectPool<T> : AutoCreateSingleton<ObjectPool<T>>, IObjectPool where T : class, IPoolable, new()
+    public class ObjectPool<T> : AutoCreateSingleton<ObjectPool<T>>, IObjectPool where T : class, new()
     {
         private const uint DefualtMaxCount = 64;
         private readonly Queue<T> _pooledQueue = new Queue<T>((int)DefualtMaxCount);
@@ -114,6 +126,11 @@ namespace Instech.Framework.Core
         public uint MaxCount { get; set; }
         public uint SavedCount { get; private set; }
         public string BaseType => typeof(T).ToString();
+
+        /// <summary>
+        /// 泛型参数T是否实现IPoolable接口
+        /// </summary>
+        private readonly bool _isPoolable = typeof(IPoolable).IsAssignableFrom(typeof(T));
 
         protected override void Init()
         {
@@ -131,6 +148,20 @@ namespace Instech.Framework.Core
             ObjectPoolManager.Instance.OnObjectPoolCreated(this);
         }
 
+        #region 对非IPoolable对象的支持
+
+        public readonly Action<T> EmptyCallback = _ => { };
+        public Action<T> RecycleCallback { get; set; }
+        public Action<T> ActivateCallback { get; set; }
+        public Action<T> DestroyCallback { get; set; }
+
+        private bool IsAllCallbacksValid()
+        {
+            return RecycleCallback != null && ActivateCallback != null && DestroyCallback != null;
+        }
+
+        #endregion
+
         /// <summary>
         /// 回收某对象
         /// </summary>
@@ -139,12 +170,31 @@ namespace Instech.Framework.Core
         {
             lock (_locker)
             {
-                obj.OnRecycle();
+                if (_isPoolable)
+                {
+                    ((IPoolable)obj).OnRecycle();
+                }
+                else if (IsAllCallbacksValid())
+                {
+                    RecycleCallback(obj);
+                }
+                else
+                {
+                    throw new PoolingCallbackNotSetException(typeof(T));
+                }
                 ActiveCount -= 1;
                 if (PooledCount >= MaxCount)
                 {
                     // 已经满了
-                    obj.OnDestroy();
+                    if (_isPoolable)
+                    {
+                        ((IPoolable)obj).OnDestroy();
+                    }
+                    else
+                    {
+                        // 如果上面没throw，那执行到这里回调一定是有效的
+                        DestroyCallback(obj);
+                    }
                     return;
                 }
                 _pooledQueue.Enqueue(obj);
@@ -167,12 +217,34 @@ namespace Instech.Framework.Core
                     ret = _pooledQueue.Dequeue();
                     PooledCount -= 1;
                     SavedCount += 1;
-                    ret.OnActivate();
+                    if (_isPoolable)
+                    {
+                        ((IPoolable)ret).OnActivate();
+                    }
+                    else if (IsAllCallbacksValid())
+                    {
+                        ActivateCallback(ret);
+                    }
+                    else
+                    {
+                        throw new PoolingCallbackNotSetException(typeof(T));
+                    }
                     return ret;
                 }
                 ret = new T();
                 CreatedCount += 1;
-                ret.OnActivate();
+                if (_isPoolable)
+                {
+                    ((IPoolable)ret).OnActivate();
+                }
+                else if (IsAllCallbacksValid())
+                {
+                    ActivateCallback(ret);
+                }
+                else
+                {
+                    throw new PoolingCallbackNotSetException(typeof(T));
+                }
                 return ret;
             }
         }
@@ -215,10 +287,25 @@ namespace Instech.Framework.Core
         {
             lock (_locker)
             {
-                foreach (var item in _pooledQueue)
+                if (_isPoolable)
                 {
-                    item.OnRecycle();
-                    item.OnDestroy();
+                    foreach (var item in _pooledQueue)
+                    {
+                        ((IPoolable)item).OnRecycle();
+                        ((IPoolable)item).OnDestroy();
+                    }
+                }
+                else if (IsAllCallbacksValid())
+                {
+                    foreach (var item in _pooledQueue)
+                    {
+                        RecycleCallback(item);
+                        DestroyCallback(item);
+                    }
+                }
+                else
+                {
+                    throw new PoolingCallbackNotSetException(typeof(T));
                 }
                 PooledCount = 0;
             }
