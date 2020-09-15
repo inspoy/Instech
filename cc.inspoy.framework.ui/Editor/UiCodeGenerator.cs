@@ -167,9 +167,16 @@ namespace Instech.Framework.Ui.Editor
             StringBuilder addListenerPart, StringBuilder eventHandlerPart,
             Dictionary<string, Type> components)
         {
+            var handle = PrefabUtility.GetPrefabInstanceHandle(go);
+            var parentHandle = handle != null ? PrefabUtility.GetPrefabInstanceHandle(go.transform.parent.gameObject) : null;
+            if (handle != null && parentHandle != null)
+            {
+                // skip nested prefab
+                return;
+            }
             var pascalGoName = char.ToUpper(go.name[0]) + go.name.Substring(1);
             var generator = UiCodeWidgetGenerator.GetGenerator(prefix);
-            var comType = generator?.Generate(pascalGoName, memberDeclarePart, memberCheckPart, addListenerPart, eventHandlerPart);
+            var comType = generator?.Generate(go, pascalGoName, memberDeclarePart, memberCheckPart, addListenerPart, eventHandlerPart);
             if (comType == null)
             {
                 return;

@@ -94,7 +94,7 @@
 
 ## 模块列表
 
-* [Core](Documents/Instech.Framework.Core.md) - 框架核心功能，包含单例，对象池
+* [Core](cc.inspoy.framework.core/README.md) - 框架核心功能，包含单例，对象池
 * Logging - 日志模块，所有需要输出日志的模块均依赖这个
 * Utils - 公共方法库，有许多实用的工具函数
 * Common - 框架基本功能，包含：事件，状态机，常用异步调度器（含定时器）

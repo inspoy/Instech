@@ -14,6 +14,13 @@ namespace Instech.Framework.Utils
     /// <summary>
     /// 获取和解析命令行自定义参数的工具，以'/'开头的才会被解析
     /// </summary>
+    /// <remarks>
+    /// 打包时有效参数：<br/>
+    /// <c>/platform:[PC]</c><br/>
+    /// <c>/channel:[dev]</c><br/>
+    /// 运行时有效参数:<br/>
+    /// <c>/lang:[zh-CN,en-US,...]</c><br/>
+    /// </remarks>
     public class CommandArguments
     {
         private static CommandArguments _current;

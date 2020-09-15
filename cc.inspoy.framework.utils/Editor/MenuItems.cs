@@ -80,6 +80,12 @@ namespace Instech.Framework.Utils.Editor
             CodeEditor.CurrentEditor.SyncAll();
         }
 
+        [MenuItem("Instech/Utils/编辑预定义宏", false, 5106)]
+        private static void OpenDefineSymbolEditor()
+        {
+            DefineSymbolEditor.Open();
+        }
+
         /// <summary>
         /// 功能测试
         /// </summary>

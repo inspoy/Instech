@@ -207,14 +207,14 @@ namespace Instech.Framework.Data
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        [CanBeNull]
+        [NotNull]
         public Dictionary<int, T> GetAllConfig<T>() where T : BaseConfig
         {
             if (!_dictConfigData.ContainsKey(typeof(T)))
             {
                 return new Dictionary<int, T>();
             }
-            return _dictConfigData[typeof(T)] as Dictionary<int, T>;
+            return _dictConfigData[typeof(T)] as Dictionary<int, T> ?? new Dictionary<int, T>();
         }
 
         /// <summary>
@@ -222,11 +222,11 @@ namespace Instech.Framework.Data
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        [CanBeNull]
+        [NotNull]
         public ICollection<T> GetAll<T>() where T : BaseConfig
         {
             var all = GetAllConfig<T>();
-            return all?.Values;
+            return all.Values;
         }
 
         /// <summary>

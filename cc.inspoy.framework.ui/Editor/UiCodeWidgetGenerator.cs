@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ namespace Instech.Framework.Ui.Editor
     public interface IWidgetGenerator
     {
         Type Generate(
-            string pascalGoName,
+            GameObject go, string pascalGoName,
             StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
             StringBuilder addListenerPart, StringBuilder eventHandlerPart);
     }
@@ -39,7 +40,8 @@ namespace Instech.Framework.Ui.Editor
             ["inp"] = new InputGenerator(),
             ["scr"] = new ScrollRectGenerator(),
             ["lay"] = new LayerGenerator(),
-            ["pro"] = new ProgressBarGenerator()
+            ["pro"] = new ProgressBarGenerator(),
+            ["svw"] = new SubViewGenerator()
         };
 
         /// <summary>
@@ -54,7 +56,8 @@ namespace Instech.Framework.Ui.Editor
             return generator;
         }
 
-        public static void GenerateNormalViewCode(string pascalGoName, string typeName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart)
+        public static void GenerateNormalViewCode(string pascalGoName, string typeName, StringBuilder memberDeclarePart,
+            StringBuilder memberCheckPart)
         {
             memberDeclarePart.Append(
                 "\n" +
@@ -75,7 +78,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class ButtonGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Button", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
@@ -93,7 +97,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class ToggleGroupGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ToggleGroup", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
@@ -111,7 +116,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class ToggleGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Toggle", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
@@ -129,7 +135,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class SliderGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Slider", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
@@ -147,7 +154,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class TextGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "TextMeshProUGUI", memberDeclarePart, memberCheckPart);
             return typeof(TextMeshProUGUI);
@@ -156,7 +164,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class ImageGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "Image", memberDeclarePart, memberCheckPart);
             return typeof(Image);
@@ -165,7 +174,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class InputGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "TMP_InputField", memberDeclarePart, memberCheckPart);
             addListenerPart.Append(
@@ -192,7 +202,8 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class ScrollRectGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ScrollRect", memberDeclarePart, memberCheckPart);
             return typeof(ScrollRect);
@@ -201,18 +212,37 @@ namespace Instech.Framework.Ui.Editor
 
     public sealed class LayerGenerator : IWidgetGenerator
     {
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "RectTransform", memberDeclarePart, memberCheckPart);
             return typeof(RectTransform);
         }
     }
-    
-    public sealed class ProgressBarGenerator:IWidgetGenerator{
-        public Type Generate(string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart, StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+
+    public sealed class ProgressBarGenerator : IWidgetGenerator
+    {
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
             UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ProgressBar", memberDeclarePart, memberCheckPart);
             return typeof(ProgressBar);
+        }
+    }
+
+    public sealed class SubViewGenerator : IWidgetGenerator
+    {
+        public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
+            StringBuilder addListenerPart, StringBuilder eventHandlerPart)
+        {
+            var view = go.GetComponent<BaseView>();
+            if (view == null)
+            {
+                EditorUtility.DisplayDialog("错误", $"请先为{go.name}生成脚本", "OK");
+                return null;
+            }
+            UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, view.GetType().Name, memberDeclarePart, memberCheckPart);
+            return view.GetType();
         }
     }
 }

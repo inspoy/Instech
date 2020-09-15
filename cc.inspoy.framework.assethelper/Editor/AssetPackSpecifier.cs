@@ -84,9 +84,12 @@ namespace Instech.Framework.AssetHelper.Editor
         }
 
         public const string FallbackPackName = "Misc.assetpack";
-        public string DefualtPackName = FallbackPackName;
+        public string DefaultPackName = FallbackPackName;
         public List<PackItem> PackMap;
 
+        /// <summary>
+        /// 获取bundleName映射到packName的字典
+        /// </summary>
         public Dictionary<string, string> GetReverseMap()
         {
             var ret = new Dictionary<string, string>();

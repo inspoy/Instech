@@ -6,6 +6,23 @@
  * All rights reserved.
  */
 
+#undef INSTECH_LOGGER_ENABLE_EXCEPTION
+#undef INSTECH_LOGGER_ENABLE_ERROR
+#undef INSTECH_LOGGER_ENABLE_NORMAL
+
+#if UNITY_EDITOR
+#define INSTECH_LOGGER_ENABLE_EXCEPTION
+#define INSTECH_LOGGER_ENABLE_ERROR
+#define INSTECH_LOGGER_ENABLE_NORMAL
+#elif INSTECH_CHANNEL_MASTER
+#define INSTECH_LOGGER_ENABLE_EXCEPTION
+#define INSTECH_LOGGER_ENABLE_ERROR
+#elif INSTECH_CHANNEL_DEBUG
+#define INSTECH_LOGGER_ENABLE_EXCEPTION
+#define INSTECH_LOGGER_ENABLE_ERROR
+#define INSTECH_LOGGER_ENABLE_NORMAL
+#endif
+
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -123,6 +140,7 @@ namespace Instech.Framework.Logging
         /// <summary>
         /// 输出临时调试信息，线程安全
         /// </summary>
+        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
         public static void Print(string msg)
         {
 #if UNITY_EDITOR
@@ -142,11 +160,12 @@ namespace Instech.Framework.Logging
         /// <param name="flag"></param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
         public static void LogDebug(string module, ulong flag, string message, Object context = null)
         {
             if ((CurDebugFlags & flag) > 0)
             {
-                Log(module, LogLevels.Debug, message, context);
+                LogImpl(module, LogLevels.Debug, message, context);
             }
         }
 
@@ -156,9 +175,10 @@ namespace Instech.Framework.Logging
         /// <param name="module"></param>
         /// <param name="message"></param>
         /// <param name="context"></param>
+        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
         public static void LogVerbose(string module, string message, Object context = null)
         {
-            Log(module, LogLevels.Verbose, message, context);
+            LogImpl(module, LogLevels.Verbose, message, context);
         }
 
         /// <summary>
@@ -167,9 +187,10 @@ namespace Instech.Framework.Logging
         /// <param name="module">日志所属模块</param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
         public static void LogInfo(string module, string message, Object context = null)
         {
-            Log(module, LogLevels.Info, message, context);
+            LogImpl(module, LogLevels.Info, message, context);
         }
 
         /// <summary>
@@ -178,9 +199,10 @@ namespace Instech.Framework.Logging
         /// <param name="module">日志所属模块</param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
         public static void LogWarning(string module, string message, Object context = null)
         {
-            Log(module, LogLevels.Warning, message, context);
+            LogImpl(module, LogLevels.Warning, message, context);
         }
 
         /// <summary>
@@ -189,9 +211,10 @@ namespace Instech.Framework.Logging
         /// <param name="module">日志所属模块</param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_ERROR")]
         public static void LogError(string module, string message, Object context = null)
         {
-            Log(module, LogLevels.Error, message, context);
+            LogImpl(module, LogLevels.Error, message, context);
         }
 
         /// <summary>
@@ -200,6 +223,7 @@ namespace Instech.Framework.Logging
         /// <param name="module">日志所属模块</param>
         /// <param name="ex">发生的异常</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_EXCEPTION")]
         public static void LogException(string module, Exception ex, Object context = null)
         {
             if (ex == null)
@@ -207,7 +231,7 @@ namespace Instech.Framework.Logging
                 return;
             }
 
-            Log(module, LogLevels.Exception, null, context, ex);
+            LogImpl(module, LogLevels.Exception, null, context, ex);
         }
 
         /// <summary>
@@ -217,11 +241,12 @@ namespace Instech.Framework.Logging
         /// <param name="condition">断言条件</param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
+        [Conditional("INSTECH_LOGGER_ENABLE_EXCEPTION")]
         public static void Assert(string module, bool condition, string message, Object context = null)
         {
             if (!condition)
             {
-                Log(module, LogLevels.Assert, message, context);
+                LogImpl(module, LogLevels.Assert, message, context);
                 throw new AssertionException(message);
             }
         }
@@ -234,7 +259,7 @@ namespace Instech.Framework.Logging
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
         /// <param name="ex">异常信息</param>
-        private static void Log(string module, LogLevels level, string message, Object context, Exception ex = null)
+        private static void LogImpl(string module, LogLevels level, string message, Object context, Exception ex = null)
         {
             if ((level & LogLevels) == 0)
             {
@@ -251,7 +276,7 @@ namespace Instech.Framework.Logging
                 module = "Default";
             }
 
-            var needStackTrace = (level & LogLevels.Exception) > 0;
+            var needStackTrace = false;
             needStackTrace |= (level & (LogLevels.Assert | LogLevels.Error)) > 0 && !DisableErrorStackTrace;
             needStackTrace |= (level & (LogLevels.Warning | LogLevels.Info | LogLevels.Verbose | LogLevels.Debug)) > 0 && !DisableNormalStackTrace;
             var stackTrace = needStackTrace ? new StackTrace(true) : null;

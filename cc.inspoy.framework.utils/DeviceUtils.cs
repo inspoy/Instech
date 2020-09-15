@@ -235,12 +235,7 @@ namespace Instech.Framework.Utils
         /// <returns></returns>
         public static string GetSessionId()
         {
-            if (_sessionId == null)
-            {
-                _sessionId = Guid.NewGuid().ToString();
-            }
-
-            return _sessionId;
+            return _sessionId ?? (_sessionId = Guid.NewGuid().ToString());
         }
 
         /// <summary>

@@ -33,6 +33,7 @@ using UnityEditor.Build.Pipeline.Interfaces;
 using UnityEngine;
 using Aes = Instech.EncryptHelper.Aes;
 using BuildCompression = UnityEngine.BuildCompression;
+using Debug = UnityEngine.Debug;
 using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.AssetHelper.Editor
@@ -57,10 +58,11 @@ namespace Instech.Framework.AssetHelper.Editor
         /// </summary>
         /// <param name="rebuild">是否强制重新打包</param>
         /// <param name="silentMode">是否不显示弹出对话框</param>
-        public static bool BuildAssetBundle(bool rebuild, bool silentMode)
+        public static AssetBuildReport BuildAssetBundle(bool rebuild, bool silentMode)
         {
             _rebuild = rebuild;
             _silentMode = silentMode;
+            var report = new AssetBuildReport();
             var failed = false;
             var resRoot =
                 Path.GetFullPath(Path.Combine(Application.dataPath, ProjectSettings.Instance.ArtworkRootPath.TrimStart('/')))
@@ -76,13 +78,19 @@ namespace Instech.Framework.AssetHelper.Editor
                 .ToList();
             Logger.LogInfo(LogModule.Build, "File count: " + resFiles.Count);
 
+            // 1. Collect bundles
             var content = CollectBundles("Assets/" + ProjectSettings.Instance.ArtworkRootPath.TrimStart('/'), resFiles);
             Logger.LogInfo(LogModule.Build, $"Collected {content.Count} Bundles, start building...");
+            
+            // 2. Build
             var (retCode, results) = DoBuild(content);
             Logger.LogInfo(LogModule.Build, $"Bulding bundles finished, retCode={retCode}");
+            
+            // 3. Generate resmeta & pack to assetpack
             if (retCode == ReturnCode.Success)
             {
                 PostProcess(results, content);
+                report.AssetPacks = GenerateReport(results, content);
             }
             else
             {
@@ -92,6 +100,7 @@ namespace Instech.Framework.AssetHelper.Editor
             if (failed)
             {
                 var timeCost = sw.ElapsedMilliseconds / 1000f;
+                report.CostTime = timeCost;
                 Logger.LogInfo(LogModule.Build, $"Failed to build AssetBundle, cost: {timeCost:F3}s");
                 if (!_silentMode)
                 {
@@ -101,13 +110,15 @@ namespace Instech.Framework.AssetHelper.Editor
             else
             {
                 var timeCost = sw.ElapsedMilliseconds / 1000f;
+                report.CostTime = timeCost;
                 Logger.LogInfo(LogModule.Build, $"AssetBundle built, cost: {timeCost:F3}s");
                 if (!_silentMode)
                 {
                     EditorUtility.DisplayDialog("成功", $"AssetBundle构建成功，耗时{timeCost:F1}秒", "OK");
                 }
             }
-            return !failed;
+            report.IsSuccessful = !failed;
+            return report;
         }
 
         /// <summary>
@@ -253,7 +264,7 @@ namespace Instech.Framework.AssetHelper.Editor
             {
                 if (!reverseMap.TryGetValue(bundleInfo.assetBundleName, out var packName))
                 {
-                    packName = AssetPackSpecifier.FallbackPackName;
+                    packName = sp.DefaultPackName;
                     reverseMap.Add(bundleInfo.assetBundleName, packName);
                 }
                 if (!packMap.ContainsKey(packName))
@@ -292,5 +303,49 @@ namespace Instech.Framework.AssetHelper.Editor
             }
             Logger.LogInfo(LogModule.Build, $"Generated {packMap.Count} packs, postprocessing completed.");
         }
+
+        /// <summary>
+        /// 生成构建报告
+        /// </summary>
+        private static AssetPackInfo[] GenerateReport(IBundleBuildResults results, List<AssetBundleBuild> content)
+        {
+            var sp = AssetPackSpecifier.Instance;
+            var packInfos = new Dictionary<string, AssetPackInfo>(sp.PackMap.Count + 1);
+            var packMap = sp.GetReverseMap();
+            foreach (var bundle in content)
+            {
+                if (!packMap.TryGetValue(bundle.assetBundleName, out var packName))
+                {
+                    packName = sp.DefaultPackName;
+                }
+                if (!packInfos.TryGetValue(packName, out var packInfo))
+                {
+                    packInfo = new AssetPackInfo
+                    {
+                        PackName = packName,
+                        Bundles = new List<BundleInfo>()
+                    };
+                    packInfos.Add(packName, packInfo);
+                }
+                var bundleInfo = new BundleInfo
+                {
+                    BundleName = bundle.assetBundleName,
+                    Dependencies = results.BundleInfos[bundle.assetBundleName].Dependencies,
+                    Assets = new AssetInfo[bundle.assetNames.Length]
+                };
+                for (var i = 0; i < bundle.assetNames.Length; ++i)
+                {
+                    bundleInfo.Assets[i] = new AssetInfo
+                    {
+                        AssetName = bundle.addressableNames[i],
+                        AssetPath = bundle.assetNames[i]
+                    };
+                }
+                packInfo.Bundles.Add(bundleInfo);
+            }
+
+            return packInfos.Values.ToArray();
+        }
+
     }
 }
