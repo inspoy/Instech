@@ -6,7 +6,13 @@ namespace Game.Ui
 {
     public class $VIEWNAME$Presenter : IBasePresenter
     {
+        #region Private Fields
+
         private $VIEWNAME$View _view;
+
+        #endregion
+
+        #region Life Cycle
 
         /// <inheritdoc />
         public void InitWithView(BaseView view)
@@ -36,6 +42,8 @@ $ADD_LISTENERS$            // Called when view is initialized
         public void OnViewRemoved()
         {
             // Called when view will be destroyed
-        }$EVENT_HANDLERS$
+        }
+
+        #endregion$EVENT_HANDLERS$
     }
 }

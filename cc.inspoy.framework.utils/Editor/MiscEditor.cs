@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using UnityEditor;
-using UnityEditor.Compilation;
 using UnityEngine;
 using Logger = Instech.Framework.Logging.Logger;
 using Object = UnityEngine.Object;

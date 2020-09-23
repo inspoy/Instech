@@ -32,6 +32,37 @@ namespace Instech.Framework.Ui
 
         public readonly List<BaseView> CachedViews = new List<BaseView>();
         public readonly List<BaseView> ActiveViews = new List<BaseView>();
+
+        public BaseView GetView(Transform parent, IUiInitData initData, Type viewType, BaseView cloneFrom = null)
+        {
+            BaseView ret;
+            if (CachedViews.Count > 0)
+            {
+                ret = CachedViews[CachedViews.Count - 1];
+                CachedViews.Remove(ret);
+                ActiveViews.Add(ret);
+                ret.transform.SetParent(parent);
+                ret.Activate(initData);
+            }
+            else
+            {
+                GameObject go;
+                go = cloneFrom == null
+                    ? AssetManager.Instance.InstantiatePrefab(PrefabPath, parent)
+                    : AssetManager.Instance.Clone(cloneFrom.gameObject, parent);
+                go.transform.localPosition = Vector3.zero;
+                ret = go.GetComponent(viewType) as BaseView;
+                if (ret == null)
+                {
+                    Logger.LogError(LogModule.Ui, "Prefab未挂载View组件: " + viewType);
+                    return null;
+                }
+                ret.Activate(initData);
+
+                ActiveViews.Add(ret);
+            }
+            return ret;
+        }
     }
 
     /// <summary>
@@ -121,32 +152,30 @@ namespace Instech.Framework.Ui
                 return null;
             }
 
-            BaseView ret;
-            if (cacheData.CachedViews.Count > 0)
-            {
-                ret = cacheData.CachedViews[cacheData.CachedViews.Count - 1];
-                cacheData.CachedViews.Remove(ret);
-                cacheData.ActiveViews.Add(ret);
-                ret.transform.SetParent(parent);
-                ret.Activate(initData);
-            }
-            else
-            {
-                var go = AssetManager.Instance.InstantiatePrefab(cacheData.PrefabPath, parent);
-                go.transform.localPosition = Vector3.zero;
-                ret = go.GetComponent<T>();
-                if (ret == null)
-                {
-                    Logger.LogError(LogModule.Ui, "Prefab未挂载View组件: " + typeof(T));
-                    return null;
-                }
-                ret.Activate(initData);
-
-                cacheData.ActiveViews.Add(ret);
-            }
-
+            var ret = cacheData.GetView(parent, initData, typeof(T));
             ret.CanvasName = canvasName;
             return ret as T;
+        }
+
+        /// <summary>
+        /// 克隆现有UI
+        /// </summary>
+        /// <param name="source">源对象</param>
+        /// <param name="parent">父节点（可选，默认和source同父节点）</param>
+        /// <param name="initData">初始化数据（可选）</param>
+        /// <returns></returns>
+        public BaseView CloneView(BaseView source, Transform parent = null, IUiInitData initData = null)
+        {
+            Logger.Assert(LogModule.Ui, source != null, "source不可为空");
+            var viewType = source.GetType();
+            var cacheData = GetCacheData(viewType);
+            if (parent == null)
+            {
+                parent = source.RectTransform.parent;
+            }
+            var ret = cacheData.GetView(parent, initData, viewType, source);
+            ret.CanvasName = source.CanvasName;
+            return ret;
         }
 
         /// <summary>

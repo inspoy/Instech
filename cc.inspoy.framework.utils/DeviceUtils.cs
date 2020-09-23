@@ -197,27 +197,6 @@ namespace Instech.Framework.Utils
                     DeviceResolution = Screen.currentResolution.ToString(),
                     GameResolution = new Vector2(Screen.width, Screen.height)
                 };
-                // var drives = DriveInfo.GetDrives();
-                // var drivesStr = new StringBuilder();
-                // foreach (var drive in drives)
-                // {
-                //     drivesStr.Append(drive.Name);
-                //     drivesStr.Append('(');
-                //     drivesStr.Append(drive.DriveType);
-                //     drivesStr.Append(')');
-                //     drivesStr.Append(',');
-                //     if (drive.Name.Equals(sysDrive))
-                //     {
-                //         _softwareInfo.SystemDriveTotalSize = drive.TotalSize;
-                //         _softwareInfo.SystemDriveAvailableSize = drive.AvailableFreeSpace;
-                //     }
-                //     if (drive.Name.Equals(Path.GetPathRoot(installPath)))
-                //     {
-                //         _softwareInfo.InstallDriveTotalSize = drive.TotalSize;
-                //         _softwareInfo.InstallDriveAvailableSize = drive.AvailableFreeSpace;
-                //     }
-                // }
-                // _softwareInfo.Drives = drivesStr.ToString(0, drivesStr.Length - 1);
                 var drives = Directory.GetLogicalDrives();
                 _softwareInfo.Drives = string.Join(",", drives);
                 _softwareInfo.SystemDriveTotalSize = 0;

@@ -1,0 +1,15 @@
+{
+    "name": "cc.inspoy.framework",
+    "displayName": "Instech.Framework",
+    "version": "1.3.0",
+    "unity": "2020.1",
+    "description": "InstechFramework框架，打包了所有程序集",
+    "keywords": [
+      "instech",
+      "framework"
+    ],
+    "dependencies": {
+      "cc.inspoy.encrypthelper": "https://github.com/inspoy/EncryptHelper.git",
+      "cc.inspoy.filepacker": "https://github.com/inspoy/FilePacker.git"
+    }
+  }

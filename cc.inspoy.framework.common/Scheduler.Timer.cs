@@ -24,12 +24,12 @@ namespace Instech.Framework.Common
         /// 注意，如果调用该方法的时机晚于LateUpdate，则需要多等一帧
         /// </summary>
         /// <param name="action"></param>
-        public static void NextFrame(Action action)
+        public static uint NextFrame(Action action)
         {
             if (Instance._lateUpdateLock)
             {
                 Logger.LogWarning(LogModule.Framework, "Cannot add timer during timer's callback");
-                return;
+                return 0;
             }
 
             if (action != null)
@@ -39,7 +39,9 @@ namespace Instech.Framework.Common
                 item.RestLoop = 1; // 执行一次
                 item.Mode = TimerMode.FrameMode;
                 Instance._actionTimers.Add(item.Id, item);
+                return item.Id;
             }
+            return 0;
         }
 
         public static uint EveryFrame(Action action)
@@ -64,11 +66,16 @@ namespace Instech.Framework.Common
             return item.Id;
         }
 
+        public static uint DelayCall(Action action, float seconds)
+        {
+            return AddTimer(action, seconds);
+        }
+
         /// <summary>
         /// 添加定时器
         /// </summary>
         /// <param name="action">回调方法</param>
-        /// <param name="interval"></param>
+        /// <param name="interval">触发间隔，秒</param>
         /// <param name="loopTimes">循环次数，负数表示无限循环，0表示执行一次，正数表示执行N次</param>
         /// <param name="realTime">是否使用真实时间</param>
         /// <returns>定时器ID</returns>
@@ -83,6 +90,10 @@ namespace Instech.Framework.Common
             if (loopTimes == 0)
             {
                 loopTimes = 1;
+            }
+            if (interval < 0)
+            {
+                interval = 0;
             }
 
             var timer = ActionTimer.Create(action);

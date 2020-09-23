@@ -302,7 +302,7 @@ namespace Instech.Framework.Utils
         /// <param name="source">元素的集合</param>
         /// <param name="separator">分隔符</param>
         /// <returns></returns>
-        public static string CombineToString<T>(IEnumerable<T> source, string separator)
+        public static string CombineToString(IEnumerable source, string separator)
         {
             var sep = string.Empty;
             var ret = StringBuilderPool.Acquire();

@@ -6,29 +6,19 @@
  * All rights reserved.
  */
 
-#undef INSTECH_LOGGER_ENABLE_EXCEPTION
-#undef INSTECH_LOGGER_ENABLE_ERROR
-#undef INSTECH_LOGGER_ENABLE_NORMAL
-
-#if UNITY_EDITOR
-#define INSTECH_LOGGER_ENABLE_EXCEPTION
-#define INSTECH_LOGGER_ENABLE_ERROR
-#define INSTECH_LOGGER_ENABLE_NORMAL
-#elif INSTECH_CHANNEL_MASTER
-#define INSTECH_LOGGER_ENABLE_EXCEPTION
-#define INSTECH_LOGGER_ENABLE_ERROR
-#elif INSTECH_CHANNEL_DEBUG
-#define INSTECH_LOGGER_ENABLE_EXCEPTION
-#define INSTECH_LOGGER_ENABLE_ERROR
-#define INSTECH_LOGGER_ENABLE_NORMAL
-#endif
-
 using System;
 using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
+
+/**
+ * 需要给程序集定义以下符号，对应的接口才会被调用
+ * INSTECH_LOGGER_ENABLE_NORMAL: 启用Print, LogDebug, LogVerbose, LogInfo, LogWarning
+ * INSTECH_LOGGER_ENABLE_ERROR: 启用LogError
+ * INSTECH_LOGGER_ENABLE_EXCEPTION: 启用LogException, Assert
+ */
 
 namespace Instech.Framework.Logging
 {
@@ -96,6 +86,8 @@ namespace Instech.Framework.Logging
     /// </summary>
     public static class Logger
     {
+        #region Public Properties & Fields
+
         /// <summary>
         /// 用于日志的回调委托
         /// </summary>
@@ -105,7 +97,7 @@ namespace Instech.Framework.Logging
         /// <param name="stackTrace">堆栈信息</param>
         public delegate void LogCallback(string module, string content, LogLevels level, StackTrace stackTrace);
 
-        public static ulong CurDebugFlags = 0;
+        public static ulong CurDebugFlags = 1;
 
         /// <summary>
         /// 输出的日志等级，包含等级的日志将会被记录
@@ -133,10 +125,12 @@ namespace Instech.Framework.Logging
         /// </summary>
         public static event LogCallback OnLog;
 
+        #endregion
+
 #if UNITY_EDITOR
         private static readonly object _printLocker = new object();
 #endif
-        
+
         /// <summary>
         /// 输出临时调试信息，线程安全
         /// </summary>

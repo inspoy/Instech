@@ -1,9 +1,12 @@
 {
     "name": "Instech.Framework.UiWidgets",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Instech.Framework.Core",
+        "Instech.Framework.Logging",
+        "Instech.Framework.Common",
+        "Instech.Framework.Ui"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -11,5 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

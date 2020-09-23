@@ -5,6 +5,7 @@
         "Instech.Framework.Common.Editor",
         "Instech.Framework.Logging",
         "Instech.Framework.Utils",
+        "Instech.Framework.UiWidgets",
         "Unity.TextMeshPro"
     ],
     "includePlatforms": [

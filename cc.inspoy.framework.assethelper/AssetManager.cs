@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using Instech.Framework.Core;
-using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -85,10 +84,7 @@ namespace Instech.Framework.AssetHelper
         /// 编辑器中也使用AssetBundle方式加载，用于测试
         /// </summary>
         public static bool UseBundleInEditor;
-
-        private EditorAssetManager _editorManager;
 #endif
-        private BundleManager _bundleManager;
         private IAssetManager _active;
 
         protected override void Init()
@@ -98,17 +94,14 @@ namespace Instech.Framework.AssetHelper
 #if UNITY_EDITOR
                 if (UseBundleInEditor)
                 {
-                    _bundleManager = new BundleManager();
-                    _active = _bundleManager;
+                    _active = new BundleManager();
                 }
                 else
                 {
-                    _editorManager = new EditorAssetManager();
-                    _active = _editorManager;
+                    _active = new EditorAssetManager();
                 }
 #else
-                _bundleManager = new BundleManager();
-                _active = _bundleManager;
+                _active = new BundleManager();
 #endif
             }
             catch (Exception e)
@@ -217,9 +210,9 @@ namespace Instech.Framework.AssetHelper
         /// <returns></returns>
         public Dictionary<string, int> GetDebugInfo()
         {
-            if (_active == _bundleManager)
+            if (_active is BundleManager mgr)
             {
-                return _bundleManager.GetDebugInfo();
+                return mgr.GetDebugInfo();
             }
 
             return new Dictionary<string, int>();

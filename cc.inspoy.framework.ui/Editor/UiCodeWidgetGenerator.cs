@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Instech.Framework.UiWidgets;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEditor;

@@ -1,5 +1,6 @@
 using System;
 using Instech.Framework.Ui;
+using Instech.Framework.UiWidgets;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
