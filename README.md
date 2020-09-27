@@ -49,11 +49,26 @@
 
 然后，仓库里的这些模块同样都是符合upm(Unity Package Manager)格式的。接入到项目中后会都会出现在Project窗口的`Packages`目录中。
 
-### 方式1，直接复制
+### 方式1，整体引用（推荐）
+
+打开`Packages/manifest.json`文件，找到`dependencies`节点，加入如下一行：
+
+```json
+{
+  "dependencies": {
+    "cc.inspoy.framework": "https://github.com/inspoy/Instech.git",
+    // other packages...
+  }
+}
+```
+
+刷新工程即可生效
+
+### 方式2，直接复制
 
 直接把所有以cc.inspoy.framework开头的目录全部复制到项目的Packages目录中，无需对`manifest.json`做更多操作。这样做好处是方便快捷，缺点是不方便及时拿到更新。
 
-### 方式2，使用submodule间接引用
+### 方式3，使用submodule间接引用
 
 使用git的submodule功能把本仓库嵌套到你自己的git仓库中，在你的`.gitmodules`文件中添加如下代码（其中path可以选一个自己觉得合适的地方）：
 
@@ -65,7 +80,7 @@
 
 然后执行`git submodule update --init`初始化并拉取本仓库的内容到本地。这时候要进入子模块中检查下当前的分支，确保当前HEAD处于`upm`分支即可（其他关于submodule的说明不在这里展开）。
 
-然后是重点，打开`manifest.json`文件，我们要把仓库里所有的模块都加入到`dependencies`中：
+然后是重点，打开`manifest.json`文件，你可以根据实际情况，将需要的模块加入到`dependencies`中（当然通常情况下，直接按方法1那样整个加进去就行，把路径换成本地的即可）：
 
 ```json
 {

@@ -1,3 +1,25 @@
+# 1.3.1 (2020.9.27)
+
+## Versions
+
+- AssetHelper: `1.1.1`
+- Common: `1.1.0`
+- Core: `1.1.0`
+- Data: `1.0.1`
+- Logging: `1.1.0`
+- MyJson: `1.0.0`
+- Tests: `1.0.0`
+- UI: `1.2.0`
+- UiWidgets: `1.1.0`
+- Utils: `1.2.0`
+
+## Doc & Misc
+
+- 增加meta文件
+- 修正package.json的格式
+- [Doc]Readme新增整体引用的接入方式
+- [Doc]Core新增单例的文档
+
 # 1.3.0 (2020.9.23)
 
 ## Versions
