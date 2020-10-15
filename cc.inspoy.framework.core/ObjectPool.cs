@@ -122,8 +122,8 @@ namespace Instech.Framework.Core
         public uint CreatedCount { get; private set; }
         public uint PooledCount { get; private set; }
         public uint ActiveCount { get; private set; }
-        public uint MaxCount { get; set; }
         public uint SavedCount { get; private set; }
+        public uint MaxCount { get; set; }
         public string BaseType => typeof(T).ToString();
 
         /// <summary>

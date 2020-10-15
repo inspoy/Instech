@@ -1,3 +1,26 @@
+# 1.3.2 (2020.10.15)
+
+## Versions
+
+- AssetHelper: `1.1.1`
+- Common: `1.1.1`(was `1.1.0`)
+- Core: `1.1.1`(was `1.1.0`)
+- Data: `1.0.1`
+- Logging: `1.1.0`
+- MyJson: `1.0.0`
+- Tests: `1.0.0`
+- UI: `1.2.0`
+- UiWidgets: `1.1.0`
+- Utils: `1.2.0`
+
+## Optimizing
+
+- [Common]EventDispatcher增加了判断：如果传入回调不是一般的类方法，则必须指定监听者
+
+## Doc & Misc
+
+- [Doc]Core新增对象池的文档
+
 # 1.3.1 (2020.9.27)
 
 ## Versions
