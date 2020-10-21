@@ -1,3 +1,46 @@
+# 1.4.0 (2020.10.21)
+
+## Version
+
+- AssetHelper: `1.1.1`
+- Common: `1.2.0`(was `1.1.1`)
+- Core: `1.1.1`
+- Data: `1.0.2`(was `1.0.1`)
+- Logging: `1.1.1`(was `1.1.0`)
+- MyJson: `1.0.1`(was `1.0.0`)
+- Tests: `1.0.0`
+- UI: `1.2.1`(was `1.2.0`)
+- UiWidgets: `1.2.0`(was `1.1.0`)
+- Utils: `1.3.0`(was `1.2.0`)
+
+## Highlight
+
+- [UI]新增循环列表LoopedScrollView
+
+## BREAKING CHANGE
+
+- [Utils]插值函数统一成一个接口，通过参数区分
+- [Utils]移除了之前的测试代码
+
+## New Feature
+
+- [Common]统一返回指定框架package的绝对路径的接口
+- [Utils]插值函数新增圆弧插值
+- [Utils]F1快速切换显隐支持多选和撤销
+
+## Optimizing
+
+- [Common]ReactiveProperty增加一个可以指定初始值的构造函数
+- [Logging]使用StringBuilder优化LogToFile性能
+
+## Doc & Misc
+
+- 新增Common的文档
+- 新增Logging的文档
+- 新增Utils的文档
+
+---
+
 # 1.3.2 (2020.10.15)
 
 ## Versions
@@ -21,6 +64,8 @@
 
 - [Doc]Core新增对象池的文档
 
+---
+
 # 1.3.1 (2020.9.27)
 
 ## Versions
@@ -42,6 +87,8 @@
 - 修正package.json的格式
 - [Doc]Readme新增整体引用的接入方式
 - [Doc]Core新增单例的文档
+
+---
 
 # 1.3.0 (2020.9.23)
 
@@ -120,6 +167,8 @@
 
 - [Data]ConfigManager的GetAll接口始终返回非空结果
 
+---
+
 # 1.1.0 (2020.8.21)
 
 ## Versions
@@ -139,6 +188,8 @@
 
 - [Core]对象池新增了对于普通对象（没有实现IPoolable接口）的支持
 - [Tests]增加Logging模块的覆盖测试
+
+---
 
 # 1.0.0 (2020.8.19)
 
@@ -182,6 +233,8 @@
 
 - [AssetHelper]Fix path error in AssetBuilder
 - [UI]Fix bugs in UiGenerator(Generated code cannot be compiled)
+
+---
 
 # 0.0.1 (2020.7.24)
 

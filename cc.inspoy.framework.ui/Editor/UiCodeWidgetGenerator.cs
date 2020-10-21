@@ -206,8 +206,17 @@ namespace Instech.Framework.Ui.Editor
         public Type Generate(GameObject go, string pascalGoName, StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
             StringBuilder addListenerPart, StringBuilder eventHandlerPart)
         {
-            UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ScrollRect", memberDeclarePart, memberCheckPart);
-            return typeof(ScrollRect);
+            if (go.GetComponent<ScrollRect>() != null)
+            {
+                UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "ScrollRect", memberDeclarePart, memberCheckPart);
+                return typeof(ScrollRect);
+            }
+            if (go.GetComponent<LoopedScrollView>() != null)
+            {
+                UiCodeWidgetGenerator.GenerateNormalViewCode(pascalGoName, "LoopedScrollView", memberDeclarePart, memberCheckPart);
+                return typeof(LoopedScrollView);
+            }
+            return null;
         }
     }
 

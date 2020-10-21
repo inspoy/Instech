@@ -87,5 +87,24 @@ namespace Instech.Framework.Common.Editor
                 Selection.activeObject = asset;
             }
         }
+
+        /// <summary>
+        /// 返回指定框架package的绝对路径
+        /// </summary>
+        /// <param name="package">指定模块的packageName，如"cc.inspoy.framework.core"</param>
+        /// <returns></returns>
+        public static string GetPackageFullPath(string package)
+        {
+            if (string.IsNullOrEmpty(package))
+            {
+                return string.Empty;
+            }
+            var path = Path.GetFullPath($"Packages/{package}/");
+            if (!Directory.Exists(path))
+            {
+                path = Path.GetFullPath($"Packages/cc.inspoy.framework/{package}/");
+            }
+            return Directory.Exists(path) ? path : string.Empty;
+        }
     }
 }

@@ -120,7 +120,7 @@ namespace Instech.Framework.Ui.Editor
             StringBuilder viewContentBuilder, StringBuilder presenterContentBuilder,
             Dictionary<string, Type> components)
         {
-            var packageRoot = Path.GetFullPath("Packages/cc.inspoy.framework.ui/");
+            var packageRoot = ProjectSettings.GetPackageFullPath("cc.inspoy.framework.ui");
             var viewTemplatePath = Path.Combine(packageRoot, "Editor/ViewTemplate.txt");
             var presenterTemplatePath = Path.Combine(packageRoot, "Editor/PresenterTemplate.txt");
             viewContentBuilder.Append(File.ReadAllText(viewTemplatePath));

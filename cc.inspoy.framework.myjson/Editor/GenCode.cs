@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using UnityEngine;
 using Logger = Instech.Framework.Logging.Logger;
@@ -24,7 +25,7 @@ namespace Instech.Framework.MyJson.Editor
 
         public static void GenCode()
         {
-            var packagesRoot = Path.GetFullPath("Packages/cc.inspoy.framework.myjson/");
+            var packagesRoot = ProjectSettings.GetPackageFullPath("cc.inspoy.framework.myjson");
             var exePath = Path.Combine(packagesRoot, GeneratorPath);
             var inputPath = new Dictionary<Type, string>();
             CollectTypes(inputPath);

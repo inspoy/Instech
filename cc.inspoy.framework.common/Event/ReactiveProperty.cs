@@ -46,6 +46,12 @@ namespace Instech.Framework.Common
             Dispatcher = new EventDispatcher(this);
         }
 
+        public ReactiveProperty(T value)
+        {
+            Dispatcher = new EventDispatcher(this);
+            _value = value;
+        }
+
         public void AddEventListener(ListenerSelector sel)
         {
             Dispatcher.AddEventListener(EventEnum.ReactivePropChange, sel);

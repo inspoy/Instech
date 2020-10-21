@@ -1,7 +1,7 @@
 {
   "name": "cc.inspoy.framework.myjson",
   "displayName": "Instech.Framework.MyJson",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2020.1",
   "description": "UTF8JSON\u7684\u5c01\u88c5\uff0c\u589e\u52a0\u4e86\u4e00\u4e9b\u81ea\u5b9a\u4e49\u63a5\u53e3",
   "keywords": [

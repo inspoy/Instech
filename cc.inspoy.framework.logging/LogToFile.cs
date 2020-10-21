@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using UnityEngine;
 using Instech.Framework.Core;
@@ -54,6 +55,7 @@ namespace Instech.Framework.Logging
         private readonly object _locker = new object();
         private Queue<LogToFileItem> _logItems = new Queue<LogToFileItem>();
         private Queue<LogToFileItem> _logItemsForWriter = new Queue<LogToFileItem>();
+        private StringBuilder _stringBuilderForWriter = new StringBuilder();
         private Thread _writerThread;
         private FileInfo _logFileInfo;
         private FileInfo _latestLogFileInfo;
@@ -153,9 +155,9 @@ namespace Instech.Framework.Logging
                 {
                     var sw = _logFileInfo.AppendText();
                     var item = _logItemsForWriter.Peek();
-                    WriteContentToFile(sw, item);
+                    WriteContentToFile(sw, item, _stringBuilderForWriter);
                     sw = _latestLogFileInfo.AppendText();
-                    WriteContentToFile(sw, item);
+                    WriteContentToFile(sw, item, _stringBuilderForWriter);
                     _logItemsForWriter.Dequeue().Recycle();
                 }
                 catch (IOException)
@@ -171,23 +173,22 @@ namespace Instech.Framework.Logging
         /// </summary>
         /// <param name="sw"></param>
         /// <param name="item"></param>
-        private static void WriteContentToFile(StreamWriter sw, LogToFileItem item)
+        private static void WriteContentToFile(StreamWriter sw, LogToFileItem item, StringBuilder sb)
         {
             var timeNow = DateTime.Now;
-            var logStr = $"{timeNow:yyyy/MM/dd HH:mm:ss}-[{item.Level.ToString().ToUpper().PadLeft(7)}][{item.Module.PadLeft(10)}]-{item.Content}";
-            if (item.Level == LogLevels.Exception || item.Level == LogLevels.Assert || item.Level == LogLevels.Error)
+            sb.Clear();
+            sb.Append($"{timeNow:yyyy/MM/dd HH:mm:ss}-[{item.Level.ToString().ToUpper().PadLeft(7)}][{item.Module.PadLeft(10)}]-{item.Content}");
+            if (item.StackTrace != null)
             {
-                if (item.StackTrace != null)
-                {
-                    logStr += "\n" + item.StackTrace;
-                }
-                else
-                {
-                    logStr += "\nStackTraceDisabled\n";
-                }
+                sb.Append('\n');
+                sb.Append(item.StackTrace);
             }
-            logStr += "\n";
-            sw.Write(logStr);
+            else
+            {
+                sb.Append("\nStackTraceDisabled\n");
+            }
+            sb.Append('\n');
+            sw.Write(sb.ToString());
             sw.Close();
         }
 

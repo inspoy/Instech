@@ -24,6 +24,8 @@
 
 如果你是从GitHub上看到的该仓库，直接将其**整个**Clone下来即可，虽然仓库里的框架被细分为了很多模块，但这些模块都是相互依赖的，在大部分情况下，你应该会需要全部的模块。
 
+> 如果无需自定义魔改，可以参考下面的"如何使用（方法1）"，则无需额外Clone仓库，直接在Unity项目中配置即可
+
 ## 系统要求
 
 当前，所有模块均推荐使用**Unity2020.1**或以上版本，理论上2019甚至2018应该也能在简单修改代码后正常工作，但我并没有进行过相关的测试。
@@ -110,12 +112,12 @@
 ## 模块列表
 
 * [Core](cc.inspoy.framework.core/README.md) - 框架核心功能，包含单例，对象池
-* Logging - 日志模块，所有需要输出日志的模块均依赖这个
-* Utils - 公共方法库，有许多实用的工具函数
-* Common - 框架基本功能，包含：事件，状态机，常用异步调度器（含定时器）
+* [Logging](cc.inspoy.framework.logging/README.md) - 日志模块，所有需要输出日志的模块均依赖这个
+* [Utils](cc.inspoy.framework.utils/README.md) - 公共方法库，有许多实用的工具函数
+* [Common](cc.inspoy.framework.common/README.md) - 框架基本功能，包含：事件，状态机，常用异步调度器（含定时器）
 * AssetHelper - 资源加载相关，主要负责AssetBundle的管理
 * Ui - 基于`View-Presenter`的UI框架
-* UiWidgets - 扩展UGUI控件
+* [UiWidgets](cc.inspoy.framework.uiwidgets/README.md) - 扩展UGUI控件
 * MyJson - 基于Utf8Json封装，包含Json相关工具方法，AOT用的代码生成
 * Data - 配置数据相关，包含配置表，本地存储和本地化
 * FilePacker - 将多个文件打包成一个文件，支持选择性部分加载，用于资源打包

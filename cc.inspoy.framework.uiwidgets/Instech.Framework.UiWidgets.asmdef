@@ -5,7 +5,8 @@
         "Instech.Framework.Core",
         "Instech.Framework.Logging",
         "Instech.Framework.Common",
-        "Instech.Framework.Ui"
+        "Instech.Framework.Ui",
+        "Instech.Framework.Utils"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

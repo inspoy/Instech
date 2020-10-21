@@ -213,17 +213,21 @@ namespace Instech.Framework.Utils.Editor
         /// </summary>
         public static void ToggleGameObjectActive()
         {
-            var go = Selection.activeGameObject;
-            if (go != null && go.scene.IsValid())
+            var objs = Selection.objects;
+            Undo.RecordObjects(objs, "ToggleGameObjectActive");
+            foreach (var obj in objs)
             {
-                go.SetActive(!go.activeSelf);
-                EditorUtility.SetDirty(go);
+                if (obj is GameObject go && go != null && go.scene.IsValid())
+                {
+                    go.SetActive(!go.activeSelf);
+                    EditorUtility.SetDirty(go);
+                }
             }
         }
 
         public static void CheckScriptHeader()
         {
-            var packageRoot = Path.Combine(Path.GetFullPath("Packages/cc.inspoy.framework.utils/"), "..");
+            var packageRoot = Path.Combine(ProjectSettings.GetPackageFullPath("cc.inspoy.framework.utils"), "..");
             var files = Directory.GetFiles(Application.dataPath, "*.cs.meta", SearchOption.AllDirectories)
                 .Union(Directory.GetFiles(packageRoot, "*.cs.meta", SearchOption.AllDirectories))
                 .Select(path => path.Replace('\\', '/'))
@@ -258,30 +262,6 @@ namespace Instech.Framework.Utils.Editor
         public static void FunctionTest()
         {
             // cool stuff...
-        }
-
-        /// <summary>
-        /// 随机数均匀性测试
-        /// </summary>
-        public static void RandomTest()
-        {
-            for (var d = 2; d <= 5; ++d)
-            {
-                var tex = new Texture2D(4096, 4096, TextureFormat.RGBA32, false);
-                for (var i = 1; i <= 5000000; ++i)
-                {
-                    var x = Utility.GetRandom(1, 4096);
-                    for (var j = 0; j < d - 2; ++j)
-                    {
-                        Utility.GetRandom(1, 4096);
-                    }
-
-                    var y = Utility.GetRandom(1, 4096);
-                    tex.SetPixel(x, y, Color.black);
-                }
-
-                File.WriteAllBytes($"E:/_tmp/rand{d}.png", tex.EncodeToPNG());
-            }
         }
     }
 

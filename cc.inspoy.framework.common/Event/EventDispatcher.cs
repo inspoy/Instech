@@ -73,7 +73,7 @@ namespace Instech.Framework.Common
             if (listener == null || sel.Method.DeclaringType == null || sel.Method.DeclaringType
                     .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false).Length > 0)
             {
-                Logger.LogWarning(LogModule.Framework, $"事件回调为匿名方法的，必须手动设置listener");
+                Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }
 #endif
             if (listener == null)
@@ -134,7 +134,7 @@ namespace Instech.Framework.Common
             if (listener == null || sel.Method.DeclaringType == null || sel.Method.DeclaringType
                     .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false).Length > 0)
             {
-                Logger.LogWarning(LogModule.Framework, $"事件回调为匿名方法的，必须手动设置listener");
+                Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }
 #endif
             if (!HasEventListener(eventType, sel, listener))

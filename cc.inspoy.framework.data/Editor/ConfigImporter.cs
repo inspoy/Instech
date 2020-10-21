@@ -265,7 +265,7 @@ namespace Instech.Framework.Data.Editor
             {
                 throw new InvalidOperationException("xls文件中没有 'Data' Sheet页");
             }
-            var packageRoot = Path.GetFullPath("Packages/cc.inspoy.framework.data/");
+            var packageRoot = ProjectSettings.GetPackageFullPath("cc.inspoy.framework.data");
             var templatePath = Path.Combine(packageRoot, "Editor/ConfigTemplate.txt");
             if (!File.Exists(templatePath))
             {
