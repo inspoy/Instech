@@ -307,7 +307,6 @@ namespace Instech.Framework.UiWidgets
             var dir = Direction == ScrollDirection.Horizontal ? Vector2.right : Vector2.down;
             var logicIndex = Mathf.FloorToInt(Mathf.Clamp(_curOffset / _itemSize, 0, ItemCount - 1));
             var firstIndex = logicIndex % _capacity;
-//            print($"refresh, idx={logicIndex}, offset={_curOffset}, spd={_draggingSpeed}, dragging={_isDragging}");
             for (var i = 0; i < _capacity; ++i)
             {
                 var itemIndex = (i + firstIndex) % _capacity;

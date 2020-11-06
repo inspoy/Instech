@@ -1,15 +1,15 @@
 {
-    "name": "cc.inspoy.framework",
-    "displayName": "Instech.Framework",
-    "version": "1.4.0",
-    "unity": "2020.1",
-    "description": "InstechFramework框架，打包了所有程序集",
-    "keywords": [
-      "instech",
-      "framework"
-    ],
-    "dependencies": {
-      "cc.inspoy.encrypthelper": "0.0.1",
-      "cc.inspoy.filepacker": "0.0.1"
-    }
+  "name": "cc.inspoy.framework.package",
+  "displayName": "Instech.Framework",
+  "version": "1.5.0",
+  "unity": "2020.1",
+  "description": "InstechFramework框架，打包了所有程序集",
+  "keywords": [
+    "instech",
+    "framework"
+  ],
+  "dependencies": {
+    "cc.inspoy.encrypthelper": "0.0.1",
+    "cc.inspoy.filepacker": "0.0.1"
   }
+}

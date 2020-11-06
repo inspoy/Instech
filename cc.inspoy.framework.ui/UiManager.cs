@@ -12,6 +12,7 @@ using System.Text;
 using Instech.Framework.AssetHelper;
 using Instech.Framework.Core;
 using Instech.Framework.Logging;
+using Instech.Framework.Ui.Tweening;
 using Instech.Framework.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -129,8 +130,10 @@ namespace Instech.Framework.Ui
 
         #endregion
 
-        #region Interfaces
+        #region Properties && Interfaces
 
+        public Tweener Tweener { get; private set; }
+        
         /// <summary>
         /// 创建一个UI
         /// </summary>
@@ -261,6 +264,13 @@ namespace Instech.Framework.Ui
 
             _sleepingViews = AddCanvas("Sleeping").transform;
             _sleepingViews.gameObject.SetActive(false);
+
+            Tweener = new Tweener();
+        }
+
+        private void Update()
+        {
+            Tweener.UpdateFrame(Time.deltaTime);
         }
 
         /// <summary>

@@ -31,6 +31,17 @@ namespace Instech.Framework.Utils
         }
 
         /// <summary>
+        /// 压缩为base64编码的字符串
+        /// </summary>
+        /// <param name="src">源字节数组</param>
+        /// <returns></returns>
+        public static string CompressToBase64(byte[] src)
+        {
+            var bytes = Compress(src);
+            return Convert.ToBase64String(bytes);
+        }
+
+        /// <summary>
         /// 压缩为字节数组
         /// </summary>
         /// <param name="src">源字符串</param>

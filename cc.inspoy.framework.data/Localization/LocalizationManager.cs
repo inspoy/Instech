@@ -17,7 +17,6 @@ using Instech.Framework.Common;
 using Instech.Framework.Core;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
-using JetBrains.Annotations;
 using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.Data
@@ -69,13 +68,11 @@ namespace Instech.Framework.Data
         /// <summary>
         /// 调试模式，开启的话则所有本地化字符串返回空，用于检查是否有字符串硬编码在代码里
         /// </summary>
-        [UsedImplicitly]
         public bool DebugMode { get; set; }
 
         /// <summary>
         /// 默认启用，仅用时将始终返回本地化Key
         /// </summary>
-        [UsedImplicitly]
         public EnableLevel Enable { get; set; } = EnableLevel.Normal;
 
         private Dictionary<string, LocalizationData> _loadedLocalizationDatas;
@@ -202,7 +199,9 @@ namespace Instech.Framework.Data
 
         private string InternalGetString(string key, int depth, params object[] args)
         {
-            if (_loadedLocalizationDatas.TryGetValue(CurLanguageId, out var data) && data.Data.TryGetValue(key, out var str))
+            if (_loadedLocalizationDatas.TryGetValue(CurLanguageId, out var data) &&
+                data.Data.TryGetValue(key, out var str) &&
+                !string.IsNullOrEmpty(str))
             {
                 if (args.Length > 0)
                 {

@@ -55,7 +55,7 @@ namespace Instech.Framework.Logging
         private readonly object _locker = new object();
         private Queue<LogToFileItem> _logItems = new Queue<LogToFileItem>();
         private Queue<LogToFileItem> _logItemsForWriter = new Queue<LogToFileItem>();
-        private StringBuilder _stringBuilderForWriter = new StringBuilder();
+        private readonly StringBuilder _stringBuilderForWriter = new StringBuilder();
         private Thread _writerThread;
         private FileInfo _logFileInfo;
         private FileInfo _latestLogFileInfo;

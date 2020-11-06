@@ -21,6 +21,7 @@ namespace Instech.Framework.Common
     public class ReactiveProperty<T> where T : IEquatable<T>
     {
         private T _value;
+
         public T Value
         {
             get => _value;
@@ -51,6 +52,8 @@ namespace Instech.Framework.Common
             Dispatcher = new EventDispatcher(this);
             _value = value;
         }
+
+        public static implicit operator T(ReactiveProperty<T> rp) => rp.Value;
 
         public void AddEventListener(ListenerSelector sel)
         {

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Instech.Framework.Core;
 using Instech.Framework.Logging;
 
@@ -70,8 +69,12 @@ namespace Instech.Framework.Common
                 return false;
             }
 #if UNITY_EDITOR || INSTECH_ENABLE_DISPATCHER_CHECK
-            if (listener == null || sel.Method.DeclaringType == null || sel.Method.DeclaringType
-                    .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false).Length > 0)
+            if (listener == null &&
+                (sel.Method.DeclaringType == null ||
+                 sel.Method.DeclaringType
+                     .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
+                     .Length > 0)
+            )
             {
                 Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }
@@ -131,8 +134,12 @@ namespace Instech.Framework.Common
         public bool RemoveEventListener(string eventType, ListenerSelector sel, object listener = null)
         {
 #if UNITY_EDITOR || INSTECH_ENABLE_DISPATCHER_CHECK
-            if (listener == null || sel.Method.DeclaringType == null || sel.Method.DeclaringType
-                    .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false).Length > 0)
+            if (listener == null &&
+                (sel.Method.DeclaringType == null ||
+                 sel.Method.DeclaringType
+                     .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
+                     .Length > 0)
+            )
             {
                 Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }

@@ -82,7 +82,7 @@ namespace Instech.Framework.Ui
         protected IBasePresenter Presenter;
 
         private readonly HashSet<EventDispatcher> _dispatchers = new HashSet<EventDispatcher>();
-        protected IUiInitData _initData;
+        public IUiInitData InitData { get; private set; }
 
         /// <summary>
         /// 添加UI事件监听
@@ -175,7 +175,7 @@ namespace Instech.Framework.Ui
 
             IsSleeping = true;
             Presenter.OnViewRecycle(false);
-            _initData = null;
+            InitData = null;
             if (UiManager.HasSingleton())
             {
                 UiManager.Instance.RecycleViewFromBaseView(this);
@@ -221,7 +221,7 @@ namespace Instech.Framework.Ui
             }
 
             IsSleeping = false;
-            _initData = initData;
+            InitData = initData;
             Presenter.OnViewActivate();
         }
 
@@ -287,7 +287,7 @@ namespace Instech.Framework.Ui
 
         private void OnDestroy()
         {
-            if (!IsViewRemoved)
+            if (!IsViewRemoved && UiManager.HasSingleton())
             {
                 // 意外的情况，补调一下
                 Close();

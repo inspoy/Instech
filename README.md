@@ -58,7 +58,7 @@
 ```json
 {
   "dependencies": {
-    "cc.inspoy.framework": "https://github.com/inspoy/Instech.git",
+    "cc.inspoy.framework.package": "https://github.com/inspoy/Instech.git",
     // other packages...
   }
 }

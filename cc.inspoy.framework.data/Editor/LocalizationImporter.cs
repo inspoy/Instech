@@ -105,7 +105,10 @@ namespace Instech.Framework.Data.Editor
                     {
                         var val = sheet.Cells[curLine, i + 2].Value?.ToString() ?? string.Empty;
                         val = val.Replace("\\n", "\n");
-                        ret[i].Data.Add(key, val);
+                        if (!string.IsNullOrEmpty(val))
+                        {
+                            ret[i].Data.Add(key, val);
+                        }
                     }
                 }
 

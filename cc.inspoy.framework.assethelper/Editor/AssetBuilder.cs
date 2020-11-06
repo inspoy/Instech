@@ -33,7 +33,6 @@ using UnityEditor.Build.Pipeline.Interfaces;
 using UnityEngine;
 using Aes = Instech.EncryptHelper.Aes;
 using BuildCompression = UnityEngine.BuildCompression;
-using Debug = UnityEngine.Debug;
 using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.AssetHelper.Editor

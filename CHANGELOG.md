@@ -1,6 +1,46 @@
+# 1.5.0 (2020.11.6)
+
+## Versions
+
+- AssetHelper: `1.1.1`
+- Common: `1.2.1`(was `1.2.0`)
+- Core: `1.1.1`
+- Data: `1.0.3`(was `1.0.2`)
+- Logging: `1.1.1`
+- MyJson: `1.0.1`
+- Tests: `1.0.0`
+- UI: `1.3.0`(was `1.2.1`)
+- UiWidgets: `1.2.0`
+- Utils: 1.4.0(was `1.3.0`)
+
+## BREAKING CHANGE
+
+- [Utils]FindChildWithName方法的主体和返回值由"GameObject"变为"Transform"
+
+## Highlight
+
+- [UI]新增常见补间动画
+
+## New Feature
+
+- [Utils]增加Transform根据路径获取子节点的方法
+- [Utils]GzipHelper增加接口：byte array=>base64 string
+## Optimizing
+
+- [Common]ReactiveProperty增加隐式类型转换方法
+- [UI]BaseView增加公共属性InitData
+- [Data]本地化遇到空值时视为不存在
+- [Data]本地化导出时不导出空值
+
+## Bugfix
+
+- 整体引用的包名改成"cc.inspoy.framework.package"，因为".framework"结尾的包不会被Unity2020.1正确导入
+- [Common]EventDispatcher.AddListener的判断逻辑有误
+- [UI]修复退出游戏时UI报错的问题
+
 # 1.4.0 (2020.10.21)
 
-## Version
+## Versions
 
 - AssetHelper: `1.1.1`
 - Common: `1.2.0`(was `1.1.1`)

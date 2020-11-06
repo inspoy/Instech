@@ -102,7 +102,7 @@ namespace Instech.Framework.Common.Editor
             var path = Path.GetFullPath($"Packages/{package}/");
             if (!Directory.Exists(path))
             {
-                path = Path.GetFullPath($"Packages/cc.inspoy.framework/{package}/");
+                path = Path.GetFullPath($"Packages/cc.inspoy.framework.package/{package}/");
             }
             return Directory.Exists(path) ? path : string.Empty;
         }

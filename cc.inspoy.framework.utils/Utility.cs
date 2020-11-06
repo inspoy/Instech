@@ -85,17 +85,17 @@ namespace Instech.Framework.Utils
         /// <returns>子物体</returns>
         /// <param name="parent">父物体</param>
         /// <param name="childName">子物体的name</param>
-        public static GameObject FindChildWithName(this GameObject parent, string childName)
+        public static Transform FindChildWithName(this Transform parent, string childName)
         {
             var parentTrans = parent.transform;
             foreach (Transform trans in parentTrans.GetComponentInChildren<Transform>())
             {
                 if (trans.name == childName)
                 {
-                    return trans.gameObject;
+                    return trans;
                 }
 
-                var child = trans.gameObject.FindChildWithName(childName);
+                var child = trans.FindChildWithName(childName);
                 if (child != null)
                 {
                     return child;
@@ -103,6 +103,40 @@ namespace Instech.Framework.Utils
             }
 
             return null;
+        }
+
+        public static Transform FindChildByPath(this Transform trans, string path)
+        {
+            if (trans == null)
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                return trans;
+            }
+            if (path.IndexOf('/') == -1)
+            {
+                return trans.Find(path);
+            }
+            var nodeNames = path.Split('/');
+            var curNode = trans;
+            foreach (var name in nodeNames)
+            {
+                curNode = curNode.Find(name);
+                if (curNode == null)
+                {
+                    // 没找到
+                    return null;
+                }
+            }
+            return curNode;
+        }
+
+        public static T GetComponentByPath<T>(this GameObject go, string path) where T : Component
+        {
+            var trans = go.transform.FindChildByPath(path);
+            return trans.GetComponent<T>();
         }
 
         /// <summary>

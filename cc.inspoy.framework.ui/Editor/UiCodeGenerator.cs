@@ -210,8 +210,8 @@ namespace Instech.Framework.Ui.Editor
                 var comName = item.Key;
                 var comPascalName = char.ToUpper(comName[0]) + comName.Substring(1);
                 var comType = item.Value;
-                var widgetGo = view.gameObject.FindChildWithName(comName);
-                if (widgetGo == null)
+                var widgetTrans = view.transform.FindChildWithName(comName);
+                if (widgetTrans == null)
                 {
                     continue;
                 }
@@ -221,7 +221,7 @@ namespace Instech.Framework.Ui.Editor
                     needCompile = true;
                     continue;
                 }
-                var component = widgetGo.GetComponent(comType);
+                var component = widgetTrans.GetComponent(comType);
                 field.SetValue(view, component);
             }
             return needCompile;
