@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils.Editor
- * FileName: MenuItems.cs
- * Created on 2019/12/06 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils.Editor
+// FileName: MenuItems.cs
+// Created on 2019/12/06 by inspoy
+// All rights reserved.
 
 using Unity.CodeEditor;
 using UnityEditor;

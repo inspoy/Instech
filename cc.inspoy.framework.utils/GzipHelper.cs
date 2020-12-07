@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: GzipHelper.cs
- * Created on 2018/05/23 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: GzipHelper.cs
+// Created on 2018/05/23 by inspoy
+// All rights reserved.
 
 
 using System;

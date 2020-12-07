@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils.Editor
- * FileName: VisibleInHierarchy.cs
- * Created on 2019/01/19 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils.Editor
+// FileName: VisibleInHierarchy.cs
+// Created on 2019/01/19 by inspoy
+// All rights reserved.
 
 
 using UnityEditor;

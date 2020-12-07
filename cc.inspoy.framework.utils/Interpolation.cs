@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: Interpolation.cs
- * Created on 2018/12/03 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: Interpolation.cs
+// Created on 2018/12/03 by inspoy
+// All rights reserved.
 
 using UnityEngine;
 

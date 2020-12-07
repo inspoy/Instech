@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.AssetHelper
- * FileName: EditorManager.cs
- * Created on 2019/12/17 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.AssetHelper
+// FileName: EditorManager.cs
+// Created on 2019/12/17 by inspoy
+// All rights reserved.
 
 #if UNITY_EDITOR
 using System;

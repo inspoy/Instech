@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: BaseView.cs
- * Created on 2018/05/01 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: BaseView.cs
+// Created on 2018/05/01 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: ReactiveProperty.cs
- * Created on 2018/08/06 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: ReactiveProperty.cs
+// Created on 2018/08/06 by inspoy
+// All rights reserved.
 
 using System;
 

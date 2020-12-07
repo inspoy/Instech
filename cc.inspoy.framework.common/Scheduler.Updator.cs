@@ -1,10 +1,8 @@
-/**
- * == CountryRailway ==
- * Assembly: 
- * FileName: Scheduler.Updator.cs
- * Created on 2020/07/13 by inspoy
- * All rights reserved.
- */
+// == CountryRailway ==
+// Assembly: 
+// FileName: Scheduler.Updator.cs
+// Created on 2020/07/13 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

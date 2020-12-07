@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: Scheduler.cs
- * Created on 2019/01/06 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: Scheduler.cs
+// Created on 2019/01/06 by inspoy
+// All rights reserved.
 
 using System;
 using Instech.Framework.Core;
@@ -46,6 +44,7 @@ namespace Instech.Framework.Common
             _lateUpdateLock = true;
             UpdateTimer();
             UpdateLateFrame();
+            UpdateCoroutines();
             _lateUpdateLock = false;
         }
 

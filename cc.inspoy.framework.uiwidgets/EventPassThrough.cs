@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.UiWidgets
- * FileName: EventPassThrough.cs
- * Created on 2020/09/19 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.UiWidgets
+// FileName: EventPassThrough.cs
+// Created on 2020/09/19 by inspoy
+// All rights reserved.
 
 using System.Collections.Generic;
 using UnityEngine;

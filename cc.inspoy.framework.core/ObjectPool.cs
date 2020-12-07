@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Core
- * FileName: ObjectPool.cs
- * Created on 2018/05/08 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Core
+// FileName: ObjectPool.cs
+// Created on 2018/05/08 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -31,6 +29,24 @@ namespace Instech.Framework.Core
         /// 销毁时调用
         /// </summary>
         void OnDestroy();
+    }
+
+    /// <summary>
+    /// 提供一个可池化对象的基类，这样就不需要每次都实现所有三个接口了
+    /// </summary>
+    public abstract class BasePoolable : IPoolable
+    {
+        public virtual void OnRecycle()
+        {
+        }
+
+        public virtual void OnActivate()
+        {
+        }
+
+        public virtual void OnDestroy()
+        {
+        }
     }
 
     /// <summary>

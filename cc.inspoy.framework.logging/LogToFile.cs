@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Logging
- * FileName: LogToFile.cs
- * Created on 2018/05/09 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Logging
+// FileName: LogToFile.cs
+// Created on 2018/05/09 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

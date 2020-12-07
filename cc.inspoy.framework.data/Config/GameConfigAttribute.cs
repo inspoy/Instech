@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Data
- * FileName: GameConfigAttribute.cs
- * Created on 2018/08/10 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Data
+// FileName: GameConfigAttribute.cs
+// Created on 2018/08/10 by inspoy
+// All rights reserved.
 
 using System;
 

@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Intech.Framework.Core
- * FileName: Singleton.cs
- * Created on 2018/05/02 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Intech.Framework.Core
+// FileName: Singleton.cs
+// Created on 2018/05/02 by inspoy
+// All rights reserved.
 
 using System;
 

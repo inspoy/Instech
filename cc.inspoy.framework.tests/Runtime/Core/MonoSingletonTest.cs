@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Tests
- * FileName: MonoSingletonTest.cs
- * Created on 2020/08/17 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Tests
+// FileName: MonoSingletonTest.cs
+// Created on 2020/08/17 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections;

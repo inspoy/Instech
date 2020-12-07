@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: Scheduler.Timer.cs
- * Created on 2020/07/10 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: Scheduler.Timer.cs
+// Created on 2020/07/10 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

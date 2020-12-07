@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.UiWidgets
- * FileName: LoopedScrollView.cs
- * Created on 2020/09/18 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.UiWidgets
+// FileName: LoopedScrollView.cs
+// Created on 2020/09/18 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

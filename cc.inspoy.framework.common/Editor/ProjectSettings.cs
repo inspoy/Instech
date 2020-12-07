@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common.Editor
- * FileName: ProjectSettings.cs
- * Created on 2019/02/17 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common.Editor
+// FileName: ProjectSettings.cs
+// Created on 2019/02/17 by inspoy
+// All rights reserved.
 
 using System.IO;
 using Instech.Framework.Logging;

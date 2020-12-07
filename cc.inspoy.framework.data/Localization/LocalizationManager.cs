@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Data
- * FileName: LocalizationManager.cs
- * Created on 2019/12/16 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Data
+// FileName: LocalizationManager.cs
+// Created on 2019/12/16 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -71,7 +69,7 @@ namespace Instech.Framework.Data
         public bool DebugMode { get; set; }
 
         /// <summary>
-        /// 默认启用，仅用时将始终返回本地化Key
+        /// 默认启用，禁用时将始终返回本地化Key
         /// </summary>
         public EnableLevel Enable { get; set; } = EnableLevel.Normal;
 

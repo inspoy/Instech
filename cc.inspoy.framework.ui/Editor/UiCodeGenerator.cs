@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui.Editor
- * FileName: UiCodeGenerator.cs
- * Created on 2019/12/14 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui.Editor
+// FileName: UiCodeGenerator.cs
+// Created on 2019/12/14 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

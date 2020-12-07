@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Editor.Tests
- * FileName: LogToFileTest.cs
- * Created on 2020/09/14 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Editor.Tests
+// FileName: LogToFileTest.cs
+// Created on 2020/09/14 by inspoy
+// All rights reserved.
 
 using System.Threading;
 using Instech.Framework.Core;

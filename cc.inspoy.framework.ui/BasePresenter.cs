@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: BasePresenter.cs
- * Created on 2018/05/01 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: BasePresenter.cs
+// Created on 2018/05/01 by inspoy
+// All rights reserved.
 
 namespace Instech.Framework.Ui
 {

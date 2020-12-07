@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: StringBuilderPool.cs
- * Created on 2020/07/13 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: StringBuilderPool.cs
+// Created on 2020/07/13 by inspoy
+// All rights reserved.
 
 using System;
 using System.Text;

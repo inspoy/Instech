@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: ScaleTo.cs
- * Created on 2020/10/22 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: ScaleTo.cs
+// Created on 2020/10/22 by inspoy
+// All rights reserved.
 
 using UnityEngine;
 

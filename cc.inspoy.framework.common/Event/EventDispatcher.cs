@@ -1,15 +1,16 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: EventDispatcher.cs
- * Created on 2018/05/03 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: EventDispatcher.cs
+// Created on 2018/05/03 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;
 using Instech.Framework.Core;
 using Instech.Framework.Logging;
+#if INSTECH_PROFILING
+using System.Diagnostics;
+#endif
 
 namespace Instech.Framework.Common
 {
@@ -235,6 +236,9 @@ namespace Instech.Framework.Common
             }
             _dispatching += 1;
             var count = 0;
+#if INSTECH_PROFILING
+            var sw = Stopwatch.StartNew();
+#endif
             if (_dictListeners.ContainsKey(e.EventType))
             {
                 var selectors = _dictListeners[e.EventType];
@@ -252,6 +256,12 @@ namespace Instech.Framework.Common
                     count += 1;
                 }
             }
+#if INSTECH_PROFILING
+            if (sw.ElapsedMilliseconds > 100)
+            {
+                Logger.LogWarning(LogModule.Framework, $"Dispatching event cost too much time({count} listeners)");
+            }
+#endif
             _dispatching -= 1;
             if (_dispatching == 0 && _listListenersToAdd.Count > 0)
             {

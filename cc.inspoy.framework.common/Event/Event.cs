@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: Event.cs
- * Created on 2018/05/03 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: Event.cs
+// Created on 2018/05/03 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Core;
 using Instech.Framework.Logging;

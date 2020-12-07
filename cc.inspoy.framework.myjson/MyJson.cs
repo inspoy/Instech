@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.MyJson
- * FileName: MyJson.cs
- * Created on 2019/12/04 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.MyJson
+// FileName: MyJson.cs
+// Created on 2019/12/04 by inspoy
+// All rights reserved.
 
 using System;
 #if UNITY_EDITOR

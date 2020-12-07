@@ -1,7 +1,7 @@
 {
   "name": "cc.inspoy.framework.core",
   "displayName": "Instech.Framework.Core",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "unity": "2020.1",
   "description": "Unity框架核心功能，包含单例，对象池",
   "keywords": [

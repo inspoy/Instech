@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Editor.Tests
- * FileName: LoggerTest.cs
- * Created on 2020/08/19 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Editor.Tests
+// FileName: LoggerTest.cs
+// Created on 2020/08/19 by inspoy
+// All rights reserved.
 
 using System;
 using System.Diagnostics;

@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Data.Editor
- * FileName: LocalizationImporter.cs
- * Created on 2020/07/01 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Data.Editor
+// FileName: LocalizationImporter.cs
+// Created on 2020/07/01 by inspoy
+// All rights reserved.
 
 using System.Collections.Generic;
 using System.IO;

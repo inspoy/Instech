@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.MyJson.Editor
- * FileName: GenUtf8JsonCode.cs
- * Created on 2019/03/13 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.MyJson.Editor
+// FileName: GenUtf8JsonCode.cs
+// Created on 2019/03/13 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

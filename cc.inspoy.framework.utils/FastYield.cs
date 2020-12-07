@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: FastYield.cs
- * Created on 2018/05/02 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: FastYield.cs
+// Created on 2018/05/02 by inspoy
+// All rights reserved.
 
 using System.Collections.Generic;
 using Instech.Framework.Core;

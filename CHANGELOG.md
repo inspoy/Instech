@@ -1,3 +1,31 @@
+# 1.6.0 (2020.12.7)
+
+## Versions
+
+- AssetHelper: `1.1.2`(was `1.1.1`)
+- Common: `1.3.0`(was `1.2.1`)
+- Core: `1.1.2`(was `1.1.1`)
+- Data: `1.0.4`(was `1.0.3`)
+- Logging: `1.1.2`(was `1.1.1`)
+- MyJson: `1.0.2`(was `1.0.1`)
+- Tests: `1.0.1`(was `1.0.0`)
+- UI: `1.3.1`(was `1.3.0`)
+- UiWidgets: `1.2.1`(was `1.2.0`)
+- Utils: `1.4.1`(was `1.4.0`)
+
+## Highlight
+
+- 文件头部注释格式修改，从`/**/`改为`///`
+
+## New Feature
+
+- [Common]增加了Coroutine
+
+## Optimizing
+
+- [Core]可池化对象提供一个空基类
+- [Common]EventDispatcher增加了派发耗时过高的警告
+
 # 1.5.0 (2020.11.6)
 
 ## Versions
@@ -11,7 +39,7 @@
 - Tests: `1.0.0`
 - UI: `1.3.0`(was `1.2.1`)
 - UiWidgets: `1.2.0`
-- Utils: 1.4.0(was `1.3.0`)
+- Utils: `1.4.0`(was `1.3.0`)
 
 ## BREAKING CHANGE
 
@@ -25,6 +53,7 @@
 
 - [Utils]增加Transform根据路径获取子节点的方法
 - [Utils]GzipHelper增加接口：byte array=>base64 string
+
 ## Optimizing
 
 - [Common]ReactiveProperty增加隐式类型转换方法

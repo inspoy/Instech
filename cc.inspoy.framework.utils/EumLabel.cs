@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: EnumLabel.cs
- * Created on 2018/05/20 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: EnumLabel.cs
+// Created on 2018/05/20 by inspoy
+// All rights reserved.
 
 using System;
 using UnityEngine;

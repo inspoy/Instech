@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Common
- * FileName: GameState.cs
- * Created on 2018/05/11 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Common
+// FileName: GameState.cs
+// Created on 2018/05/11 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;

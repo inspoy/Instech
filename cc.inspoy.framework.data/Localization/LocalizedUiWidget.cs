@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Data
- * FileName: LocalizedUiWidget.cs
- * Created on 2019/12/16 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Data
+// FileName: LocalizedUiWidget.cs
+// Created on 2019/12/16 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Common;
 using TMPro;

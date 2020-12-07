@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils.Editor
- * FileName: MiscEditor.cs
- * Created on 2018/05/01 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils.Editor
+// FileName: MiscEditor.cs
+// Created on 2018/05/01 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -25,13 +23,11 @@ namespace Instech.Framework.Utils.Editor
     public class ScriptHeaderGenerator : UnityEditor.AssetModificationProcessor
     {
         private const string Header =
-            "/**\n" +
-            " * == ##ProductName## ==\n" +
-            " * Assembly: ##AssemblyName##\n" +
-            " * FileName: ##FileName##\n" +
-            " * Created on ##CreateDate## by ##Author##\n" +
-            " * All rights reserved.\n" +
-            " */\n\n";
+            "// == ##ProductName## ==\n" +
+            "// Assembly: ##AssemblyName##\n" +
+            "// FileName: ##FileName##\n" +
+            "// Created on ##CreateDate## by ##Author##\n" +
+            "// All rights reserved.\n\n";
 
         private static string _userName;
 
@@ -63,7 +59,7 @@ namespace Instech.Framework.Utils.Editor
             fullText = fullText.Replace("##CreateDate##", DateTime.Now.ToString("yyyy/MM/dd"));
             fullText = fullText.Replace("##Author##", GetUserName());
             var original = File.ReadAllText(path);
-            if (original.StartsWith("/**"))
+            if (original.StartsWith("// =="))
             {
                 // 防止重复添加
                 fullText = original;

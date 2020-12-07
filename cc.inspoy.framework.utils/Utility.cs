@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils
- * FileName: Utils.cs
- * Created on 2018/05/05 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils
+// FileName: Utils.cs
+// Created on 2018/05/05 by inspoy
+// All rights reserved.
 
 using System;
 using System.Collections;

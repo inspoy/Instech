@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Logging
- * FileName: LogModule.cs
- * Created on 2018/07/02 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Logging
+// FileName: LogModule.cs
+// Created on 2018/07/02 by inspoy
+// All rights reserved.
 
 namespace Instech.Framework.Logging
 {

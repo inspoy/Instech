@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: ToggleExtension.cs
- * Created on 2018/05/06 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: ToggleExtension.cs
+// Created on 2018/05/06 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;

@@ -1,7 +1,7 @@
 {
     "name": "cc.inspoy.framework.data",
     "displayName": "Instech.Framework.Data",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "unity": "2020.1",
     "description": "Unity框架数据相关，包含配置表，本地化，本地数据存档",
     "keywords": [

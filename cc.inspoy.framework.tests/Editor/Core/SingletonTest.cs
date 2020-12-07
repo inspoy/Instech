@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.FrameworkTest.Core
- * FileName: SingletonTest.cs
- * Created on 2020/08/17 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.FrameworkTest.Core
+// FileName: SingletonTest.cs
+// Created on 2020/08/17 by inspoy
+// All rights reserved.
 
 using System;
 using Instech.Framework.Core;

@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.AssetHelper.Editor
- * FileName: AssetBuildReport.cs
- * Created on 2020/08/24 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.AssetHelper.Editor
+// FileName: AssetBuildReport.cs
+// Created on 2020/08/24 by inspoy
+// All rights reserved.
 
 using System.Collections.Generic;
 

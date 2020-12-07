@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: PersistentAction.cs
- * Created on 2020/10/22 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: PersistentAction.cs
+// Created on 2020/10/22 by inspoy
+// All rights reserved.
 
 namespace Instech.Framework.Ui.Tweening
 {

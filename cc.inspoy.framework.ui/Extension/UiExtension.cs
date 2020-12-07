@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: UiExtension.cs
- * Created on 2018/05/06 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: UiExtension.cs
+// Created on 2018/05/06 by inspoy
+// All rights reserved.
 
 using UnityEngine.UI;
 

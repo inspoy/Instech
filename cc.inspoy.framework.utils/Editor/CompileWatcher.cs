@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Utils.Editor
- * FileName: CompileWatcher.cs
- * Created on 2018/05/07 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Utils.Editor
+// FileName: CompileWatcher.cs
+// Created on 2018/05/07 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Logging;
 using UnityEditor;

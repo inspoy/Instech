@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.UiWidgets
- * FileName: ClickMask.cs
- * Created on 2020/09/19 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.UiWidgets
+// FileName: ClickMask.cs
+// Created on 2020/09/19 by inspoy
+// All rights reserved.
 
 using UnityEngine;
 using UnityEngine.UI;

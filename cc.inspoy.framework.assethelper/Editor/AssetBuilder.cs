@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.AssetHelper.Editor
- * FileName: AssetBuilder.cs
- * Created on 2019/12/10 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.AssetHelper.Editor
+// FileName: AssetBuilder.cs
+// Created on 2019/12/10 by inspoy
+// All rights reserved.
 
 /*
  * 使用说明：

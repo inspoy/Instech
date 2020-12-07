@@ -1,10 +1,8 @@
-/**
- * == CountryRailway ==
- * Assembly: 
- * FileName: UiViewValidator.cs
- * Created on 2020/07/13 by inspoy
- * All rights reserved.
- */
+// == CountryRailway ==
+// Assembly: 
+// FileName: UiViewValidator.cs
+// Created on 2020/07/13 by inspoy
+// All rights reserved.
 
 using System.Text;
 using Instech.Framework.Utils;

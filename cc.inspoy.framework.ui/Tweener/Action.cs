@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: Action.cs
- * Created on 2020/10/21 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: Action.cs
+// Created on 2020/10/21 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Logging;
 using UnityEngine;

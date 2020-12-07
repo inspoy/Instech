@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Data
- * FileName: LocalStorage.cs
- * Created on 2019/12/16 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Data
+// FileName: LocalStorage.cs
+// Created on 2019/12/16 by inspoy
+// All rights reserved.
 
 using System.Collections.Generic;
 using System.IO;

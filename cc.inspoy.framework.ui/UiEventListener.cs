@@ -1,10 +1,8 @@
-/**
- * == Inspoy Technology ==
- * Assembly: Instech.Framework.Ui
- * FileName: UiEventListener.cs
- * Created on 2018/05/03 by inspoy
- * All rights reserved.
- */
+// == Inspoy Technology ==
+// Assembly: Instech.Framework.Ui
+// FileName: UiEventListener.cs
+// Created on 2018/05/03 by inspoy
+// All rights reserved.
 
 using Instech.Framework.Common;
 using TMPro;
