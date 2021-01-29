@@ -60,9 +60,9 @@ namespace Instech.Framework.Common
         /// </summary>
         /// <param name="eventType">事件类型</param>
         /// <param name="sel">需要添加的监听</param>
-        /// <param name="listener">监听者</param>
+        /// <param name="owner">监听器拥有者</param>
         /// <returns>是否添加成功</returns>
-        public bool AddEventListener(string eventType, ListenerSelector sel, object listener = null)
+        public bool AddEventListener(string eventType, ListenerSelector sel, object owner = null)
         {
             if (string.IsNullOrEmpty(eventType) || sel == null)
             {
@@ -70,7 +70,7 @@ namespace Instech.Framework.Common
                 return false;
             }
 #if UNITY_EDITOR || INSTECH_ENABLE_DISPATCHER_CHECK
-            if (listener == null &&
+            if (owner == null &&
                 (sel.Method.DeclaringType == null ||
                  sel.Method.DeclaringType
                      .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
@@ -80,11 +80,11 @@ namespace Instech.Framework.Common
                 Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }
 #endif
-            if (listener == null)
+            if (owner == null)
             {
-                listener = sel.Target;
+                owner = sel.Target;
             }
-            if (HasEventListener(eventType, sel, listener))
+            if (HasEventListener(eventType, sel, owner))
             {
                 Logger.LogWarning(LogModule.Framework, $"重复监听！type={eventType}");
             }
@@ -100,7 +100,7 @@ namespace Instech.Framework.Common
                 return true;
             }
             var selectors = _dictListeners[eventType];
-            selectors.Add((listener, sel));
+            selectors.Add((owner, sel));
             return true;
         }
 
@@ -109,18 +109,18 @@ namespace Instech.Framework.Common
         /// </summary>
         /// <param name="eventType">事件类型</param>
         /// <param name="sel">需要检查的监听</param>
-        /// <param name="listener">所属监听者</param>
+        /// <param name="owner">所属监听者</param>
         /// <returns>是否已经添加</returns>
-        public bool HasEventListener(string eventType, ListenerSelector sel, object listener)
+        public bool HasEventListener(string eventType, ListenerSelector sel, object owner)
         {
             if (!_dictListeners.ContainsKey(eventType))
             {
                 return false;
             }
             var selectors = _dictListeners[eventType];
-            foreach (var (l, s) in selectors)
+            foreach (var (o, s) in selectors)
             {
-                if (l == listener && s == sel) return true;
+                if (o == owner && s == sel) return true;
             }
             return false;
         }
@@ -130,12 +130,12 @@ namespace Instech.Framework.Common
         /// </summary>
         /// <param name="eventType">事件类型</param>
         /// <param name="sel">要移除的监听</param>
-        /// <param name="listener">监听者</param>
+        /// <param name="owner">监听器拥有者</param>
         /// <returns>是否移除成功</returns>
-        public bool RemoveEventListener(string eventType, ListenerSelector sel, object listener = null)
+        public bool RemoveEventListener(string eventType, ListenerSelector sel, object owner = null)
         {
 #if UNITY_EDITOR || INSTECH_ENABLE_DISPATCHER_CHECK
-            if (listener == null &&
+            if (owner == null &&
                 (sel.Method.DeclaringType == null ||
                  sel.Method.DeclaringType
                      .GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
@@ -145,14 +145,18 @@ namespace Instech.Framework.Common
                 Logger.LogWarning(LogModule.Framework, "事件回调为匿名方法的，必须手动设置listener");
             }
 #endif
-            if (!HasEventListener(eventType, sel, listener))
+            if (owner == null)
+            {
+                owner = sel.Target;
+            }
+            if (!HasEventListener(eventType, sel, owner))
             {
                 return false;
             }
             var selectors = _dictListeners[eventType];
             foreach (var item in selectors)
             {
-                if (item.Item1 == listener && item.Item2 == sel)
+                if (item.Item1 == owner && item.Item2 == sel)
                 {
                     selectors.Remove(item);
                     return true;
@@ -164,8 +168,8 @@ namespace Instech.Framework.Common
         /// <summary>
         /// 移除来自某对象的所有监听
         /// </summary>
-        /// <param name="listener">监听者</param>
-        public void RemoveAllEventListenersWithTarget(object listener)
+        /// <param name="owner">监听器所有者</param>
+        public void RemoveAllEventListenersWithTarget(object owner)
         {
             foreach (var pair in _dictListeners)
             {
@@ -173,7 +177,7 @@ namespace Instech.Framework.Common
                 for (var i = selectors.Count - 1; i >= 0; --i)
                 {
                     var item = selectors[i];
-                    if (item.Item1 == listener)
+                    if (item.Item1 == owner)
                     {
                         selectors.Remove(item);
                     }
@@ -247,19 +251,19 @@ namespace Instech.Framework.Common
                     try
                     {
                         item.Item2(e);
+                        count += 1;
                     }
                     catch (Exception exc)
                     {
                         Logger.LogError(LogModule.Framework, "派发事件时出错");
                         Logger.LogException(LogModule.Framework, exc);
                     }
-                    count += 1;
                 }
             }
 #if INSTECH_PROFILING
             if (sw.ElapsedMilliseconds > 100)
             {
-                Logger.LogWarning(LogModule.Framework, $"Dispatching event cost too much time({count} listeners)");
+                Logger.LogWarning(LogModule.Framework, $"Dispatching event cost too much time({e.EventType}, {sw.ElapsedMilliseconds}ms, {count} listeners)");
             }
 #endif
             _dispatching -= 1;

@@ -178,6 +178,7 @@ namespace Instech.Framework.AssetHelper
         {
             Check();
             _active.UnloadAsset(asset);
+            AutoUnloadWithHolder(asset);
         }
 
         /// <inheritdoc />
@@ -215,5 +216,35 @@ namespace Instech.Framework.AssetHelper
 
             return new Dictionary<string, int>();
         }
+
+        #region Auto Unload
+
+        private Dictionary<int, List<Object>> _assetHoldingRecord = new Dictionary<int, List<Object>>();
+        
+        public void SetAutoUnload(Object asset, Object holder)
+        {
+            var holderId = holder.GetInstanceID();
+            if (!_assetHoldingRecord.TryGetValue(holderId, out var list))
+            {
+                list = new List<Object>();
+                _assetHoldingRecord.Add(holderId, list);
+            }
+            list.Add(holder);
+        }
+
+        private void AutoUnloadWithHolder(Object holder)
+        {
+            var holderId = holder.GetInstanceID();
+            if (_assetHoldingRecord.TryGetValue(holderId, out var list))
+            {
+                foreach (var item in list)
+                {
+                    UnloadAsset(item);
+                }
+                _assetHoldingRecord.Remove(holderId);
+            }
+        }
+
+        #endregion
     }
 }

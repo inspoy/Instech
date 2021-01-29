@@ -1,7 +1,7 @@
 {
   "name": "cc.inspoy.framework.package",
   "displayName": "Instech.Framework",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "unity": "2020.1",
   "description": "InstechFramework框架，打包了所有程序集",
   "keywords": [

@@ -4,15 +4,13 @@
 // Created on 2018/05/06 by inspoy
 // All rights reserved.
 
-using Instech.Framework.Logging;
-using Instech.Framework.Utils;
 using UnityEngine;
 using UnityEngine.UI;
-using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.Ui
 {
-    public class ToggleExtension:MonoBehaviour
+    [RequireComponent(typeof(Toggle))]
+    public class ToggleExtension : MonoBehaviour
     {
         /// <summary>
         /// 用于ToggleGroup的值
@@ -38,11 +36,6 @@ namespace Instech.Framework.Ui
             }
             _inited = true;
             Toggle = gameObject.GetComponent<Toggle>();
-            if (Toggle == null)
-            {
-                Logger.LogWarning(LogModule.Ui, "Cannot get toggle component in go: " + transform.GetHierarchyPath());
-                return;
-            }
             Toggle.onValueChanged.AddListener(OnValueChanged);
             OnValueChanged(Toggle.isOn);
         }

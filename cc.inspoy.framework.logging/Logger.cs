@@ -11,12 +11,11 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
-/**
- * 需要给程序集定义以下符号，对应的接口才会被调用
- * INSTECH_LOGGER_ENABLE_NORMAL: 启用Print, LogDebug, LogVerbose, LogInfo, LogWarning
- * INSTECH_LOGGER_ENABLE_ERROR: 启用LogError
- * INSTECH_LOGGER_ENABLE_EXCEPTION: 启用LogException, Assert
- */
+// 需要给程序集定义以下符号，对应的接口才会被调用
+// INSTECH_LOGGER_ENABLE_NORMAL: 启用Print, LogDebug, LogVerbose, LogInfo, LogWarning
+// INSTECH_LOGGER_ENABLE_ERROR: 启用LogError
+// INSTECH_LOGGER_ENABLE_EXCEPTION: 启用LogException, Assert
+// 另外还有用于Profiling的：INSTECH_LOGGER_PROFILING
 
 namespace Instech.Framework.Logging
 {
@@ -126,7 +125,11 @@ namespace Instech.Framework.Logging
         #endregion
 
 #if UNITY_EDITOR
-        private static readonly object _printLocker = new object();
+        private static readonly object PrintLocker = new object();
+#endif
+
+#if INSTECH_LOGGER_PROFILING
+        private const string ProfilingLabel = "Logger.LogImpl()";
 #endif
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace Instech.Framework.Logging
         public static void Print(string msg)
         {
 #if UNITY_EDITOR
-            lock (_printLocker)
+            lock (PrintLocker)
             {
                 LogDebug(null, 1, msg);
             }
@@ -263,6 +266,10 @@ namespace Instech.Framework.Logging
                 return;
             }
 
+#if INSTECH_LOGGER_PROFILING
+            UnityEngine.Profiling.Profiler.BeginSample(ProfilingLabel);
+#endif
+
             if (string.IsNullOrWhiteSpace(module))
             {
                 module = "Default";
@@ -291,6 +298,9 @@ namespace Instech.Framework.Logging
                     Debug.Log(exMessage, context);
                 }
 
+#if INSTECH_LOGGER_PROFILING
+                UnityEngine.Profiling.Profiler.EndSample();
+#endif
                 return;
             }
 
@@ -299,6 +309,9 @@ namespace Instech.Framework.Logging
             {
                 // 编辑器下且没有显式禁用，才会调用Unity的Log
                 // 非编辑器下，所有log走LogToFile输出到指定文件。
+#if INSTECH_LOGGER_PROFILING
+                UnityEngine.Profiling.Profiler.EndSample();
+#endif
                 return;
             }
 
@@ -320,9 +333,10 @@ namespace Instech.Framework.Logging
                 case LogLevels.Debug:
                     Debug.Log(msg, context);
                     break;
-                default:
-                    return;
             }
+#if INSTECH_LOGGER_PROFILING
+                UnityEngine.Profiling.Profiler.EndSample();
+#endif
         }
     }
 }

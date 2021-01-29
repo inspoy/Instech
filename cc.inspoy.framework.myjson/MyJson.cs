@@ -4,19 +4,29 @@
 // Created on 2019/12/04 by inspoy
 // All rights reserved.
 
+#define USE_LIT_JSON
+
 using System;
-#if UNITY_EDITOR
-using UnityEngine;
-#endif
+#if USE_LIT_JSON
+using LitJson;
+#else
 using Utf8Json;
 using Utf8Json.Resolvers;
+#endif
+#if UNITY_EDITOR
+using UnityEngine;
+
+#endif
 
 namespace Instech.Framework.MyJson
 {
     public static class MyJson
     {
+#if !USE_LIT_JSON
         private static bool _resolverInited;
+#endif
 
+#if !USE_LIT_JSON
         public static void InitJsonResolvers(params IJsonFormatterResolver[] resolvers)
         {
             if (_resolverInited)
@@ -33,16 +43,26 @@ namespace Instech.Framework.MyJson
             JsonSerializer.SetDefaultResolver(CompositeResolver.Instance);
             _resolverInited = true;
         }
+#endif
+
+        public static void PrewarmType(Type t)
+        {
+#if USE_LIT_JSON
+            JsonMapper.AddObjectMetadata(t);
+#endif
+        }
 
         /// <summary>
         /// 将对象转换为JSON字符串
         /// </summary>
         /// <param name="obj">源对象</param>
-        /// <typeparam name="T">对象类型</typeparam>
         /// <returns>json字符串</returns>
-        /// <exception cref="InvalidOperationException">尚未初始化</exception>
-        public static string ToJson<T>(T obj)
+        /// <exception cref="System.InvalidOperationException">尚未初始化</exception>
+        public static string ToJson(object obj)
         {
+#if USE_LIT_JSON
+            return JsonMapper.ToJson(obj);
+#else
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
@@ -51,18 +71,7 @@ namespace Instech.Framework.MyJson
 #endif
             if (!_resolverInited) throw new InvalidOperationException("Resolvers has not been set.");
             return JsonSerializer.ToJsonString(obj);
-        }
-
-        public static byte[] ToBytes<T>(T obj)
-        {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                return JsonSerializer.Serialize(obj);
-            }
 #endif
-            if (!_resolverInited) throw new InvalidOperationException("Resolvers has not been set.");
-            return JsonSerializer.Serialize(obj);
         }
 
         /// <summary>
@@ -71,9 +80,12 @@ namespace Instech.Framework.MyJson
         /// <param name="json">json字符串</param>
         /// <typeparam name="T">目标类型</typeparam>
         /// <returns>目标类型的对象</returns>
-        /// <exception cref="InvalidOperationException">尚未初始化</exception>
+        /// <exception cref="System.InvalidOperationException">尚未初始化</exception>
         public static T FromJson<T>(string json)
         {
+#if USE_LIT_JSON
+            return JsonMapper.ToObject<T>(json);
+#else
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
@@ -82,25 +94,7 @@ namespace Instech.Framework.MyJson
 #endif
             if (!_resolverInited) throw new InvalidOperationException("Resolvers has not been set.");
             return JsonSerializer.Deserialize<T>(json);
-        }
-
-        /// <summary>
-        /// 从字节流解析JSON
-        /// </summary>
-        /// <param name="bytes">字节流</param>
-        /// <typeparam name="T">目标类型</typeparam>
-        /// <returns>目标类型的对象</returns>
-        /// <exception cref="InvalidOperationException">尚未初始化</exception>
-        public static T FromJson<T>(byte[] bytes)
-        {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                return JsonSerializer.Deserialize<T>(bytes);
-            }
 #endif
-            if (!_resolverInited) throw new InvalidOperationException("Resolvers has not been set.");
-            return JsonSerializer.Deserialize<T>(bytes);
         }
     }
 }

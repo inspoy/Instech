@@ -431,6 +431,11 @@ namespace Instech.Framework.Utils
             return (set & flags) > 0;
         }
 
+        public static bool InheritsFrom<T>(this Type t) where T : class
+        {
+            return t != null && typeof(T).IsAssignableFrom(t);
+        }
+
         /// <summary>
         /// 获取某个Transform的层级路径，主要用于打印调试信息
         /// </summary>
@@ -458,6 +463,13 @@ namespace Instech.Framework.Utils
         /// </summary>
         public static readonly string ResourcesPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../Resources/"));
 
+        /// <summary>
+        /// 复制文件夹
+        /// </summary>
+        /// <param name="srcPath">源目录的路径</param>
+        /// <param name="targetPath">目标路径（应当不存在）</param>
+        /// <param name="recursively">复制子目录中的文件</param>
+        /// <returns>是否复制成功</returns>
         public static bool CopyTree(string srcPath, string targetPath, bool recursively = true)
         {
             if (!Directory.Exists(srcPath) || Directory.Exists(targetPath))
@@ -481,6 +493,57 @@ namespace Instech.Framework.Utils
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// 逐元素比较两个数组是否相同
+        /// </summary>
+        public static bool CompareArray<T>(T[] arr1, T[] arr2)
+        {
+            var comparer = EqualityComparer<T>.Default;
+            if (arr1 == null || arr2 == null)
+            {
+                return false;
+            }
+            if (arr1.Length != arr2.Length)
+            {
+                return false;
+            }
+            for (var i = 0; i < arr1.Length; ++i)
+            {
+                if (!comparer.Equals(arr1[i], arr2[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 十六进制RGB转颜色
+        /// </summary>
+        /// <param name="hex">24位颜色值，一般以十六进制表示如0x66ccff</param>
+        public static Color AsRgb(this uint hex)
+        {
+            return new Color(
+                (hex & 0xff0000) / 255f,
+                (hex & 0x00ff00) / 255f,
+                (hex & 0x0000ff) / 255f
+            );
+        }
+
+        /// <summary>
+        /// 十六进制RGBA转颜色
+        /// </summary>
+        /// <param name="hex">32位颜色值，一般以十六进制表示如0x66ccffaa</param>
+        public static Color AsRgba(this uint hex)
+        {
+            return new Color(
+                (hex & 0xff000000) / 255f,
+                (hex & 0x00ff0000) / 255f,
+                (hex & 0x0000ff00) / 255f,
+                (hex & 0x000000ff) / 255f
+            );
         }
     }
 }

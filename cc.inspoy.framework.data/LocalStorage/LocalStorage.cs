@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Instech.EncryptHelper;
 using Instech.Framework.Common;
 using Instech.Framework.Core;
@@ -208,7 +209,8 @@ namespace Instech.Framework.Data
             var aes = new Aes();
             aes.Init(_key);
             var real = aes.Decrypt(encrypt);
-            var data = MyJson.MyJson.FromJson<Dictionary<string, CachedSettingItem>>(real);
+            var json = Encoding.UTF8.GetString(real);
+            var data = MyJson.MyJson.FromJson<Dictionary<string, CachedSettingItem>>(json);
             if (data == null)
             {
                 throw new InvalidDataException("Cannot load LS.bin, wrong acess key?");
@@ -228,7 +230,7 @@ namespace Instech.Framework.Data
             {
                 return;
             }
-            var json = MyJson.MyJson.ToBytes(CachedSetting);
+            var json = MyJson.MyJson.ToJson(CachedSetting);
             var aes = new Aes();
             aes.Init(_key);
             var encrypt = aes.Encrypt(json);

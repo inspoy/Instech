@@ -11,6 +11,7 @@ namespace Instech.Framework.UiWidgets
 {
     public class ClickMask : Graphic, ICanvasRaycastFilter
     {
+        [Header("可选，不指定时点击全部区域都有效")]
         public PolygonCollider2D Collider;
 
         protected override void OnPopulateMesh(VertexHelper vh)

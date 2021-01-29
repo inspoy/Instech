@@ -18,6 +18,11 @@ namespace Game.Config
     public sealed class #TableName#Config : BaseConfig
     {
 #FieldDeclare#
+        public static bool Has(int id)
+        {
+            return ConfigManager.Instance.HasId<#TableName#Config>(id);
+        }
+
         public static #TableName#Config Get(int id)
         {
             return ConfigManager.Instance.GetSingle<#TableName#Config>(id);

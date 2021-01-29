@@ -153,6 +153,20 @@ namespace Instech.Framework.Data
             Logger.LogInfo(LogModule.Data, $"加载了配置表:{tableName}");
         }
 
+        public bool HasId<T>(int nId) where T : BaseConfig
+        {
+            var t = typeof(T);
+            if (!_dictConfigData.TryGetValue(t, out var allDataObj))
+            {
+                return false;
+            }
+            if (!(allDataObj is Dictionary<int, T> allData))
+            {
+                return false;
+            }
+            return allData.ContainsKey(nId);
+        }
+
         /// <summary>
         /// 获取单个Config对象
         /// </summary>
@@ -199,7 +213,7 @@ namespace Instech.Framework.Data
                 return GetSingle<T>(nId);
             }
         }
-        
+
         /// <summary>
         /// 获取某个表的全部数据（含Key）
         /// </summary>

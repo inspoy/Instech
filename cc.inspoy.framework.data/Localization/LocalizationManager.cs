@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Instech.Framework.Common;
@@ -62,6 +63,7 @@ namespace Instech.Framework.Data
         public string DataFolder { get; private set; }
         public EventDispatcher Dispatcher { get; private set; }
         public string CurLanguageId { get; private set; }
+        public ICollection<string> AllLoadedLanguage => _loadedLocalizationDatas.Keys;
 
         /// <summary>
         /// 调试模式，开启的话则所有本地化字符串返回空，用于检查是否有字符串硬编码在代码里
@@ -85,6 +87,13 @@ namespace Instech.Framework.Data
             CurLanguageId = string.Empty;
             _termPattern = new Regex(@"#\w+#", RegexOptions.Compiled);
 
+            var count = ReloadConfig();
+            Logger.LogInfo(LogModule.Localization, $"Loaded {count} language pack, cost {sw.ElapsedMilliseconds} ms");
+        }
+
+        public int ReloadConfig()
+        {
+            _loadedLocalizationDatas.Clear();
             var files = Directory.GetFiles(DataFolder, "*.json", SearchOption.TopDirectoryOnly);
             var count = 0;
             foreach (var filePath in files)
@@ -102,7 +111,7 @@ namespace Instech.Framework.Data
                 count += 1;
             }
 
-            Logger.LogInfo(LogModule.Localization, $"Loaded {count} language pack, cost {sw.ElapsedMilliseconds} ms");
+            return count;
         }
 
         /// <summary>

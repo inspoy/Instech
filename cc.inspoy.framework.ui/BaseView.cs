@@ -250,7 +250,7 @@ namespace Instech.Framework.Ui
             }
 
 
-            Presenter.OnViewRemoved();
+            Presenter.OnDestroyed();
             if (_dispatchers != null)
             {
                 foreach (var item in _dispatchers)

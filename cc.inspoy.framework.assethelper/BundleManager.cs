@@ -633,7 +633,8 @@ namespace Instech.Framework.AssetHelper
             var hashCode = asset.GetHashCode();
             if (!_assetRefCount.ContainsKey(hashCode) || !_assetRecord.ContainsKey(hashCode))
             {
-                Logger.LogWarning(LogModule.Resource, "Asset has no record: " + asset.name);
+                Logger.LogWarning(LogModule.Resource, "Asset has no record(already unloaded?): " + asset.name);
+                return;
             }
 
             _assetRefCount[hashCode] -= 1;

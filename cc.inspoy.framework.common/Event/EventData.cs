@@ -15,15 +15,38 @@ namespace Instech.Framework.Common
     public interface IEventData : IPoolable, ICloneable
     {
         /// <summary>
-        /// 回收到对象池
+        /// 回收到对象池，子类实现固定为<code>this.Recycle();</code>即可
         /// </summary>
         void RecycleData();
     }
 
     /// <summary>
+    /// 实现了<see cref="IEventData"/>不常用的接口，减少代码量
+    /// </summary>
+    public abstract class BasicEventData : IEventData
+    {
+        public virtual void OnActivate()
+        {
+            // do nothing
+        }
+
+        public virtual void OnRecycle()
+        {
+        }
+
+        public virtual void OnDestroy()
+        {
+            // do nothing
+        }
+
+        public abstract object Clone();
+        public abstract void RecycleData();
+    }
+
+    /// <summary>
     /// 简单的事件数据，可以方便地传一个简单的数据
     /// </summary>
-    public class SimpleEventData : IEventData
+    public class SimpleEventData : BasicEventData
     {
         public object ObjVal { get; private set; }
         public bool BoolVal { get; private set; }
@@ -32,7 +55,7 @@ namespace Instech.Framework.Common
         public string StringVal { get; private set; } = string.Empty;
         public Action<int> CallbackIntAction { get; private set; }
 
-        public object Clone()
+        public override object Clone()
         {
             var ret = ObjectPool<SimpleEventData>.Instance.Get();
             ret.ObjVal = ObjVal;
@@ -44,17 +67,12 @@ namespace Instech.Framework.Common
             return ret;
         }
 
-        public void OnDestroy()
-        {
-            // do nothing
-        }
-
-        public void RecycleData()
+        public override void RecycleData()
         {
             this.Recycle();
         }
 
-        public void OnRecycle()
+        public override void OnRecycle()
         {
             ObjVal = null;
             BoolVal = false;
@@ -62,11 +80,6 @@ namespace Instech.Framework.Common
             FloatVal = 0;
             StringVal = string.Empty;
             CallbackIntAction = null;
-        }
-
-        public void OnActivate()
-        {
-            // do nothing
         }
 
         public static SimpleEventData GetNewOne(bool val)
@@ -98,33 +111,23 @@ namespace Instech.Framework.Common
         }
     }
 
-    public class ValueChangeData<T> : IEventData
+    public class ValueChangeData<T> : BasicEventData
     {
         public T Value;
         public T OldValue;
 
-        public object Clone()
+        public override object Clone()
         {
             return GetNewOne(Value, OldValue);
         }
 
-        public void OnRecycle()
+        public override void OnRecycle()
         {
             Value = default;
             OldValue = default;
         }
 
-        public void OnActivate()
-        {
-            // do nothing
-        }
-
-        public void OnDestroy()
-        {
-            // do nothing
-        }
-
-        public void RecycleData()
+        public override void RecycleData()
         {
             this.Recycle();
         }

@@ -153,16 +153,33 @@ namespace Instech.Framework.Data.Editor
                 {
                     break;
                 }
+                columnIdx += 1;
+                if (fieldName.StartsWith("#"))
+                {
+                    // 忽略列
+                    continue;
+                }
                 tableItem.ColumnCount += 1;
                 tableItem.ColumnName.Add(fieldName);
-                columnIdx += 1;
             }
             var curLine = 4; // 数据从第四行开始
             while (true)
             {
+                var nextId = ws.Cells[curLine, 1].Value?.ToString();
+                if (nextId != null && nextId.StartsWith("#"))
+                {
+                    // 忽略行
+                    continue;
+                }
                 var rowItem = new ConfigStructure.RowItem();
                 for (var col = 1; col <= tableItem.ColumnCount; ++col)
                 {
+                    var fieldName = ws.Cells[2, col].Value?.ToString();
+                    if (fieldName == null || fieldName.StartsWith("#"))
+                    {
+                        // 忽略列
+                        continue;
+                    }
                     var fieldData = ws.Cells[curLine, col].Value?.ToString();
                     rowItem.Fields.Add(fieldData ?? string.Empty);
                 }

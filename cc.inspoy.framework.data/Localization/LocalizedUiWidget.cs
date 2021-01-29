@@ -4,14 +4,46 @@
 // Created on 2019/12/16 by inspoy
 // All rights reserved.
 
+using System;
+using System.Linq;
 using Instech.Framework.Common;
+using Instech.Framework.Logging;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Event = Instech.Framework.Common.Event;
+using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.Data
 {
+    #if UNITY_EDITOR
+    using UnityEditor;
+    [CustomEditor(typeof(LocalizedUiWidget))]
+    public class LocalizedUiWidgetEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("切换语言");
+            var options = LocalizationManager.Instance.AllLoadedLanguage.ToArray();
+            var idx = Array.IndexOf(options, LocalizationManager.Instance.CurLanguageId);
+            var newIdx = EditorGUILayout.Popup(idx, options);
+            if (newIdx != idx)
+            {
+                LocalizationManager.Instance.SetLanguage(options[newIdx]);
+            }
+            if (GUILayout.Button("重载本地化表"))
+            {
+                var count = LocalizationManager.Instance.ReloadConfig();
+                Logger.LogInfo(LogModule.Editor, $"重载成功，加载了{count}个语言包");
+                LocalizationManager.Instance.SetLanguage(LocalizationManager.Instance.CurLanguageId);
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+    #endif
+    
     [ExecuteInEditMode]
     public class LocalizedUiWidget : MonoBehaviour
     {
@@ -48,28 +80,13 @@ namespace Instech.Framework.Data
 
         private void OnEnable()
         {
-#if UNITY_EDITOR
-            if (Application.isPlaying)
-            {
-                LocalizationManager.Instance.Dispatcher.AddEventListener(EventEnum.LanguageChange, OnLanguageChanged);
-                OnLanguageChanged(null);
-            }
-#else
             LocalizationManager.Instance.Dispatcher.AddEventListener(EventEnum.LanguageChange, OnLanguageChanged);
             OnLanguageChanged(null);
-#endif
         }
 
         private void OnDisable()
         {
-#if UNITY_EDITOR
-            if (Application.isPlaying)
-            {
-                LocalizationManager.Instance.Dispatcher.RemoveEventListener(EventEnum.LanguageChange, OnLanguageChanged);
-            }
-#else
             LocalizationManager.Instance.Dispatcher.RemoveEventListener(EventEnum.LanguageChange, OnLanguageChanged);
-#endif
         }
 
 #if UNITY_EDITOR

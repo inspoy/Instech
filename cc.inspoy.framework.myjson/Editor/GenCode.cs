@@ -36,7 +36,7 @@ namespace Instech.Framework.MyJson.Editor
 
             try
             {
-                var initCode = new StringBuilder("MyJson.InitJsonResolver(\n");
+                var initCode = new StringBuilder("MyJson.InitJsonResolvers(\n");
                 foreach (var item in inputPath)
                 {
                     initCode.Append($"    Generated{item.Key.Name}Resolver.Instance,\n");

@@ -9,6 +9,16 @@ namespace Instech.Framework.Ui
     /// <summary>
     /// 所有UI Presenter需要实现的接口
     /// </summary>
+    /// <remarks>
+    /// 四种接口的调用顺序
+    ///  InitWithView
+    ///       ↓
+    /// OnViewActivate  ↖
+    ///       ↓          ↑
+    ///  OnViewRecycle  ↗
+    ///       ↓
+    ///   OnDestroyed
+    /// </remarks>
     public interface IBasePresenter
     {
         /// <summary>
@@ -37,6 +47,6 @@ namespace Instech.Framework.Ui
         /// 当UI移除
         /// 一般在这里清理对象
         /// </summary>
-        void OnViewRemoved();
+        void OnDestroyed();
     }
 }
