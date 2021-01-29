@@ -1,3 +1,42 @@
+# 1.7.0 (2021.1.29)
+
+## Versions
+
+- AssetHelper: `1,2.0`(was `1.1.2`)
+- Common: `1.4.0`(was `1.3.0`)
+- Core: `1.1.2`
+- Data: `1.1.0`(was `1.0.4`)
+- Logging: `1.1.3`(was `1.1.2`)
+- MyJson: `1.1.0`(was `1.0.2`)
+- Tests: `1.0.1`
+- UI: `1.4.0`(was `1.3.1`)
+- UiWidgets: `1.2.2`(was `1.2.1`)
+- Utils: `1.5.0`(was `1.4.1`)
+
+## BREAKING CHANGE
+
+- [Ui]BasePresenter接口改名
+
+## Highlight
+
+- [AssetHelper]AssetManager增加了自动卸载的功能
+- [Data]本地化新增语言切换和重载本地化表的功能
+
+## New Feature
+
+- [Common]新增线程管理器
+- [Data]ConfigManager新增一个HasId的接口
+- [Data]导出配置表时支持忽略行/列
+- [Logging]增加了Profile开关
+- [MyJson]接入了LitJson作为默认库
+- [UiWidgets]ClickMask加了个编辑器面板提示
+- [Utils]增加了若干工具函数
+
+## Optimizing
+
+- [Common]新增BasicEventData，实现了不常用的接口
+- [Common]EventDispatcher里，把listener改成了owner
+
 # 1.6.0 (2020.12.7)
 
 ## Versions
