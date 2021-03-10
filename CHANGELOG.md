@@ -1,8 +1,50 @@
+# 1.8.0 (2021.3.10)
+
+## Versions
+
+- AssetHelper: `1.2.0`
+- Common: `1.4.1`(was `1.4.0`)
+- Core: `1.1.2`
+- Data: `1.2.0`(was `1.1.0`)
+- Logging: `1.1.3`
+- MyJson: `1.1.0`
+- Tests: `1.0.1`
+- UI: `1.5.0`(was `1.4.0`)
+- UiWidgets: `1.2.3`(was `1.2.2`)
+- Utils: `1.6.0`(was `1.5.0`)
+
+## BREAKING CHANGE
+
+- [Data]配置表生成代码结构调整，利用分部类(`partial class`)将自动生成部分和自定义部分分离
+
+## Highlight
+
+- [UI]新增UI代码导出对预设变体的支持
+
+## New Feature
+
+- [UI]新增鼠标悬停检测组件
+- [Utils]新增了一组断言短语集合
+- [Utils]新增FastStartsWith，比FCL自带的快不少
+
+## Optimizing
+
+- [Common]新建项目设置资产时确保目录存在
+- [UiWidget]增加ClickMask对CanvasRenderer的依赖
+- [Utils]StringBuilderPool加了一个返回字符串并自动释放的接口
+
+## Bugfix
+
+- [UI]修复UI预设嵌套的情形不能正常导出的问题
+- [Utils]修复某些情况下不能顺利生成头部注释的问题
+
+---
+
 # 1.7.0 (2021.1.29)
 
 ## Versions
 
-- AssetHelper: `1,2.0`(was `1.1.2`)
+- AssetHelper: `1.2.0`(was `1.1.2`)
 - Common: `1.4.0`(was `1.3.0`)
 - Core: `1.1.2`
 - Data: `1.1.0`(was `1.0.4`)
@@ -37,6 +79,8 @@
 - [Common]新增BasicEventData，实现了不常用的接口
 - [Common]EventDispatcher里，把listener改成了owner
 
+---
+
 # 1.6.0 (2020.12.7)
 
 ## Versions
@@ -64,6 +108,8 @@
 
 - [Core]可池化对象提供一个空基类
 - [Common]EventDispatcher增加了派发耗时过高的警告
+
+---
 
 # 1.5.0 (2020.11.6)
 
@@ -105,6 +151,8 @@
 - 整体引用的包名改成"cc.inspoy.framework.package"，因为".framework"结尾的包不会被Unity2020.1正确导入
 - [Common]EventDispatcher.AddListener的判断逻辑有误
 - [UI]修复退出游戏时UI报错的问题
+
+---
 
 # 1.4.0 (2020.10.21)
 

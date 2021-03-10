@@ -12,6 +12,7 @@ using Instech.EncryptHelper;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
+using Instech.Framework.Utils.Editor;
 using OfficeOpenXml;
 using UnityEditor;
 using UnityEngine;
@@ -282,9 +283,10 @@ namespace Instech.Framework.Data.Editor
             }
             var packageRoot = ProjectSettings.GetPackageFullPath("cc.inspoy.framework.data");
             var templatePath = Path.Combine(packageRoot, "Editor/ConfigTemplate.txt");
-            if (!File.Exists(templatePath))
+            var extTemplatePath = Path.Combine(packageRoot, "Editor/ConfigExtTemplate.txt");
+            if (!File.Exists(templatePath) || !File.Exists(extTemplatePath))
             {
-                throw new FileNotFoundException("模板文件不存在: " + templatePath);
+                throw new FileNotFoundException("模板文件不存在:\n" + templatePath + "\n" + extTemplatePath);
             }
             var tableName = Path.GetFileNameWithoutExtension(filePath);
             var fieldDeclare = new StringBuilder();
@@ -299,6 +301,11 @@ namespace Instech.Framework.Data.Editor
                 {
                     break;
                 }
+                if (fieldName.StartsWith("#"))
+                {
+                    // 忽略列
+                    continue;
+                }
                 var fieldType = ws.Cells[3, columnIdx].Value?.ToString();
                 var fieldDesc = ws.Cells[1, columnIdx].Value?.ToString();
                 hash.Add(fieldName);
@@ -307,51 +314,17 @@ namespace Instech.Framework.Data.Editor
                 BuildFieldCode(fieldDeclare, fieldInit, fieldName, fieldType, fieldDesc);
             }
             var dst = Path.Combine(Application.dataPath, $"Scripts/Config/{tableName}Config.cs");
-            var customCode = new StringBuilder();
-            var customUsing = new StringBuilder();
+            var extDst = Path.Combine(Application.dataPath, $"Scripts/ConfigExtention/{tableName}Config.Ext.cs");
             var oldHash = string.Empty;
             if (File.Exists(dst))
             {
                 var oldContent = File.ReadAllLines(dst);
-                var readingCustomUsing = false;
-                var readingCustomCode = false;
                 foreach (var line in oldContent)
                 {
                     if (line.StartsWith("    /// Hash:"))
                     {
                         oldHash = line.Replace("    /// Hash:", "").Trim();
-                        continue;
-                    }
-                    if (line.Trim().StartsWith("#region ====="))
-                    {
-                        readingCustomCode = true;
-                        continue;
-                    }
-                    if (line.Trim().StartsWith("#endregion ====="))
-                    {
-                        readingCustomCode = false;
-                        continue;
-                    }
-                    if (line.Trim().StartsWith("#region -----"))
-                    {
-                        readingCustomUsing = true;
-                        continue;
-                    }
-                    if (line.Trim().StartsWith("#endregion -----"))
-                    {
-                        readingCustomUsing = false;
-                        continue;
-                    }
-                    
-                    if (readingCustomCode)
-                    {
-                        customCode.Append(line);
-                        customCode.Append('\n');
-                    }
-                    if (readingCustomUsing)
-                    {
-                        customUsing.Append(line);
-                        customUsing.Append('\n');
+                        break;
                     }
                 }
             }
@@ -363,6 +336,7 @@ namespace Instech.Framework.Data.Editor
                 Logger.LogInfo(LogModule.Data, $"{tableName}没有变化已跳过");
                 return;
             }
+
             // 删去最后一个换行符
             if (fieldDeclare.Length > 0)
             {
@@ -372,14 +346,6 @@ namespace Instech.Framework.Data.Editor
             {
                 fieldInit.Remove(fieldInit.Length - 1, 1);
             }
-            if (customUsing.Length > 0)
-            {
-                customUsing.Remove(customUsing.Length - 1, 1);
-            }
-            if (customCode.Length > 0)
-            {
-                customCode.Remove(customCode.Length - 1, 1);
-            }
 
             var template = File.ReadAllText(templatePath);
             template = template.Replace("#Hash#", hashString);
@@ -387,9 +353,18 @@ namespace Instech.Framework.Data.Editor
             template = template.Replace("#TableName#", tableName);
             template = template.Replace("#FieldDeclare#", fieldDeclare.ToString());
             template = template.Replace("#FieldInit#", fieldInit.ToString());
-            template = template.Replace("#CustomCode#", customCode.ToString());
-            template = template.Replace("#CustomUsing#", customUsing.ToString());
             File.WriteAllText(dst, template, Encoding.UTF8);
+            ScriptHeaderGenerator.OnWillCreateAsset(dst + ".meta");
+
+            if (!File.Exists(extDst))
+            {
+                // ext文件只会创建一次
+                template = File.ReadAllText(extTemplatePath);
+                template = template.Replace("#TableName#", tableName);
+                File.WriteAllText(extDst, template, Encoding.UTF8);
+                ScriptHeaderGenerator.OnWillCreateAsset(extDst + ".meta");
+            }
+            
             AssetDatabase.Refresh();
         }
 

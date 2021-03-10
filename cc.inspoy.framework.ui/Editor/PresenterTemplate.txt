@@ -39,7 +39,7 @@ $ADD_LISTENERS$            // Called when view is initialized
         }
 
         /// <inheritdoc />
-        public void OnViewRemoved()
+        public void OnDestroyed()
         {
             // Called when view will be destroyed
         }

@@ -72,6 +72,7 @@ namespace Instech.Framework.Common.Editor
             }
 
             var asset = CreateInstance<ProjectSettings>();
+            Directory.CreateDirectory(Path.GetDirectoryName(SavePath) ?? string.Empty);
             AssetDatabase.CreateAsset(asset, SavePath);
             AssetDatabase.Refresh();
             Logger.LogInfo(LogModule.Editor, "创建成功");

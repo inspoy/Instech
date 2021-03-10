@@ -12,6 +12,7 @@ using System.Text;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
+using Instech.Framework.Utils.Editor;
 using UnityEditor;
 using UnityEngine;
 using Logger = Instech.Framework.Logging.Logger;
@@ -56,6 +57,8 @@ namespace Instech.Framework.Ui.Editor
             // 写View
             var viewFilePath = baseFilePath + "View.cs";
             File.WriteAllText(viewFilePath, viewContentBuilder.ToString(), new UTF8Encoding(false));
+            // 检查注释头
+            ScriptHeaderGenerator.OnWillCreateAsset(viewFilePath + ".meta");
 
             // 写Presenter
             var presenterFilePath = baseFilePath + "Presenter.cs";
@@ -63,6 +66,8 @@ namespace Instech.Framework.Ui.Editor
             {
                 // 不存在presenter的话才会生成代码
                 File.WriteAllText(presenterFilePath, presenterContentBuilder.ToString(), new UTF8Encoding(false));
+                // 检查注释头
+                ScriptHeaderGenerator.OnWillCreateAsset(presenterFilePath + ".meta");
             }
 
             AssetDatabase.Refresh();
@@ -143,11 +148,19 @@ namespace Instech.Framework.Ui.Editor
             foreach (var transform in prefab.GetComponentsInChildren<RectTransform>(true))
             {
                 var go = transform.gameObject;
-                if (go.name.Length > 3)
+                var nestPrefab = GetNearestPrefab(go);
+                if (go == prefab || nestPrefab != prefab)
                 {
-                    var prefix = go.name.Substring(0, 3);
-                    GenerateWidgetItem(prefix, go, memberDeclarePart, memberCheckPart, addListenerPart, eventHandlerPart, components);
+                    // skip transforms inside lv1 nested prefab
+                    continue;
                 }
+                if (go.name.Length <= 3)
+                {
+                    // skip invalid names
+                    continue;
+                }
+                var prefix = go.name.Substring(0, 3);
+                GenerateWidgetItem(prefix, go, memberDeclarePart, memberCheckPart, addListenerPart, eventHandlerPart, components);
             }
             if (addListenerPart.Length > 0)
             {
@@ -157,21 +170,76 @@ namespace Instech.Framework.Ui.Editor
             viewContentBuilder.Replace("$MEMBER_CHECK$", memberCheckPart.ToString());
             presenterContentBuilder.Replace("$ADD_LISTENERS$", addListenerPart.ToString());
             presenterContentBuilder.Replace("$EVENT_HANDLERS$", eventHandlerPart.ToString());
+            
+            // 单独处理对于预设变体
+            if (PrefabUtility.GetPrefabAssetType(prefab) == PrefabAssetType.Variant)
+            {
+                var basePrefab = PrefabUtility.GetCorrespondingObjectFromSource(prefab);
+                var baseViewName = basePrefab.name.Substring(2);
+                var baseCom = prefab.GetComponent<BaseView>();
+                if (baseCom != null && baseCom.GetType() == basePrefab.GetComponent<BaseView>().GetType())
+                {
+                    var instancedPrefab = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                    PrefabUtility.ApplyRemovedComponent(instancedPrefab, baseCom, InteractionMode.AutomatedAction);
+                    PrefabUtility.ApplyPrefabInstance(instancedPrefab, InteractionMode.AutomatedAction);
+                }
+                presenterContentBuilder.Clear();
+                presenterContentBuilder.Append(@"using Instech.Framework.Ui;
+
+namespace Game.Ui
+{
+    public class $VIEWNAME$Presenter : $BASEVIEWNAME$Presenter
+    {
+        #region Private Fields
+
+        private $VIEWNAME$View _view;
+
+        #endregion
+
+        public new void InitWithView(BaseView view)
+        {
+            _view = view as $VIEWNAME$View;
+            if (_view == null)
+            {
+                throw new ViewInitException(view);
+            }
+        }
+    }
+}
+");
+                presenterContentBuilder.Replace("$VIEWNAME$", viewName);
+                presenterContentBuilder.Replace("$BASEVIEWNAME$", baseViewName);
+            }
         }
 
+        private static GameObject GetNearestPrefab(GameObject go)
+        {
+            if (go == null)
+            {
+                return null;
+            }
+            // if (PrefabUtility.IsAnyPrefabInstanceRoot(go))
+            // {
+            //     return go;
+            // }
+            var cur = go.transform.parent;
+            while (cur != null)
+            {
+                if (PrefabUtility.IsAnyPrefabInstanceRoot(cur.gameObject))
+                {
+                    return cur.gameObject;
+                }
+                cur = cur.parent;
+            }
+            return null;
+        }
+        
         private static void GenerateWidgetItem(
             string prefix, GameObject go,
             StringBuilder memberDeclarePart, StringBuilder memberCheckPart,
             StringBuilder addListenerPart, StringBuilder eventHandlerPart,
             Dictionary<string, Type> components)
         {
-            var handle = PrefabUtility.GetPrefabInstanceHandle(go);
-            var parentHandle = handle != null ? PrefabUtility.GetPrefabInstanceHandle(go.transform.parent.gameObject) : null;
-            if (handle != null && parentHandle != null)
-            {
-                // skip nested prefab
-                return;
-            }
             var pascalGoName = char.ToUpper(go.name[0]) + go.name.Substring(1);
             var generator = UiCodeWidgetGenerator.GetGenerator(prefix);
             var comType = generator?.Generate(go, pascalGoName, memberDeclarePart, memberCheckPart, addListenerPart, eventHandlerPart);

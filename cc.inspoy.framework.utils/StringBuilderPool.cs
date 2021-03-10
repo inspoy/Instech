@@ -21,6 +21,13 @@ namespace Instech.Framework.Utils
         {
             ObjectPool<StringBuilder>.Instance.Recycle(sb);
         }
+
+        public static string GetStringAndReleaseToPool(this StringBuilder sb)
+        {
+            var str = sb.ToString();
+            sb.ReleaseToPool();
+            return str;
+        }
         
         static StringBuilderPool()
         {

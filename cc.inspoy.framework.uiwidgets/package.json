@@ -1,7 +1,7 @@
 {
   "name": "cc.inspoy.framework.uiwidgets",
   "displayName": "Instech.Framework.UiWidgets",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "unity": "2020.1",
   "description": "UGUI widget extensions",
   "keywords": [

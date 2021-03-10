@@ -119,6 +119,11 @@ namespace Instech.Framework.Common
         public const string UiPointerExit = "Event_UiPointerExit";
 
         /// <summary>
+        /// UI鼠标悬停
+        /// </summary>
+        public const string UiPointerHover = "Event_UiPointerHover";
+
+        /// <summary>
         /// UI选择
         /// </summary>
         public const string UiSelect = "Event_UiSelect";

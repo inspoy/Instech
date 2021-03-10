@@ -2,12 +2,12 @@
     "name": "Instech.Framework.Data.Editor",
     "references": [
         "GUID:b3dfbf160021dd5449f630af51db622d",
+        "GUID:bf0bf514e0786f74abd7ac8439009de9",
         "GUID:315807a24b2df044ba3147728a3cbb8c",
         "GUID:7310237037f2b9c4292a1893932fd8cb",
         "GUID:db770f417330cdc4f8deea51e97eabb6",
         "GUID:10d4aba4f62d4f9429b89442b64bf6b3"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -17,5 +17,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

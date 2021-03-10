@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace Instech.Framework.UiWidgets
 {
+    [RequireComponent(typeof(CanvasRenderer))]
     public class ClickMask : Graphic, ICanvasRaycastFilter
     {
         [Header("可选，不指定时点击全部区域都有效")]

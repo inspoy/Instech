@@ -10,11 +10,18 @@ namespace Game.Ui
 {
     public class $VIEWNAME$View : BaseView
     {$MEMBER_DECLARE$
+        /// <summary>
+        /// 获取对应的Presenter
+        /// </summary>
+        /// <returns></returns>
         public $VIEWNAME$Presenter GetPresenter()
         {
             return Presenter as $VIEWNAME$Presenter;
         }
 
+        /// <summary>
+        /// 初始化View
+        /// </summary>
         protected override void Awake()
         {
 #if UNITY_EDITOR

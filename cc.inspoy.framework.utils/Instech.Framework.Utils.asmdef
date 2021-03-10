@@ -1,15 +1,16 @@
 {
     "name": "Instech.Framework.Utils",
     "references": [
-        "Instech.Framework.Core"
+        "Instech.Framework.Core",
+        "Instech.Framework.Logging"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

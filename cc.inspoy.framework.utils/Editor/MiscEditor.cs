@@ -44,6 +44,7 @@ namespace Instech.Framework.Utils.Editor
             }
 
             path = path.Replace(".meta", "");
+            path = Path.GetFullPath(path);
             var fullText = Header;
             var assemblyName = GetAssemblyName(path);
             var productName = Application.productName;

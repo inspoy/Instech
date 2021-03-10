@@ -3,10 +3,6 @@ using Instech.Framework.Logging;
 using Instech.Framework.Utils;
 using JetBrains.Annotations;
 
-#region ----- 自定义Using
-#CustomUsing#
-#endregion ----- 自定义Using
-
 namespace Game.Config
 {
     /// <summary>
@@ -15,7 +11,7 @@ namespace Game.Config
     /// </summary>
     [GameConfig("#TableName#")]
     [UsedImplicitly]
-    public sealed class #TableName#Config : BaseConfig
+    public sealed partial class #TableName#Config : BaseConfig
     {
 #FieldDeclare#
         public static bool Has(int id)
@@ -38,9 +34,5 @@ namespace Game.Config
             Id = data.GetInt("Id");
 #FieldInit#
         }
-
-        #region ===== 自定义的代码
-#CustomCode#
-        #endregion ===== 自定义的代码
     }
 }

@@ -545,5 +545,28 @@ namespace Instech.Framework.Utils
                 (hex & 0x000000ff) / 255f
             );
         }
+
+        public static unsafe bool FastStartsWith(this string self, string prefix)
+        {
+            if (self == null || prefix == null || self.Length < prefix.Length)
+            {
+                return false;
+            }
+            var idx = 0;
+            var maxLen = prefix.Length;
+            fixed (char* pStr = self)
+            fixed (char* pPrefix = prefix)
+            {
+                while (idx < maxLen)
+                {
+                    if (*(pStr + idx) != *(pPrefix + idx))
+                    {
+                        return false;
+                    }
+                    idx++;
+                }
+                return true;
+            }
+        }
     }
 }

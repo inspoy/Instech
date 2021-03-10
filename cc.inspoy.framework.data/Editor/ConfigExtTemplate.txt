@@ -1,0 +1,6 @@
+namespace Game.Config
+{
+    public partial class #TableName#Config
+    {
+    }
+}
