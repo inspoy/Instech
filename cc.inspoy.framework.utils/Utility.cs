@@ -232,6 +232,29 @@ namespace Instech.Framework.Utils
         }
 
         /// <summary>
+        /// 随机打乱
+        /// </summary>
+        /// <param name="list"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            if (list == null || list.Count < 2)
+            {
+                return;
+            }
+            for (var i = 0; i < list.Count - 1; i++)
+            {
+                var j = GetRandom(i, list.Count);
+                if (i != j)
+                {
+                    var t = list[i];
+                    list[i] = list[j];
+                    list[j] = t;
+                }
+            }
+        }
+
+        /// <summary>
         /// 返回指定概率的true
         /// </summary>
         /// <param name="p">概率, 0~1</param>

@@ -14,6 +14,7 @@ using Instech.Framework.Ui.Tweening;
 using Instech.Framework.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using Logger = Instech.Framework.Logging.Logger;
 
@@ -76,6 +77,8 @@ namespace Instech.Framework.Ui
     /// </summary>
     public class UiManager : MonoSingleton<UiManager>
     {
+        public Camera UiCamera { get; private set; }
+        
         #region Fields
 
         private readonly Dictionary<Type, UiCacheData> _cacheData = new Dictionary<Type, UiCacheData>();
@@ -95,12 +98,13 @@ namespace Instech.Framework.Ui
         /// <param name="canvasName"></param>
         public Canvas AddCanvas(string canvasName)
         {
+            if (_dictCanvases.ContainsKey(canvasName)) return null;
             var canvasGo = gameObject.AddEmptyChild(canvasName + "Canvas");
             canvasGo.layer = 5; // UI Layer
             var canvas = canvasGo.AddComponent<Canvas>();
             _dictCanvases.Add(canvasName, canvas);
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            // canvas.worldCamera = UiCamera;
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            canvas.worldCamera = UiCamera;
             canvas.sortingOrder = _dictCanvases.Count;
             var scaler = canvasGo.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -195,7 +199,7 @@ namespace Instech.Framework.Ui
 
             foreach (var view in cacheData.ActiveViews)
             {
-                if (view.Uid == uid && view is T result)
+                if ((uid == 0 || view.Uid == uid) && view is T result)
                 {
                     return result;
                 }
@@ -255,10 +259,18 @@ namespace Instech.Framework.Ui
         {
             transform.position = new Vector3(0, 100, 0);
             gameObject.layer = 5; // UI Layer
+            
             var eventSystemGo = gameObject.AddEmptyChild("EventSystem");
             var eventSystem = eventSystemGo.AddComponent<EventSystem>();
             _pointerEventData = new PointerEventData(eventSystem);
             eventSystemGo.AddComponent<StandaloneInputModule>();
+
+            var cameraGo = gameObject.AddEmptyChild("UiCamera");
+            UiCamera = cameraGo.AddComponent<Camera>();
+            var additionalData = cameraGo.AddComponent<UniversalAdditionalCameraData>();
+            additionalData.renderType = CameraRenderType.Overlay;
+            UiCamera.orthographic = true;
+            UiCamera.cullingMask = LayerMask.GetMask("UI");
 
             _sleepingViews = AddCanvas("Sleeping").transform;
             _sleepingViews.gameObject.SetActive(false);

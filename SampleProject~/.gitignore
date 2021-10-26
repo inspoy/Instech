@@ -1,0 +1,11 @@
+.idea
+.vs
+.vscode
+Library
+Temp
+[Oo]bj
+Logs
+UserSettings
+[Bb]uild
+*.csproj
+*.sln

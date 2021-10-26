@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using Instech.Framework.Logging;
 using NUnit.Framework;
-using UnityEngine;
 using AssertionException = Instech.Framework.Logging.AssertionException;
 using Logger = Instech.Framework.Logging.Logger;
 

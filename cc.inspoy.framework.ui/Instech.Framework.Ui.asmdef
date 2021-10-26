@@ -1,12 +1,14 @@
 {
     "name": "Instech.Framework.Ui",
+    "rootNamespace": "",
     "references": [
         "Instech.Framework.Core",
         "Instech.Framework.Common",
         "Instech.Framework.Logging",
         "Instech.Framework.Utils",
         "Instech.Framework.AssetHelper",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

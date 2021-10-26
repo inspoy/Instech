@@ -14,7 +14,6 @@ using Utf8Json;
 using Utf8Json.Resolvers;
 #endif
 #if UNITY_EDITOR
-using UnityEngine;
 
 #endif
 

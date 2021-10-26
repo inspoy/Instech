@@ -148,7 +148,7 @@ namespace Instech.Framework.Ui.Editor
             foreach (var transform in prefab.GetComponentsInChildren<RectTransform>(true))
             {
                 var go = transform.gameObject;
-                var nestPrefab = GetNearestPrefab(go);
+                var nestPrefab = GetNearestPrefab(go, prefab);
                 if (go == prefab || nestPrefab != prefab)
                 {
                     // skip transforms inside lv1 nested prefab
@@ -212,7 +212,7 @@ namespace Game.Ui
             }
         }
 
-        private static GameObject GetNearestPrefab(GameObject go)
+        private static GameObject GetNearestPrefab(GameObject go, GameObject root)
         {
             if (go == null)
             {
@@ -231,7 +231,7 @@ namespace Game.Ui
                 }
                 cur = cur.parent;
             }
-            return null;
+            return root;
         }
         
         private static void GenerateWidgetItem(

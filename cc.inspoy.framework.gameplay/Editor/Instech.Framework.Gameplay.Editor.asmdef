@@ -1,0 +1,18 @@
+{
+    "name": "Instech.Framework.Gameplay.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7310237037f2b9c4292a1893932fd8cb",
+        "GUID:bf0bf514e0786f74abd7ac8439009de9",
+        "GUID:41ed429cfb2320610863036e224bbcbb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,3 +1,48 @@
+# 1.9.0 (2021.10.26)
+
+---
+
+## Versions
+
+- AssetHelper: `1.2.0`
+- Common: `1.4.1`
+- Core: `1.1.2`
+- Data: `1.3.0`(was `1.2.0`)
+- Gameplay: `1.0.0`(new)
+- Logging: `1.1.3`
+- MyJson: `1.1.0`
+- Tests: `1.0.1`
+- UI: `1.6.0`(was `1.5.0`)
+- UiWidgets: `1.2.3`
+- Utils: `1.7.0`(was `1.6.0`)
+
+## Highlight
+
+- 增加样例工程
+- [Gameplay]增加Gameplay模块，把游戏公共的gameplay代码提了出来
+
+## New Feature
+
+- [Utils]增加一个随机打乱List的功能
+- [UI]新增一个自动设置CameraStack的组件
+
+## Optimizing
+
+- [UI]Canvas渲染方式改成摄像机渲染
+- [UI]优化了导出UI代码的逻辑
+- [Data]Excel配置表的路径变成可配置的
+
+## Bugfix
+
+- [Data]本地化UI控件在退出游戏时可能会报错
+- [Data]本地存储模块在保存后没有去除脏标记
+- [Data]处理了几处错别字
+- [Utils]Assert.AreNotEqual判断写反了
+
+## Misc
+
+- [Misc]Unity版本升级到2020.3
+
 # 1.8.0 (2021.3.10)
 
 ## Versions

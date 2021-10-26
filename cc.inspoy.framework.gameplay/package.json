@@ -1,0 +1,14 @@
+{
+    "name": "cc.inspoy.framework.gameplay",
+    "displayName": "Instech.Framework.Gameplay",
+    "version": "1.0.0",
+    "unity": "2020.3",
+    "description": "Common and reusable gameplay code",
+    "keywords": [
+      "instech",
+      "framework",
+      "gameplay"
+    ],
+    "dependencies": {
+    }
+  }

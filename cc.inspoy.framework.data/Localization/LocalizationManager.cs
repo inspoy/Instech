@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Instech.Framework.Common;
@@ -94,6 +93,11 @@ namespace Instech.Framework.Data
         public int ReloadConfig()
         {
             _loadedLocalizationDatas.Clear();
+            if (!Directory.Exists(DataFolder))
+            {
+                Logger.LogWarning(LogModule.Localization, $"DataFolder does NOT exist: " + DataFolder);
+                return 0;
+            }
             var files = Directory.GetFiles(DataFolder, "*.json", SearchOption.TopDirectoryOnly);
             var count = 0;
             foreach (var filePath in files)

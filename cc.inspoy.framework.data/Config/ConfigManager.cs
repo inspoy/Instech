@@ -81,6 +81,10 @@ namespace Instech.Framework.Data
                     {
                         path = $"{Application.dataPath}/Framework/Tests/TestData/TestExcelData/";
                     }
+                    else
+                    {
+                        path = ExcelDocumentPath;
+                    }
                     _dataSource.Init(path);
                 }
 #else
@@ -264,6 +268,8 @@ namespace Instech.Framework.Data
             return _dataSource.GetData(tableName);
         }
 #if UNITY_EDITOR
+        public static string ExcelDocumentPath { get; set; }
+
         /// <summary>
         /// 编辑器中也强制使用二进制数据源
         /// </summary>

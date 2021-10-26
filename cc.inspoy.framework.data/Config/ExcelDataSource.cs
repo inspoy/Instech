@@ -21,7 +21,7 @@ namespace Instech.Framework.Data
 
         public void Init(string src = null, byte[] encryptKey = null)
         {
-            _basePath = src ?? $"{Application.dataPath}/../../Documents/GameConfig/";
+            _basePath = src ?? throw new ConfigException("excel folder is NOT specified");
         }
 
         public void Deinit()
@@ -31,7 +31,7 @@ namespace Instech.Framework.Data
 
         public IConfigData GetData(string tableName)
         {
-            var xlsPath = $"{_basePath}{tableName}.xlsx";
+            var xlsPath = Path.Combine(_basePath, $"{tableName}.xlsx");
             if (!File.Exists(xlsPath))
             {
                 throw new ConfigException($"找不到excel文件:{xlsPath}", tableName);

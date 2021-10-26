@@ -219,7 +219,7 @@ namespace Instech.Framework.AssetHelper
 
         #region Auto Unload
 
-        private Dictionary<int, List<Object>> _assetHoldingRecord = new Dictionary<int, List<Object>>();
+        private readonly Dictionary<int, List<Object>> _assetHoldingRecord = new Dictionary<int, List<Object>>();
         
         public void SetAutoUnload(Object asset, Object holder)
         {

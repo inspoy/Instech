@@ -25,7 +25,7 @@ namespace Instech.Framework.Data
             }
             if (!File.Exists(src))
             {
-                throw new ConfigException("conf.bin does NOT exists");
+                throw new ConfigException("conf.bin does NOT exist");
             }
             Byte[] bytes;
             if (encryptKey == null)

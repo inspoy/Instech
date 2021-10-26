@@ -16,8 +16,9 @@ using Logger = Instech.Framework.Logging.Logger;
 
 namespace Instech.Framework.Data
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     using UnityEditor;
+
     [CustomEditor(typeof(LocalizedUiWidget))]
     public class LocalizedUiWidgetEditor : Editor
     {
@@ -33,17 +34,19 @@ namespace Instech.Framework.Data
             {
                 LocalizationManager.Instance.SetLanguage(options[newIdx]);
             }
+
             if (GUILayout.Button("重载本地化表"))
             {
                 var count = LocalizationManager.Instance.ReloadConfig();
                 Logger.LogInfo(LogModule.Editor, $"重载成功，加载了{count}个语言包");
                 LocalizationManager.Instance.SetLanguage(LocalizationManager.Instance.CurLanguageId);
             }
+
             EditorGUILayout.EndHorizontal();
         }
     }
-    #endif
-    
+#endif
+
     [ExecuteInEditMode]
     public class LocalizedUiWidget : MonoBehaviour
     {
@@ -80,13 +83,20 @@ namespace Instech.Framework.Data
 
         private void OnEnable()
         {
-            LocalizationManager.Instance.Dispatcher.AddEventListener(EventEnum.LanguageChange, OnLanguageChanged);
-            OnLanguageChanged(null);
+            if (LocalizationManager.HasSingleton())
+            {
+                LocalizationManager.Instance.Dispatcher.AddEventListener(EventEnum.LanguageChange, OnLanguageChanged);
+                OnLanguageChanged(null);
+            }
         }
 
         private void OnDisable()
         {
-            LocalizationManager.Instance.Dispatcher.RemoveEventListener(EventEnum.LanguageChange, OnLanguageChanged);
+            if (LocalizationManager.HasSingleton())
+            {
+                LocalizationManager.Instance.Dispatcher.RemoveEventListener(EventEnum.LanguageChange,
+                    OnLanguageChanged);
+            }
         }
 
 #if UNITY_EDITOR

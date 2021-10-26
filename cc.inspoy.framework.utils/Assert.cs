@@ -80,7 +80,7 @@ namespace Instech.Framework.Utils
         {
             var comparer = EqualityComparer<T>.Default;
             var equal = comparer.Equals(expected, actual);
-            Logger.Assert(module, equal, message);
+            Logger.Assert(module, !equal, message);
         }
 
         /// <summary>

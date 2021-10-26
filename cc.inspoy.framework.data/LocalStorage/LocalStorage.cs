@@ -240,6 +240,7 @@ namespace Instech.Framework.Data
             File.WriteAllText(_savePath + ".json", MyJson.MyJson.ToJson(CachedSetting));
 #endif
             Logger.LogInfo(LogModule.Data, "LocalStorage Saved");
+            Dirty = false;
         }
     }
 }

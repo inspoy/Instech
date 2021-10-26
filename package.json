@@ -1,8 +1,8 @@
 {
   "name": "cc.inspoy.framework.package",
   "displayName": "Instech.Framework",
-  "version": "1.8.0",
-  "unity": "2020.1",
+  "version": "1.9.0",
+  "unity": "2020.3",
   "description": "InstechFramework框架，打包了所有程序集",
   "keywords": [
     "instech",
@@ -10,6 +10,8 @@
   ],
   "dependencies": {
     "cc.inspoy.encrypthelper": "0.0.1",
-    "cc.inspoy.filepacker": "0.0.1"
+    "cc.inspoy.filepacker": "0.0.1",
+    "com.unity.scriptablebuildpipeline": "1.19.3",
+    "com.unity.render-pipelines.universal": "10.6.0"
   }
 }

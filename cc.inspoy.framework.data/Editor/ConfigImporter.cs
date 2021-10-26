@@ -314,7 +314,7 @@ namespace Instech.Framework.Data.Editor
                 BuildFieldCode(fieldDeclare, fieldInit, fieldName, fieldType, fieldDesc);
             }
             var dst = Path.Combine(Application.dataPath, $"Scripts/Config/{tableName}Config.cs");
-            var extDst = Path.Combine(Application.dataPath, $"Scripts/ConfigExtention/{tableName}Config.Ext.cs");
+            var extDst = Path.Combine(Application.dataPath, $"Scripts/ConfigExtension/{tableName}Config.Ext.cs");
             var oldHash = string.Empty;
             if (File.Exists(dst))
             {
