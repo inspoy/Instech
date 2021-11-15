@@ -240,13 +240,13 @@ namespace Instech.Framework.Gameplay
         private void OnApplicationQuit()
         {
             _gameConfig.QuitGameHandler?.Invoke();
+            GameStateMachine.DestroySingleton();
             LocalStorage.DestroySingleton();
             Scheduler.DestroySingleton();
             UiManager.DestroySingleton();
             AssetManager.DestroySingleton();
             LocalizationManager.DestroySingleton();
             ConfigManager.DestroySingleton();
-            GameStateMachine.DestroySingleton();
             FastYield.DestroySingleton();
             LogToFile.DestroySingleton();
             ObjectPoolManager.DestroySingleton();

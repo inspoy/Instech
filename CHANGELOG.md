@@ -1,6 +1,30 @@
-# 1.9.0 (2021.10.26)
+# 1.10.0 (2021.11.15)
+
+## Versions
+
+- AssetHelper: `1.2.0`
+- Common: `1.4.1`
+- Core: `1.1.2`
+- Data: `1.3.0`(was `1.2.0`)
+- Gameplay: `1.1.0`(was `1.0.0`)
+- Logging: `1.1.3`
+- MyJson: `1.1.0`
+- Tests: `1.0.1`
+- UI: `1.6.0`(was `1.5.0`)
+- UiWidgets: `1.2.3`
+- Utils: `1.7.0`(was `1.6.0`)
+
+## New Feature
+
+- [Gameplay]增加GameModule，用于划分功能模块以及逻辑/数据分离
+
+## Bugfix
+
+- [Gameplay]退出游戏时可能会报错（调整了单例卸载顺序）
 
 ---
+
+# 1.9.0 (2021.10.26)
 
 ## Versions
 
@@ -42,6 +66,8 @@
 ## Misc
 
 - [Misc]Unity版本升级到2020.3
+
+---
 
 # 1.8.0 (2021.3.10)
 
