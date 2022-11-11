@@ -12,7 +12,8 @@ using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 // 需要给程序集定义以下符号，对应的接口才会被调用
-// INSTECH_LOGGER_ENABLE_NORMAL: 启用Print, LogDebug, LogVerbose, LogInfo, LogWarning
+// INSTECH_LOGGER_ENABLE_VERBOSE: 启用Print, LogDebug, LogVerbose
+// INSTECH_LOGGER_ENABLE_NORMAL: 启用LogInfo, LogWarning
 // INSTECH_LOGGER_ENABLE_ERROR: 启用LogError
 // INSTECH_LOGGER_ENABLE_EXCEPTION: 启用LogException, Assert
 // 另外还有用于Profiling的：INSTECH_LOGGER_PROFILING
@@ -51,7 +52,7 @@ namespace Instech.Framework.Logging
         Warning = 0x8,
 
         /// <summary>
-        /// 信息类日志
+        /// 重要的信息类日志
         /// </summary>
         Info = 0x10,
 
@@ -135,7 +136,7 @@ namespace Instech.Framework.Logging
         /// <summary>
         /// 输出临时调试信息，线程安全
         /// </summary>
-        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
+        [Conditional("INSTECH_LOGGER_ENABLE_VERBOSE")]
         public static void Print(string msg)
         {
 #if UNITY_EDITOR
@@ -155,7 +156,7 @@ namespace Instech.Framework.Logging
         /// <param name="flag"></param>
         /// <param name="message">日志信息</param>
         /// <param name="context">上下文信息</param>
-        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
+        [Conditional("INSTECH_LOGGER_ENABLE_VERBOSE")]
         public static void LogDebug(string module, ulong flag, string message, Object context = null)
         {
             if ((CurDebugFlags & flag) > 0)
@@ -170,7 +171,7 @@ namespace Instech.Framework.Logging
         /// <param name="module"></param>
         /// <param name="message"></param>
         /// <param name="context"></param>
-        [Conditional("INSTECH_LOGGER_ENABLE_NORMAL")]
+        [Conditional("INSTECH_LOGGER_ENABLE_VERBOSE")]
         public static void LogVerbose(string module, string message, Object context = null)
         {
             LogImpl(module, LogLevels.Verbose, message, context);

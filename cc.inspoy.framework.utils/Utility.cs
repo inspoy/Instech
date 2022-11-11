@@ -482,11 +482,6 @@ namespace Instech.Framework.Utils
         }
 
         /// <summary>
-        /// Resources目录，编辑器下和Assets同级，Standalone下和exe文件同级，末尾包含斜杠
-        /// </summary>
-        public static readonly string ResourcesPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../Resources/"));
-
-        /// <summary>
         /// 复制文件夹
         /// </summary>
         /// <param name="srcPath">源目录的路径</param>
@@ -590,6 +585,12 @@ namespace Instech.Framework.Utils
                 }
                 return true;
             }
+        }
+
+        public static void Deconstruct<T1, T2>(this KeyValuePair<T1, T2> pair, out T1 key, out T2 value)
+        {
+            key = pair.Key;
+            value = pair.Value;
         }
     }
 }

@@ -163,8 +163,8 @@ namespace Instech.Framework.Data
     }
 
     /// <summary>
-    /// 本地存储相关
-    /// 所有的数据都会存在presistent目录下存储，而非注册表
+    /// 本地存储相关，支持加密
+    /// 所有的数据都会存在Saved Games目录下存储，而非注册表
     /// </summary>
     public class LocalStorage : Singleton<LocalStorage>
     {
@@ -189,7 +189,7 @@ namespace Instech.Framework.Data
 
         protected override void Init()
         {
-            _savePath = Path.Combine(Application.persistentDataPath, "LS.bin");
+            _savePath = Path.Combine(PathHelper.SaveDataPath, "LS.bin");
             Scheduler.AddTimer(Save, 10, -1, true); // 每10秒保存一次
             Scheduler.OnQuit += Save; // 游戏退出时保存一次
         }

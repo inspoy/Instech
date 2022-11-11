@@ -6,6 +6,7 @@
 
 #define INSTECH_ASSERT_ENABLE
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Instech.Framework.Logging;
@@ -23,7 +24,11 @@ namespace Instech.Framework.Utils
         /// </summary>
         [Conditional("INSTECH_ASSERT_ENABLE")]
         [AssertionMethod]
-        public static void IsTrue(string module, [AssertionCondition(AssertionConditionType.IS_TRUE)]bool condition, string message)
+        public static void IsTrue(
+            string module,
+            [AssertionCondition(AssertionConditionType.IS_TRUE)]
+            bool condition,
+            string message)
         {
             Logger.Assert(module, condition, message);
         }
@@ -33,7 +38,11 @@ namespace Instech.Framework.Utils
         /// </summary>
         [Conditional("INSTECH_ASSERT_ENABLE")]
         [AssertionMethod]
-        public static void IsFalse(string module, [AssertionCondition(AssertionConditionType.IS_FALSE)]bool condition, string message)
+        public static void IsFalse(
+            string module,
+            [AssertionCondition(AssertionConditionType.IS_FALSE)]
+            bool condition,
+            string message)
         {
             Logger.Assert(module, !condition, message);
         }
@@ -43,7 +52,11 @@ namespace Instech.Framework.Utils
         /// </summary>
         [Conditional("INSTECH_ASSERT_ENABLE")]
         [AssertionMethod]
-        public static void IsNull(string module, [AssertionCondition(AssertionConditionType.IS_NULL)]object target, string message)
+        public static void IsNull(
+            string module,
+            [AssertionCondition(AssertionConditionType.IS_NULL)]
+            object target,
+            string message)
         {
             Logger.Assert(module, target == null, message);
         }
@@ -53,7 +66,11 @@ namespace Instech.Framework.Utils
         /// </summary>
         [Conditional("INSTECH_ASSERT_ENABLE")]
         [AssertionMethod]
-        public static void IsNotNull(string module, [AssertionCondition(AssertionConditionType.IS_NOT_NULL)]object target, string message)
+        public static void IsNotNull(
+            string module,
+            [AssertionCondition(AssertionConditionType.IS_NOT_NULL)]
+            object target,
+            string message)
         {
             Logger.Assert(module, target != null, message);
         }
@@ -113,6 +130,21 @@ namespace Instech.Framework.Utils
         public static void ShouldNotHappen(string module, string message)
         {
             Logger.Assert(module, false, message);
+        }
+
+        /// <summary>
+        /// 断言给定的集合不为空
+        /// </summary>
+        [Conditional("INSTECH_ASSERT_ENABLE")]
+        [AssertionMethod]
+        public static void IsNotEmpty(
+            string module,
+            [AssertionCondition(AssertionConditionType.IS_NOT_NULL)] [CanBeNull]
+            ICollection collection,
+            string message)
+        {
+            IsNotNull(module, collection, message);
+            Logger.Assert(module, collection.Count > 0, message);
         }
     }
 }

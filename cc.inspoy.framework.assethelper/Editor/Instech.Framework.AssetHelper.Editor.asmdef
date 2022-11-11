@@ -8,7 +8,8 @@
         "Unity.ScriptableBuildPipeline",
         "Unity.ScriptableBuildPipeline.Editor",
         "Instech.FilePacker",
-        "Instech.EncryptHelper"
+        "Instech.EncryptHelper",
+        "Instech.Framework.Common"
     ],
     "includePlatforms": [
         "Editor"

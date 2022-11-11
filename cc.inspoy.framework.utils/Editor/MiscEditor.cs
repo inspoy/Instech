@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Instech.Framework.Common;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using UnityEditor;
@@ -180,10 +181,10 @@ namespace Instech.Framework.Utils.Editor
         /// </summary>
         public static void OpenLogFolder()
         {
-            var folderPath = Application.persistentDataPath + "/GameLog";
+            var folderPath = PathHelper.SaveDataPath + "GameLog/";
             if (!Directory.Exists(folderPath))
             {
-                folderPath = Application.persistentDataPath;
+                folderPath = PathHelper.SaveDataPath;
                 EditorUtility.DisplayDialog("错误", "GameLog目录不存在", "OK");
             }
 

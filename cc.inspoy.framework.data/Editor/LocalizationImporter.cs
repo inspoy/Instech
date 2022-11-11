@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using Instech.Framework.Common;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
@@ -25,7 +26,7 @@ namespace Instech.Framework.Data.Editor
         public static bool GenerateJsonFromExcel()
         {
             var xlsxPath = Application.dataPath + ProjectSettings.Instance.ExcelDataPath + "_i18n.xlsx";
-            var dstPath = Utility.ResourcesPath + "Localization/";
+            var dstPath = PathHelper.ResourceDataPath + "Localization/";
             if (!File.Exists(xlsxPath))
             {
                 Logger.LogError(LogModule.Build, "Cannot find _i18n.xlsx");

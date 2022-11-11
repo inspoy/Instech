@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Instech.FrameworkTest.Core
 {
-    public class OridinaryPoolableObjectForTest
+    public class OrdinaryPoolableObjectForTest
     {
         public int SomeProperty { get; set; }
     }
@@ -141,56 +141,56 @@ namespace Instech.FrameworkTest.Core
         public void OridinaryObject()
         {
             var destroyCounter = 0;
-            ObjectPool<OridinaryPoolableObjectForTest>.CreateSingleton();
+            ObjectPool<OrdinaryPoolableObjectForTest>.CreateSingleton();
 
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.RecycleCallback = obj => { obj.SomeProperty = 123; };
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.ActivateCallback = ObjectPool<OridinaryPoolableObjectForTest>.Instance.EmptyCallback;
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.DestroyCallback = _ => { destroyCounter += 1; };
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.RecycleCallback = obj => { obj.SomeProperty = 123; };
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.ActivateCallback = ObjectPool<OrdinaryPoolableObjectForTest>.Instance.EmptyCallback;
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.DestroyCallback = _ => { destroyCounter += 1; };
 
-            var obj1 = ObjectPool<OridinaryPoolableObjectForTest>.GetNew();
+            var obj1 = ObjectPool<OrdinaryPoolableObjectForTest>.GetNew();
             obj1.SomeProperty = 321;
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.Recycle(obj1);
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Recycle(obj1);
             Assert.AreEqual(123, obj1.SomeProperty);
-            Assert.AreEqual(1, ObjectPool<OridinaryPoolableObjectForTest>.Instance.PooledCount);
+            Assert.AreEqual(1, ObjectPool<OrdinaryPoolableObjectForTest>.Instance.PooledCount);
             
             Assert.DoesNotThrow(() =>
             {
-                var obj2 = ObjectPool<OridinaryPoolableObjectForTest>.GetNew();
-                ObjectPool<OridinaryPoolableObjectForTest>.Instance.Recycle(obj2);
+                var obj2 = ObjectPool<OrdinaryPoolableObjectForTest>.GetNew();
+                ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Recycle(obj2);
             });
             
             Assert.AreEqual(0, destroyCounter);
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.MaxCount = 1;
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.Recycle(new OridinaryPoolableObjectForTest());
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.MaxCount = 1;
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Recycle(new OrdinaryPoolableObjectForTest());
             Assert.AreEqual(1, destroyCounter);
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.Clear();
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Clear();
             Assert.AreEqual(2, destroyCounter);
 
-            ObjectPool<OridinaryPoolableObjectForTest>.DestroySingleton();
+            ObjectPool<OrdinaryPoolableObjectForTest>.DestroySingleton();
         }
 
         [Test]
         [Description("非IPoolable对象没有设置池化回调的情况")]
         public void OridinaryObjectCallbackNotSet()
         {
-            ObjectPool<OridinaryPoolableObjectForTest>.CreateSingleton();
+            ObjectPool<OrdinaryPoolableObjectForTest>.CreateSingleton();
 
             // new
-            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OridinaryPoolableObjectForTest>.GetNew(); });
+            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OrdinaryPoolableObjectForTest>.GetNew(); });
             // recycle
-            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OridinaryPoolableObjectForTest>.Instance.Recycle(null); });
+            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Recycle(null); });
             // reuse
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.ActivateCallback = ObjectPool<OridinaryPoolableObjectForTest>.Instance.EmptyCallback;
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.RecycleCallback = ObjectPool<OridinaryPoolableObjectForTest>.Instance.EmptyCallback;
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.DestroyCallback = ObjectPool<OridinaryPoolableObjectForTest>.Instance.EmptyCallback;
-            var obj = ObjectPool<OridinaryPoolableObjectForTest>.Instance.Get();
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.Recycle(obj);
-            ObjectPool<OridinaryPoolableObjectForTest>.Instance.ActivateCallback = null;
-            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OridinaryPoolableObjectForTest>.GetNew(); });
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.ActivateCallback = ObjectPool<OrdinaryPoolableObjectForTest>.Instance.EmptyCallback;
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.RecycleCallback = ObjectPool<OrdinaryPoolableObjectForTest>.Instance.EmptyCallback;
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.DestroyCallback = ObjectPool<OrdinaryPoolableObjectForTest>.Instance.EmptyCallback;
+            var obj = ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Get();
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Recycle(obj);
+            ObjectPool<OrdinaryPoolableObjectForTest>.Instance.ActivateCallback = null;
+            Assert.Throws<PoolingCallbackNotSetException>(() => { ObjectPool<OrdinaryPoolableObjectForTest>.GetNew(); });
             // clear
-            Assert.Throws<PoolingCallbackNotSetException>(ObjectPool<OridinaryPoolableObjectForTest>.Instance.Clear);
+            Assert.Throws<PoolingCallbackNotSetException>(ObjectPool<OrdinaryPoolableObjectForTest>.Instance.Clear);
 
-            ObjectPool<OridinaryPoolableObjectForTest>.DestroySingleton();
+            ObjectPool<OrdinaryPoolableObjectForTest>.DestroySingleton();
         }
     }
 }

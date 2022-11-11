@@ -11,7 +11,6 @@ using Instech.Framework.Logging;
 using Instech.Framework.Utils.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditorInternal;
 using UnityEngine;
 using Logger = Instech.Framework.Logging.Logger;
 
@@ -33,6 +32,7 @@ namespace Instech.Framework.Common.Editor
             var defines = DefineSymbolManager.GetAllDefines().ToList();
             var customDefines = new[]
             {
+                "INSTECH_LOGGER_ENABLE_VERBOSE",
                 "INSTECH_LOGGER_ENABLE_NORMAL",
                 "INSTECH_LOGGER_ENABLE_ERROR",
                 "INSTECH_LOGGER_ENABLE_EXCEPTION"

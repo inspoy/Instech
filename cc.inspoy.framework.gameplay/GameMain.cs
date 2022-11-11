@@ -28,7 +28,7 @@ namespace Instech.Framework.Gameplay
         public IEnumerable<string> CanvasList;
 
         /// <summary>
-        /// 如果需要从配置里加载，也可以通过这个接口来实现延时获取，保证ConfigManager已创建
+        /// 如果需要从配置里加载，也可以通过这个接口来实现延时获取，调用时会保证ConfigManager已创建
         /// </summary>
         public ICanvasListProvider CanvasListProvider;
 
@@ -167,8 +167,9 @@ namespace Instech.Framework.Gameplay
                 "DataPaths:\n" +
                 $"Data:{Application.dataPath}\n" +
                 $"Streaming:{Application.streamingAssetsPath}\n" +
-                $"Persistent:{Application.persistentDataPath}\n" +
-                $"Temp:{Application.temporaryCachePath}");
+                $"Local:{PathHelper.LocalCacheFolder}\n" +
+                $"Temp:{Application.temporaryCachePath}\n" +
+                $"SaveData:{PathHelper.SaveDataPath}");
             Logger.LogInfo(LogModule.GameFlow, "HardwareInfo:");
             Logger.LogInfo(LogModule.GameFlow, JsonUtility.ToJson(DeviceUtils.GetHardwareInfo()));
             Logger.LogInfo(LogModule.GameFlow, "SoftwareInfo:");
@@ -196,7 +197,7 @@ namespace Instech.Framework.Gameplay
 
                 try
                 {
-                    regMethod.MakeGenericMethod(item).Invoke(ConfigManager.Instance, new object[] {attr.TableName});
+                    regMethod.MakeGenericMethod(item).Invoke(ConfigManager.Instance, new object[] { attr.TableName });
                 }
                 catch (Exception e)
                 {

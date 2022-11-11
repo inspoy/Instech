@@ -3,7 +3,8 @@
     "references": [
         "Instech.Framework.Logging",
         "Instech.Framework.Utils",
-        "Instech.Framework.Common.Editor"
+        "Instech.Framework.Common.Editor",
+        "Instech.Framework.Common"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

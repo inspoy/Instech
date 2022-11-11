@@ -1,3 +1,42 @@
+# 1.11.0 (2022.11.11)
+
+## Versions
+
+- AssetHelper: `1.3.0`(was `1.2.0`)
+- Common: `1.5.0`(was `1.4.1`)
+- Core: `1.1.2`
+- Data: `1.3.1`(was `1.3.0`)
+- Gameplay: `1.1.0`
+- Logging: `1.1.3`
+- MyJson: `1.1.0`
+- Tests: `1.0.1`
+- UI: `1.6.0`
+- UiWidgets: `1.2.3`
+- Utils: `1.8.0`(was `1.7.0`)
+
+## BREAKING CHANGE
+
+- [Utils]移除`Utility.ResourcesPath`，改用PathHelper的相关属性
+
+## Highlight
+
+- [Common]新增PathHelper，统一管理所有路径
+- [AssetHelper]通过菜单栏构建Bundle时输出MD格式的报告日志
+
+## New Feature
+
+- [Logging]新增日志等级控制符号定义`ENABLE_VERBOSE`，`ENABLE_NORMAL`控制LogInfo和LogWarning
+- [Utils]新增`KeyValuePair`的解构函数
+- [Utils]新增ListPool，方便快速获取可池化的List
+- [Utils]新增泛型枚举实用工具
+- [Utils]新增一个Assert断言集合非空
+
+## Bugfix
+
+- [Tests]fix format & typo
+
+---
+
 # 1.10.0 (2021.11.15)
 
 ## Versions

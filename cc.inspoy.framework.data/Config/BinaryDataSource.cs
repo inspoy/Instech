@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Instech.EncryptHelper;
+using Instech.Framework.Common;
 using Instech.Framework.Utils;
 
 namespace Instech.Framework.Data
@@ -21,7 +22,7 @@ namespace Instech.Framework.Data
         {
             if (string.IsNullOrEmpty(src))
             {
-                src = Utility.ResourcesPath + "conf.bin";
+                src = PathHelper.ResourceDataPath + "conf.bin";
             }
             if (!File.Exists(src))
             {

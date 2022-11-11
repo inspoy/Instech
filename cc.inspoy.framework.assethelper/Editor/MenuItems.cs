@@ -4,6 +4,8 @@
 // Created on 2019/12/24 by inspoy
 // All rights reserved.
 
+using System.Text;
+using Instech.Framework.Logging;
 using UnityEditor;
 
 namespace Instech.Framework.AssetHelper.Editor
@@ -13,13 +15,19 @@ namespace Instech.Framework.AssetHelper.Editor
         [MenuItem("Instech/AssetHelper/生成 AssetBundle", false, 2101)]
         private static void BuildAssetBundles()
         {
-            AssetBuilder.BuildAssetBundle(false, false);
+            var report = AssetBuilder.BuildAssetBundle(false, false);
+            var sb = new StringBuilder();
+            report.ToMarkdownString(sb);
+            Logger.LogInfo(LogModule.Build, sb.ToString());
         }
 
         [MenuItem("Instech/AssetHelper/重新生成 AssetBundle", false, 2102)]
         private static void RebuildAssetBundles()
         {
-            AssetBuilder.BuildAssetBundle(true, false);
+            var report = AssetBuilder.BuildAssetBundle(true, false);
+            var sb = new StringBuilder();
+            report.ToMarkdownString(sb);
+            Logger.LogInfo(LogModule.Build, sb.ToString());
         }
 
         [MenuItem("Instech/AssetHelper/创建AssetPack配置文件", false, 2201)]

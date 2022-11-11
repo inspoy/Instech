@@ -23,7 +23,13 @@ namespace Game
                 PrintLaunchLog = true,
                 ConfigDbKey = null,
                 InitGameLogicHandler = InitGameLogic,
-                QuitGameHandler = DeinitGameLogic
+                QuitGameHandler = DeinitGameLogic,
+#if UNITY_EDITOR
+                ExcelFolder = GetExcelFolder(),
+                UseBundleInEditor = false,
+                ForceUseBinary = false,
+#endif
+                
             };
         }
 

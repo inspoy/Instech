@@ -80,7 +80,7 @@ namespace Instech.Framework.Data
         protected override void Init()
         {
             var sw = Stopwatch.StartNew();
-            DataFolder = Utility.ResourcesPath + "Localization/";
+            DataFolder = PathHelper.ResourceDataPath + "Localization/";
             Dispatcher = new EventDispatcher(this);
             _loadedLocalizationDatas = new Dictionary<string, LocalizationData>();
             CurLanguageId = string.Empty;

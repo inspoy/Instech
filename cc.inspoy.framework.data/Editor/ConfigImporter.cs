@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Instech.EncryptHelper;
+using Instech.Framework.Common;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
@@ -35,7 +36,7 @@ namespace Instech.Framework.Data.Editor
         public static bool ImportFromExcelToBinary(bool genCode, bool genBin, byte[] aesKey = null, bool silent = false)
         {
             var src = Application.dataPath + ProjectSettings.Instance.ExcelDataPath;
-            var dst = Utility.ResourcesPath;
+            var dst = PathHelper.ResourceDataPath;
             if (!Directory.Exists(dst))
             {
                 Directory.CreateDirectory(dst);

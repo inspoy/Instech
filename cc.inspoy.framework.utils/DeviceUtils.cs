@@ -212,7 +212,7 @@ namespace Instech.Framework.Utils
         /// <returns></returns>
         public static string GetSessionId()
         {
-            return _sessionId ?? (_sessionId = Guid.NewGuid().ToString());
+            return _sessionId ??= Guid.NewGuid().ToString();
         }
 
         /// <summary>

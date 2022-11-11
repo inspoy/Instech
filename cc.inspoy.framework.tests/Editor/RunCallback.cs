@@ -28,7 +28,7 @@ namespace Instech.FrameworkTest
             var resultPath = Path.Combine(Application.persistentDataPath, "TestResults.xml");
             var targetPath = Path.GetFullPath(Application.dataPath + $"/../TestResults_{mode}.xml");
             File.Copy(resultPath, targetPath, true);
-            Debug.Log("[FrameworkTest]Tests completed, result copied to:\n"+targetPath);
+            Debug.Log("[FrameworkTest]Tests completed, result copied to:\n" + targetPath);
         }
 
         public void TestStarted(ITest test)

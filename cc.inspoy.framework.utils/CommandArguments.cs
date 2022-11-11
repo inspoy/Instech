@@ -26,7 +26,7 @@ namespace Instech.Framework.Utils
 
         public static CommandArguments Get()
         {
-            return _current ?? (_current = new CommandArguments());
+            return _current ??= new CommandArguments();
         }
 
         private CommandArguments()

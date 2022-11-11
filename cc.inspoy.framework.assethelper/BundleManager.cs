@@ -11,6 +11,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Instech.Framework.Common;
 using Instech.Framework.Core;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
@@ -115,7 +116,7 @@ namespace Instech.Framework.AssetHelper
                 throw new AssetException(ErrorCode.BundleNotFound, bundleName, "Cannot get packName");
             }
 
-            var packPath = Utility.ResourcesPath + packName;
+            var packPath = PathHelper.ResourceDataPath + packName;
             return FilePacker.FilePacker.ReadFileContent(packPath, bundleName, "InstechSecretResource_" + packName);
         }
 
@@ -127,7 +128,7 @@ namespace Instech.Framework.AssetHelper
                 throw new AssetException(ErrorCode.BundleNotFound, bundleName, "Cannot get packName");
             }
 
-            var packPath = Utility.ResourcesPath + packName;
+            var packPath = PathHelper.ResourceDataPath + packName;
             var task = ObjectPool<LoadTask>.GetNew();
             task.BundleName = bundleName;
             task.PackPath = packPath;
@@ -404,7 +405,7 @@ namespace Instech.Framework.AssetHelper
         {
             // load resmeta
             var sw = Stopwatch.StartNew();
-            var resourcesRoot = Path.Combine(Application.dataPath, "../Resources");
+            var resourcesRoot = PathHelper.ResourceDataPath;
             var resmetaPath = Path.Combine(resourcesRoot, "resmeta");
             var resMetaRaw = File.ReadAllBytes(resmetaPath);
             var aes = new Aes();

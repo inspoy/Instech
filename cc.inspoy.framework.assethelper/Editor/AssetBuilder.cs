@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Instech.Framework.Common;
 using Instech.Framework.Common.Editor;
 using Instech.Framework.Logging;
 using Instech.Framework.Utils;
@@ -288,7 +289,7 @@ namespace Instech.Framework.AssetHelper.Editor
 
             // 4. pack to ipk
             var basePath = Path.Combine(Application.dataPath, "../RawBundles/");
-            var targetPath = Utility.ResourcesPath;
+            var targetPath = PathHelper.ResourceDataPath;
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
